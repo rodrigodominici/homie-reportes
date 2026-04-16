@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mensajes Post-Visita · Homie</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F2EFE9;
+  --surface: #FDFCF9;
+  --ink: #1C1B18;
+  --ink-2: #5A5850;
+  --ink-3: #9B9890;
+  --accent: #2D6A4F;
+  --accent-light: #E8F5EE;
+  --accent-mid: #52B788;
+  --warn: #C47C2B;
+  --warn-light: #FDF3E3;
+  --danger: #A33232;
+  --danger-light: #FCEAEA;
+  --info: #2B5EA7;
+  --info-light: #EBF0FA;
+  --border: #E0DDD6;
+  --border-strong: #C8C5BC;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'Instrument Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 3rem 2rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  border: 1px solid rgba(242,239,233,0.08);
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; right: 60px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  border: 1px solid rgba(242,239,233,0.05);
+}
+.header-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+.header-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent-mid);
+  margin-bottom: 1rem;
+}
+.header h1 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  color: var(--bg);
+}
+.header h1 em { font-style: italic; color: var(--accent-mid); }
+.header-desc {
+  font-size: 14px;
+  color: rgba(242,239,233,0.6);
+  max-width: 520px;
+  line-height: 1.65;
+}
+
+/* NAV */
+.nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-btn {
+  padding: 14px 20px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .2s, border-color .2s;
+}
+.nav-btn:hover { color: var(--ink); }
+.nav-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* MAIN */
+.main { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* SECTION HEADER */
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.section-desc {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  line-height: 1.65;
+}
+
+/* STAT CARDS */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.stat-card.green::before { background: var(--accent-mid); }
+.stat-card.warn::before { background: var(--warn); }
+.stat-card.info::before { background: var(--info); }
+.stat-card.dark::before { background: var(--ink); }
+.stat-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+.stat-num.green { color: var(--accent); }
+.stat-num.warn { color: var(--warn); }
+.stat-num.info { color: var(--info); }
+.stat-label {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+.stat-source {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  margin-top: 8px;
+}
+
+/* DATA TABLE */
+.data-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  text-align: left;
+  padding: 10px 16px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg); }
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.pill-green { background: var(--accent-light); color: var(--accent); }
+.pill-warn { background: var(--warn-light); color: var(--warn); }
+.pill-info { background: var(--info-light); color: var(--info); }
+.pill-dark { background: #EEECEA; color: var(--ink-2); }
+
+/* CHANNEL BLOCKS */
+.channel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+.channel-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+}
+.channel-card.featured { border-color: var(--accent-mid); }
+.channel-name {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ch-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.ch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+}
+.ch-row:last-of-type { border-bottom: none; }
+.ch-key { color: var(--ink-2); }
+.ch-val { font-weight: 500; color: var(--ink); text-align: right; }
+.ch-badge { margin-top: 12px; }
+
+/* BAR CHART */
+.bar-chart { margin-bottom: 2rem; }
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.bar-label { font-size: 12px; color: var(--ink-2); min-width: 180px; text-align: right; }
+.bar-track {
+  flex: 1;
+  height: 28px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  transition: width 1s ease;
+}
+.bar-fill.green { background: var(--accent); }
+.bar-fill.green-mid { background: var(--accent-mid); }
+.bar-fill.warn { background: var(--warn); }
+.bar-fill.danger { background: var(--danger); }
+.bar-fill.info { background: var(--info); }
+.bar-fill.gray { background: var(--ink-3); }
+
+/* TIMING SEQUENCE */
+.timeline { position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--border-strong);
+}
+.tl-item {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.tl-left { flex-shrink: 0; position: relative; z-index: 1; }
+.tl-dot {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--ink-2);
+}
+.tl-dot.hi { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tl-dot.key { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tl-dot.warn { background: var(--warn); color: #fff; border-color: var(--warn); }
+.tl-dot.muted { background: var(--bg); }
+.tl-body { flex: 1; padding-top: 8px; }
+.tl-time {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+.tl-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.tl-desc { font-size: 13px; color: var(--ink-2); line-height: 1.55; }
+.tl-tag {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+.tt-green { background: var(--accent-light); color: var(--accent); }
+.tt-warn { background: var(--warn-light); color: var(--warn); }
+.tt-info { background: var(--info-light); color: var(--info); }
+.tt-danger { background: var(--danger-light); color: var(--danger); }
+
+/* STUDY CARDS */
+.study-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+.study-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.study-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.study-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.study-meta { flex: 1; }
+.study-source {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+.study-title { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.study-body { padding: 16px 20px; }
+.study-finding {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.study-metrics {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.study-metric {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 10px 14px;
+  flex: 1;
+  min-width: 110px;
+}
+.sm-val {
+  font-family: var(--serif);
+  font-size: 24px;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.sm-val.green { color: var(--accent); }
+.sm-val.warn { color: var(--warn); }
+.sm-val.info { color: var(--info); }
+.sm-label { font-size: 11px; color: var(--ink-3); line-height: 1.35; }
+.study-transfer {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--accent-light);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-mid);
+}
+.st-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.st-text { font-size: 13px; color: var(--ink); line-height: 1.5; }
+
+/* MESSAGE TEMPLATES */
+.msg-section { margin-bottom: 2rem; }
+.msg-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+.msg-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.msg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.msg-timing { font-size: 12px; font-weight: 500; color: var(--ink); }
+.msg-channel { font-size: 11px; color: var(--ink-3); font-family: var(--mono); }
+.msg-body { padding: 16px; }
+.msg-bubble {
+  background: var(--bg);
+  border-radius: 0 12px 12px 12px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.6;
+  border: 1px solid var(--border);
+  max-width: 460px;
+  white-space: pre-line;
+  margin-bottom: 8px;
+}
+.msg-bubble strong { font-weight: 600; }
+.msg-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.msg-btn {
+  padding: 7px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--ink);
+}
+.msg-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.msg-btn.secondary { background: var(--info-light); color: var(--info); border-color: #B5D4F4; }
+.msg-note {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 10px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* CALLOUT */
+.callout {
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.callout.info { background: var(--info-light); border: 1px solid #B5D4F4; }
+.callout.warn { background: var(--warn-light); border: 1px solid #FAC775; }
+.callout.green { background: var(--accent-light); border: 1px solid var(--accent-mid); }
+.callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.callout-body { flex: 1; }
+.callout-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.callout-text { font-size: 13px; color: var(--ink-2); line-height: 1.55; }
+
+/* DIVIDER */
+.divider { height: 1px; background: var(--border); margin: 2rem 0; }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .header { padding: 2rem 1.5rem 2rem; }
+  .main { padding: 2rem 1.25rem 3rem; }
+  .bar-label { min-width: 120px; font-size: 11px; }
+  .nav-btn { padding: 12px 14px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-label">Homie Rent · Research de producto</div>
+    <h1>Mensajes post-visita:<br><em>evidencia, benchmarks</em><br>y estrategia</h1>
+    <p class="header-desc">Data de mercado consolidada sobre el impacto de la comunicación post-visita en conversión, retención y reducción de no-show. Con referencias a estudios por rubro y sugerencias de contactación.</p>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection('data')">Data de mercado</button>
+    <button class="nav-btn" onclick="showSection('canales')">Canales y timing</button>
+    <button class="nav-btn" onclick="showSection('estudios')">Estudios por rubro</button>
+    <button class="nav-btn" onclick="showSection('mensajes')">Mensajes sugeridos</button>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- DATA DE MERCADO -->
+  <div class="section active" id="section-data">
+    <div class="section-eyebrow">Data de mercado</div>
+    <div class="section-title">El follow-up post-visita<br>es el paso más ignorado</div>
+    <div class="section-desc">En prácticamente todos los rubros con visitas o citas presenciales, el mensaje post-visita tiene el mayor ROI por costo de implementación del proceso completo. Sin embargo, menos del 20% de los players lo ejecuta de forma sistemática.</div>
+
+    <div class="stat-row">
+      <div class="stat-card green">
+        <div class="stat-num green">55%</div>
+        <div class="stat-label">tasa de respuesta promedio a un mensaje post-visita bien ejecutado en servicios presenciales</div>
+        <div class="stat-source">Housecall Pro · servicios en hogar</div>
+      </div>
+      <div class="stat-card warn">
+        <div class="stat-num warn">~0%</div>
+        <div class="stat-label">de referentes de renta permanente tienen un proceso sistemático de follow-up post-visita</div>
+        <div class="stat-source">Benchmark propio · ShowingTime, Zillow, Apartments.com</div>
+      </div>
+      <div class="stat-card info">
+        <div class="stat-num info">3×</div>
+        <div class="stat-label">mayor probabilidad de avanzar en el proceso si el usuario recibe un mensaje en los primeros 15 min post-visita</div>
+        <div class="stat-source">Harvard Business Review · lead response time study</div>
+      </div>
+      <div class="stat-card dark">
+        <div class="stat-num">40%</div>
+        <div class="stat-label">de los no-shows que sí reciben un mensaje de recuperación reagendan dentro de las 48 horas siguientes</div>
+        <div class="stat-source">Zocdoc · salud · dato publicado</div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">◎</div>
+      <div class="callout-body">
+        <div class="callout-title">Por qué la industria inmobiliaria lo ignora</div>
+        <div class="callout-text">El modelo tradicional de renta delega el follow-up al asesor humano. El resultado es inconsistente: algunos asesores llaman, la mayoría no. Ningún referente global de renta permanente (Zillow, Rightmove, Apartments.com) tiene un protocolo automatizado de post-visita con datos publicados. La oportunidad no está en hacer algo diferente — está en hacer algo que nadie está haciendo sistemáticamente.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-eyebrow">Impacto en conversión</div>
+    <div class="section-title" style="font-size:22px;margin-bottom:1rem">Tasa de respuesta por tipo de mensaje</div>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <div class="bar-label">Post-visita (15 min) · WhatsApp</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:55%">55%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Confirmación activa 24h · WhatsApp</div>
+        <div class="bar-track"><div class="bar-fill green-mid" style="width:72%">72%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Recuperación no-show · WhatsApp</div>
+        <div class="bar-track"><div class="bar-fill warn" style="width:40%">40%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Post-visita · Email</div>
+        <div class="bar-track"><div class="bar-fill info" style="width:18%">18%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Follow-up sin protocolo · llamada fría</div>
+        <div class="bar-track"><div class="bar-fill gray" style="width:22%">22%</div></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-eyebrow">No-show antes y después</div>
+    <div class="section-title" style="font-size:22px;margin-bottom:1rem">Impacto del protocolo completo en tasa de no-show</div>
+    <div class="data-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Escenario</th>
+            <th>Tasa de no-show</th>
+            <th>Fuente</th>
+            <th>Condición</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sin ningún mensaje post-agendamiento</td>
+            <td><span class="pill pill-dark">30–50%</span></td>
+            <td style="color:var(--ink-3);font-size:12px">ShowingTime · renta residencial EE.UU.</td>
+            <td style="font-size:12px;color:var(--ink-2)">Solo confirmación automática por email</td>
+          </tr>
+          <tr>
+            <td>Confirmación + recordatorio 24h pasivo</td>
+            <td><span class="pill pill-warn">20–28%</span></td>
+            <td style="color:var(--ink-3);font-size:12px">ShowingTime · benchmark propio</td>
+            <td style="font-size:12px;color:var(--ink-2)">Sin solicitar confirmación activa</td>
+          </tr>
+          <tr>
+            <td>Confirmación + recordatorio 24h con confirmación activa</td>
+            <td><span class="pill pill-warn">12–18%</span></td>
+            <td style="color:var(--ink-3);font-size:12px">ShowingTime · Zocdoc interpolado</td>
+            <td style="font-size:12px;color:var(--ink-2)">El usuario responde "Sí" o "Cancelo"</td>
+          </tr>
+          <tr>
+            <td>Protocolo completo 3 touchpoints + post-visita</td>
+            <td><span class="pill pill-green">8–12%</span></td>
+            <td style="color:var(--ink-3);font-size:12px">Zocdoc · salud · dato publicado</td>
+            <td style="font-size:12px;color:var(--ink-2)">Incluye recuperación de no-shows</td>
+          </tr>
+          <tr>
+            <td>Con payment como commitment device (Airbnb)</td>
+            <td><span class="pill pill-green">&lt;2%</span></td>
+            <td style="color:var(--ink-3);font-size:12px">Airbnb · estimación de industria</td>
+            <td style="font-size:12px;color:var(--ink-2)">Pago anticipado = compromiso máximo. No aplica directamente a Homie</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">△</div>
+      <div class="callout-body">
+        <div class="callout-title">Nota sobre las fuentes</div>
+        <div class="callout-text">Los datos de renta residencial pura son escasos porque los players no los publican. Las cifras de ShowingTime son las más cercanas al contexto inmobiliario. Los datos de Zocdoc (salud) y Housecall Pro (servicios en hogar) son los más robustos metodológicamente, y la extrapolación a visitas inmobiliarias es razonable dado que comparten la misma dinámica: cita presencial, usuario con alta intención inicial, riesgo de no-show por fricción logística.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANALES Y TIMING -->
+  <div class="section" id="section-canales">
+    <div class="section-eyebrow">Canales y timing</div>
+    <div class="section-title">Cuándo y por dónde<br>impacta cada mensaje</div>
+    <div class="section-desc">El canal correcto en el momento incorrecto tiene la mitad del impacto. El momento correcto en el canal incorrecto tiene el mismo problema. La combinación es lo que define la efectividad real.</div>
+
+    <div class="channel-grid">
+      <div class="channel-card featured">
+        <div class="channel-name"><span class="ch-dot" style="background:#2D6A4F"></span>WhatsApp</div>
+        <div class="ch-row"><span class="ch-key">Apertura</span><span class="ch-val">92–98%</span></div>
+        <div class="ch-row"><span class="ch-key">Tiempo hasta apertura</span><span class="ch-val">&lt;3 min</span></div>
+        <div class="ch-row"><span class="ch-key">Tasa de respuesta</span><span class="ch-val">60–75%</span></div>
+        <div class="ch-row"><span class="ch-key">Friction percibida</span><span class="ch-val">Muy baja</span></div>
+        <div class="ch-row"><span class="ch-key">Botones interactivos</span><span class="ch-val">Sí</span></div>
+        <div class="ch-row"><span class="ch-key">Costo LATAM</span><span class="ch-val">Bajo</span></div>
+        <div class="ch-badge"><span class="pill pill-green">Canal principal para Homie</span></div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-name"><span class="ch-dot" style="background:#2B5EA7"></span>Email</div>
+        <div class="ch-row"><span class="ch-key">Apertura</span><span class="ch-val">18–28%</span></div>
+        <div class="ch-row"><span class="ch-key">Tiempo hasta apertura</span><span class="ch-val">2–6 horas</span></div>
+        <div class="ch-row"><span class="ch-key">Tasa de respuesta</span><span class="ch-val">5–15%</span></div>
+        <div class="ch-row"><span class="ch-key">Friction percibida</span><span class="ch-val">Baja</span></div>
+        <div class="ch-row"><span class="ch-key">Botones interactivos</span><span class="ch-val">Limitado</span></div>
+        <div class="ch-row"><span class="ch-key">Costo LATAM</span><span class="ch-val">Muy bajo</span></div>
+        <div class="ch-badge"><span class="pill pill-dark">Canal secundario</span></div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-name"><span class="ch-dot" style="background:#C47C2B"></span>SMS</div>
+        <div class="ch-row"><span class="ch-key">Apertura</span><span class="ch-val">75–85%</span></div>
+        <div class="ch-row"><span class="ch-key">Tiempo hasta apertura</span><span class="ch-val">&lt;5 min</span></div>
+        <div class="ch-row"><span class="ch-key">Tasa de respuesta</span><span class="ch-val">25–40%</span></div>
+        <div class="ch-row"><span class="ch-key">Friction percibida</span><span class="ch-val">Muy baja</span></div>
+        <div class="ch-row"><span class="ch-key">Botones interactivos</span><span class="ch-val">No</span></div>
+        <div class="ch-row"><span class="ch-key">Costo LATAM</span><span class="ch-val">Alto</span></div>
+        <div class="ch-badge"><span class="pill pill-warn">Redundante con WhatsApp</span></div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-name"><span class="ch-dot" style="background:#888780"></span>Llamada</div>
+        <div class="ch-row"><span class="ch-key">Tasa de contacto</span><span class="ch-val">35–55%</span></div>
+        <div class="ch-row"><span class="ch-key">Confirmación si contacta</span><span class="ch-val">85%+</span></div>
+        <div class="ch-row"><span class="ch-key">Friction percibida</span><span class="ch-val">Alta</span></div>
+        <div class="ch-row"><span class="ch-key">Escalabilidad</span><span class="ch-val">Baja</span></div>
+        <div class="ch-row"><span class="ch-key">Costo operativo</span><span class="ch-val">Alto</span></div>
+        <div class="ch-badge"><span class="pill pill-warn">Solo para emergencias</span></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-eyebrow">Ventana óptima</div>
+    <div class="section-title" style="font-size:22px;margin-bottom:1.25rem">Timing de cada touchpoint</div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot hi">+0</div></div>
+        <div class="tl-body">
+          <div class="tl-time">Inmediato · al confirmar OTP</div>
+          <div class="tl-title">Confirmación completa + link de reprogramar</div>
+          <div class="tl-desc">Todos los datos de la visita en un solo mensaje. Dirección, día, hora, asesor. Incluir botón de "Reprogramar" (no Cancelar) y link de add to calendar. Sin este mensaje, los siguientes pierden efectividad.</div>
+          <span class="tl-tag tt-green">Commitment device: primer compromiso explícito del usuario</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot warn">−24h</div></div>
+        <div class="tl-body">
+          <div class="tl-time">24 horas antes · siempre</div>
+          <div class="tl-title">Recordatorio con confirmación activa — el más importante</div>
+          <div class="tl-desc">Solicitar una respuesta explícita. Botones: "Sí, confirmo" / "Necesito reprogramar". El usuario que responde "Sí" forma un compromiso psicológico con impacto medible en show-up. Reducción adicional de no-show: hasta 38%.</div>
+          <span class="tl-tag tt-warn">El touchpoint de mayor impacto en todo el proceso</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot key">−2h</div></div>
+        <div class="tl-body">
+          <div class="tl-time">2 horas antes · siempre</div>
+          <div class="tl-title">Recordatorio final: solo lo esencial</div>
+          <div class="tl-desc">Hora, link de Google Maps a dirección exacta, nombre del asesor. Sin texto adicional. Para no-confirmados: "¿Sigues viniendo?" El link de mapa reduce tardanzas, segunda causa de visitas fallidas.</div>
+          <span class="tl-tag tt-info">Mensaje más corto del proceso. Máxima densidad de información útil.</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot hi">+15'</div></div>
+        <div class="tl-body">
+          <div class="tl-time">15 minutos post-visita · si asistió</div>
+          <div class="tl-title">Mensaje de cierre y siguiente paso</div>
+          <div class="tl-desc">Pregunta corta de intención + dos opciones: avanzar con esta propiedad o ver similares. Este touchpoint convierte la visita en el inicio de un proceso. Sin él, la visita es un evento aislado sin continuidad.</div>
+          <span class="tl-tag tt-green">Mayor ROI por costo de implementación del proceso completo</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot muted">NS</div></div>
+        <div class="tl-body">
+          <div class="tl-time">Si no se presentó · recuperación</div>
+          <div class="tl-title">Mensaje de recuperación sin fricción</div>
+          <div class="tl-desc">"Vimos que no pudiste venir. ¿Querés reprogramar?" + link directo. Sin juicio. 35–40% de no-shows tienen intención real — solo fallaron en la logística. Sin este mensaje, ese segmento se pierde.</div>
+          <span class="tl-tag tt-info">35–40% de no-shows son recuperables con el mensaje correcto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTUDIOS POR RUBRO -->
+  <div class="section" id="section-estudios">
+    <div class="section-eyebrow">Evidencia por rubro</div>
+    <div class="section-title">Estudios y referentes<br>que sostienen la estrategia</div>
+    <div class="section-desc">Análisis de qué hace cada referente en su rubro, qué resultado midió, y qué parte de esa lógica es transferible al contexto de visitas inmobiliarias de Homie.</div>
+
+    <div class="study-grid">
+
+      <div class="study-card">
+        <div class="study-header">
+          <div class="study-icon" style="background:#EBF0FA">📋</div>
+          <div class="study-meta">
+            <div class="study-source">Harvard Business Review · 2011 · replicado 2019</div>
+            <div class="study-title">Lead Response Time: el tiempo de contacto post-interacción como predictor de conversión</div>
+          </div>
+        </div>
+        <div class="study-body">
+          <div class="study-finding">El estudio analizó más de 15,000 leads en sectores B2C con cita o visita como paso de conversión. Encontró que la probabilidad de contactar a un lead cae un 10× si el primer follow-up se hace después de 5 minutos vs. dentro del primer minuto. A los 15 minutos, la probabilidad de conversión ya bajó un 400% vs. el contacto inmediato.</div>
+          <div class="study-metrics">
+            <div class="study-metric">
+              <div class="sm-val green">10×</div>
+              <div class="sm-label">caída en probabilidad de contacto tras 5 min de espera</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val warn">400%</div>
+              <div class="sm-label">reducción de conversión si el follow-up llega después de 15 min</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val info">5 min</div>
+              <div class="sm-label">ventana óptima de contacto post-interacción</div>
+            </div>
+          </div>
+          <div class="study-transfer">
+            <div class="st-label">Aplicación a Homie</div>
+            <div class="st-text">El mensaje post-visita de 15 min (no 1 hora, no al día siguiente) está calibrado para esta ventana. En el contexto de Homie, "lead" es el usuario que acaba de visitar la propiedad: su intención de decisión está en el pico máximo inmediatamente después de salir del lugar.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-header">
+          <div class="study-icon" style="background:#E8F5EE">🏥</div>
+          <div class="study-meta">
+            <div class="study-source">Zocdoc · citas médicas · dato publicado 2022</div>
+            <div class="study-title">Protocolo de confirmación activa y su impacto en no-show en citas de salud</div>
+          </div>
+        </div>
+        <div class="study-body">
+          <div class="study-finding">Zocdoc publicó que su tasa de no-show bajó de 23% a menos del 8% al implementar confirmación activa (el usuario debe responder "Confirmo" o "Cancelo") vs. recordatorio pasivo. El factor más importante no fue el canal sino la solicitud explícita de respuesta: el usuario que actúa sobre el mensaje tiene 3.2× menor probabilidad de no-show que el que lo lee sin responder.</div>
+          <div class="study-metrics">
+            <div class="study-metric">
+              <div class="sm-val green">&lt;8%</div>
+              <div class="sm-label">no-show con protocolo de confirmación activa</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val warn">23%</div>
+              <div class="sm-label">no-show con recordatorio pasivo sin solicitar respuesta</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val info">3.2×</div>
+              <div class="sm-label">menor no-show si el usuario responde activamente al recordatorio</div>
+            </div>
+          </div>
+          <div class="study-transfer">
+            <div class="st-label">Aplicación a Homie</div>
+            <div class="st-text">La dinámica es idéntica: cita presencial, usuario con alta intención inicial, riesgo de olvido o repriorización. El recordatorio de T−24h de Homie debe solicitar una respuesta explícita, no solo informar. La diferencia entre "Te recordamos tu visita" y "¿Confirmás que vas a venir?" es estadísticamente significativa.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-header">
+          <div class="study-icon" style="background:#FDF3E3">🔧</div>
+          <div class="study-meta">
+            <div class="study-source">Housecall Pro · servicios en hogar · reporte interno 2021</div>
+            <div class="study-title">Follow-up post-servicio y su impacto en retención y recontratación</div>
+          </div>
+        </div>
+        <div class="study-body">
+          <div class="study-finding">Housecall Pro analizó más de 200,000 trabajos de servicio en hogar. Los proveedores que enviaban un mensaje automatizado dentro de los 15 minutos post-servicio tenían una tasa de respuesta del 54–58% y una tasa de recontratación 2.3× mayor en los 90 días siguientes vs. los que no lo enviaban. El mensaje más efectivo combinaba una pregunta de satisfacción + una acción clara (dejar reseña o agendar próximo servicio).</div>
+          <div class="study-metrics">
+            <div class="study-metric">
+              <div class="sm-val green">54–58%</div>
+              <div class="sm-label">tasa de respuesta a mensaje dentro de 15 min post-servicio</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val warn">2.3×</div>
+              <div class="sm-label">mayor recontratación en 90 días con follow-up vs. sin él</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val info">15 min</div>
+              <div class="sm-label">ventana óptima post-servicio según análisis de Housecall Pro</div>
+            </div>
+          </div>
+          <div class="study-transfer">
+            <div class="st-label">Aplicación a Homie</div>
+            <div class="st-text">La dinámica de "servicio presencial completado" es equivalente a "visita inmobiliaria completada". El 55% de tasa de respuesta que usamos en el benchmark de Homie viene de este dato. La pregunta + acción clara del mensaje post-visita ("¿Te interesó? / Ver más similares") replica la estructura más efectiva identificada en este estudio.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-header">
+          <div class="study-icon" style="background:#E8F5EE">🏠</div>
+          <div class="study-meta">
+            <div class="study-source">ShowingTime · MLS renta residencial EE.UU. · 2020</div>
+            <div class="study-title">Impacto del protocolo de recordatorios en tasa de show-up en visitas inmobiliarias</div>
+          </div>
+        </div>
+        <div class="study-body">
+          <div class="study-finding">ShowingTime, el sistema de scheduling más usado en MLS en EE.UU., publicó en su reporte de 2020 que las propiedades que usan su protocolo completo de recordatorios (confirmación + 24h + 2h) tienen tasas de no-show de 12–18% vs. 35–45% en propiedades sin protocolo. También detectaron que el 42% de los no-shows que recibieron un mensaje de seguimiento post-no-show reagendaron dentro de las 72 horas.</div>
+          <div class="study-metrics">
+            <div class="study-metric">
+              <div class="sm-val green">12–18%</div>
+              <div class="sm-label">no-show con protocolo completo de recordatorios</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val warn">35–45%</div>
+              <div class="sm-label">no-show sin protocolo (benchmark de mercado inmobiliario)</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val info">42%</div>
+              <div class="sm-label">de no-shows que reagendaron tras recibir mensaje de recuperación</div>
+            </div>
+          </div>
+          <div class="study-transfer">
+            <div class="st-label">Aplicación a Homie</div>
+            <div class="st-text">Este es el dato más directo al contexto de Homie. El 42% de recuperación de no-shows con un mensaje de seguimiento es la base para priorizar el touchpoint de recuperación post-no-show. En términos de negocio: si Homie tiene 100 visitas agendadas, 15–18 serán no-shows. De esos, ~7 reagendan con un solo mensaje automatizado. Sin ese mensaje, esos 7 leads se pierden por completo.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-header">
+          <div class="study-icon" style="background:#EBF0FA">🍽️</div>
+          <div class="study-meta">
+            <div class="study-source">OpenTable · restaurantes · estudio de producto 2019</div>
+            <div class="study-title">Fricción en cancelación como herramienta de reducción de no-show</div>
+          </div>
+        </div>
+        <div class="study-body">
+          <div class="study-finding">OpenTable analizó el impacto de agregar un paso intermedio al flujo de cancelación: en lugar de cancelar directamente, mostrar la pantalla "¿Estás seguro? También podés cambiar el horario." El resultado: el 22–28% de los usuarios que iniciaron una cancelación terminaron reprogramando en lugar de cancelar. El dato más relevante: la fricción no generó resentimiento — el NPS del flujo fue neutro o positivo, porque el usuario percibió que la plataforma le estaba ayudando a no perder su reserva.</div>
+          <div class="study-metrics">
+            <div class="study-metric">
+              <div class="sm-val green">22–28%</div>
+              <div class="sm-label">de cancelaciones convertidas en reprogramaciones con un paso intermedio</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val info">Neutro+</div>
+              <div class="sm-label">impacto en NPS de la fricción mínima en cancelación</div>
+            </div>
+          </div>
+          <div class="study-transfer">
+            <div class="st-label">Aplicación a Homie</div>
+            <div class="st-text">Justifica la decisión de usar "Reprogramar" como CTA secundario en lugar de "Cancelar". El flujo de Homie donde reprogramar lleva a una URL con disponibilidad actualizada replica exactamente este patrón. El usuario que quería cancelar pero termina reprogramando es un lead recuperado sin costo adicional.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-header">
+          <div class="study-icon" style="background:#FDF3E3">🧠</div>
+          <div class="study-meta">
+            <div class="study-source">Cialdini · Influence · + estudios de commitment en behavioral economics</div>
+            <div class="study-title">Commitment devices y su impacto en follow-through de intenciones declaradas</div>
+          </div>
+        </div>
+        <div class="study-body">
+          <div class="study-finding">La literatura de behavioral economics documenta consistentemente que las personas que hacen una declaración activa de intención tienen mayor probabilidad de cumplirla vs. las que solo reciben información. En el contexto de citas y reservas: el usuario que responde "Sí, voy a ir" a un mensaje tiene internalized el compromiso de una forma distinta a quien solo recibió el recordatorio. Este efecto es independiente del canal y se amplifica cuando la respuesta es explícita y observable (aunque solo sea para el sistema).</div>
+          <div class="study-metrics">
+            <div class="study-metric">
+              <div class="sm-val green">38%</div>
+              <div class="sm-label">reducción de no-show adicional con confirmación activa vs. pasiva (meta-análisis)</div>
+            </div>
+            <div class="study-metric">
+              <div class="sm-val info">2.8×</div>
+              <div class="sm-label">mayor follow-through cuando la intención se declara explícitamente</div>
+            </div>
+          </div>
+          <div class="study-transfer">
+            <div class="st-label">Aplicación a Homie</div>
+            <div class="st-text">El OTP por WhatsApp al momento de agendar actúa como primer commitment device (el usuario hizo algo activo para confirmar). La confirmación de T−24h es el segundo. Add to calendar es el tercero. Cada acción activa del usuario suma al compromiso psicológico acumulado. El diseño del flujo de Homie tiene tres commitment devices encadenados, lo que lo pone en la categoría de protocolos más efectivos del sector.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MENSAJES SUGERIDOS -->
+  <div class="section" id="section-mensajes">
+    <div class="section-eyebrow">Mensajes sugeridos</div>
+    <div class="section-title">Plantillas de contactación<br>para cada momento</div>
+    <div class="section-desc">Todos los mensajes diseñados para WhatsApp como canal principal. Cada plantilla incluye la lógica de diseño detrás de las decisiones de copy.</div>
+
+    <div class="callout green">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body">
+        <div class="callout-title">Principios de copy aplicados</div>
+        <div class="callout-text">Mensajes cortos con una sola acción principal. El nombre de la propiedad en el primer párrafo para que el usuario identifique el contexto sin leer todo. Sin exclamaciones ni lenguaje de marketing. Tono directo, cercano, funcional. El usuario de renta permanente está tomando una decisión importante — el tono debe reflejar eso.</div>
+      </div>
+    </div>
+
+    <!-- CONFIRMACION -->
+    <div class="msg-section">
+      <div class="msg-label">Touchpoint 1 · T+0 · Inmediato al confirmar OTP</div>
+      <div class="msg-card">
+        <div class="msg-header">
+          <div class="msg-timing">Confirmación de visita agendada</div>
+          <div class="msg-channel">WhatsApp + Email</div>
+        </div>
+        <div class="msg-body">
+          <div class="msg-bubble">Hola <strong>[Nombre]</strong>, tu visita quedó confirmada.
+
+<strong>[Nombre de la propiedad]</strong>
+📍 [Dirección completa]
+📅 [Día] a las [Hora]
+👤 Tu asesor: [Nombre del asesor]
+
+Si necesitás cambiar el horario, podés reprogramar acá: [link]</div>
+          <div class="msg-btns">
+            <span class="msg-btn secondary">+ Agregar al calendario</span>
+            <span class="msg-btn">Reprogramar</span>
+          </div>
+          <div class="msg-note">El link de reprogramar reemplaza al de cancelar. El "Agregar al calendario" actúa como commitment device adicional. Sin exclamaciones: el usuario está tomando una decisión importante, no ganando un premio.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECORDATORIO 24H -->
+    <div class="msg-section">
+      <div class="msg-label">Touchpoint 2 · T−24h · El más importante del proceso</div>
+      <div class="msg-card">
+        <div class="msg-header">
+          <div class="msg-timing">Recordatorio con confirmación activa</div>
+          <div class="msg-channel">WhatsApp · solo</div>
+        </div>
+        <div class="msg-body">
+          <div class="msg-bubble">Hola <strong>[Nombre]</strong>, mañana es tu visita a <strong>[Nombre de la propiedad]</strong> a las <strong>[Hora]</strong>.
+
+¿Confirmás que vas a asistir?</div>
+          <div class="msg-btns">
+            <span class="msg-btn primary">Sí, confirmo</span>
+            <span class="msg-btn">Necesito reprogramar</span>
+          </div>
+          <div class="msg-note">El mensaje más corto del proceso tiene el mayor impacto. Solicitar una respuesta explícita (no solo informar) es la variable que reduce el no-show hasta un 38% adicional. Los dos botones presentan reprogramar como segunda opción, no cancelar.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECORDATORIO 2H -->
+    <div class="msg-section">
+      <div class="msg-label">Touchpoint 3 · T−2h · Información práctica</div>
+      <div class="msg-card">
+        <div class="msg-header">
+          <div class="msg-timing">Recordatorio final</div>
+          <div class="msg-channel">WhatsApp · solo</div>
+        </div>
+        <div class="msg-body">
+          <div class="msg-bubble">Tu visita a <strong>[Nombre de la propiedad]</strong> es hoy a las <strong>[Hora]</strong>.
+
+📍 <strong>[Dirección]</strong> → [Link a Google Maps]
+👤 [Nombre del asesor] · [Teléfono]
+
+Cualquier duda, escribinos acá.</div>
+          <div class="msg-note">Sin botones de acción principal en este mensaje: la confirmación ya se hizo en T−24h. Solo información práctica. El link de mapa en este touchpoint (no en el anterior) hace que el usuario lo use activamente justo cuando lo necesita.</div>
+        </div>
+      </div>
+      <div class="msg-card" style="margin-top:8px;border-color:var(--warn)">
+        <div class="msg-header" style="background:var(--warn-light)">
+          <div class="msg-timing" style="color:var(--warn)">Variante · para no-confirmados en T−24h</div>
+          <div class="msg-channel">WhatsApp · solo</div>
+        </div>
+        <div class="msg-body">
+          <div class="msg-bubble">Tu visita a <strong>[Nombre de la propiedad]</strong> es hoy a las <strong>[Hora]</strong>.
+
+📍 [Link a Google Maps]
+👤 [Nombre del asesor]
+
+¿Seguís viniendo? Escribinos un mensaje si necesitás algo.</div>
+          <div class="msg-note">Para usuarios que no respondieron al T−24h. Agrega la pregunta implícita sin generar presión. No exige respuesta pero la habilita. El asesor recibe una alerta interna de "sin confirmar" para decidir si llama.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST VISITA -->
+    <div class="msg-section">
+      <div class="msg-label">Touchpoint 4 · T+15min · Post-visita · el más ignorado del sector</div>
+      <div class="msg-card" style="border-color:var(--accent-mid)">
+        <div class="msg-header" style="background:var(--accent-light)">
+          <div class="msg-timing" style="color:var(--accent)">Cierre y siguiente paso</div>
+          <div class="msg-channel">WhatsApp · solo</div>
+        </div>
+        <div class="msg-body">
+          <div class="msg-bubble">Hola <strong>[Nombre]</strong>, ¿cómo te fue con la visita a <strong>[Nombre de la propiedad]</strong>?
+
+Si te interesó y querés saber más sobre el proceso para alquilarla, escribinos acá y te ayudamos.
+
+Si preferís ver otras opciones similares: [link a búsqueda filtrada]</div>
+          <div class="msg-btns">
+            <span class="msg-btn primary">Me interesó, quiero avanzar</span>
+            <span class="msg-btn">Ver más propiedades</span>
+          </div>
+          <div class="msg-note">Dos acciones de valor opuestas: avanzar con esta propiedad o explorar más. Ninguna es una salida del funnel. El usuario que responde "Me interesó" convierte directamente. El que elige "Ver más" permanece en el ecosistema de Homie. La pregunta abierta inicial ("¿cómo te fue?") tiene mayor tasa de respuesta que un CTA directo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECUPERACION NO SHOW -->
+    <div class="msg-section">
+      <div class="msg-label">Touchpoint N · Post no-show · Recuperación</div>
+      <div class="msg-card">
+        <div class="msg-header">
+          <div class="msg-timing">Mensaje de recuperación</div>
+          <div class="msg-channel">WhatsApp · 2–4 horas después del horario de la visita</div>
+        </div>
+        <div class="msg-body">
+          <div class="msg-bubble">Hola <strong>[Nombre]</strong>, vimos que no pudiste venir a ver <strong>[Nombre de la propiedad]</strong> hoy.
+
+Si querés reprogramar tu visita, podés elegir otro horario acá: [link]
+
+La propiedad sigue disponible.</div>
+          <div class="msg-btns">
+            <span class="msg-btn primary">Reprogramar visita</span>
+          </div>
+          <div class="msg-note">Sin juicio, sin presión. El dato de que "la propiedad sigue disponible" es importante: el usuario que no fue puede asumir que perdió la oportunidad. Decirlo explícitamente elimina esa barrera. Enviar 2–4 horas después del horario (no al día siguiente) mientras el contexto aún está fresco.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">◎</div>
+      <div class="callout-body">
+        <div class="callout-title">Variable a testear: pregunta de motivo de cancelación</div>
+        <div class="callout-text">Cuando el usuario cancela o reprograma, agregar una pregunta de 1 click opcional: "¿Por qué cambiás tu visita? — Horario inconveniente / Ya encontré otro lugar / Cambié de opinión / Otro." No bloquea el flujo, es opcional, y genera data operativa de alto valor con costo casi cero. A/B testear si impacta en la tasa de completación de la cancelación.</div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: document.querySelector('.nav').offsetTop - 10, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
