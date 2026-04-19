@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte de Producto — Renta Continua · Abril 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg-secondary: #f7f7f5;
+    --bg-tertiary: #f1efe8;
+    --text-primary: #1a1a18;
+    --text-secondary: #5a5a57;
+    --text-tertiary: #9a9a96;
+    --border: rgba(0,0,0,0.12);
+    --border-md: rgba(0,0,0,0.22);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg-secondary: #242422;
+      --bg-tertiary: #2c2c2a;
+      --text-primary: #f0ede8;
+      --text-secondary: #a8a8a4;
+      --text-tertiary: #666663;
+      --border: rgba(255,255,255,0.10);
+      --border-md: rgba(255,255,255,0.18);
+    }
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    background: var(--bg);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    padding: 2rem 2.5rem;
+  }
+
+  /* Header */
+  .hdr { padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border); margin-bottom: 1.5rem; }
+  .hdr-meta { font-size: 12px; color: var(--text-tertiary); margin-bottom: 4px; }
+  .hdr-title { font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; letter-spacing: -0.3px; }
+  .hdr-sub { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+  .stat { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 0.85rem 1rem; }
+  .stat-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 3px; }
+  .stat-value { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+  .stat-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+
+  /* Pattern banner */
+  .pattern-banner { background: var(--bg-secondary); border: 0.5px solid var(--border-md); border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 1.5rem; }
+  .pattern-lbl { font-size: 10px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+  .pattern-text { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab {
+    font-size: 12px; font-weight: 500; padding: 6px 14px;
+    border-radius: var(--radius-md); border: 0.5px solid var(--border-md);
+    cursor: pointer; background: transparent; color: var(--text-secondary);
+    transition: background 0.12s, color 0.12s; font-family: var(--font);
+  }
+  .tab:hover { background: var(--bg-secondary); }
+  .tab.active { background: var(--text-primary); color: var(--bg); border-color: transparent; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+
+  /* Area heading */
+  .area-heading {
+    font-size: 11px; font-weight: 600; color: var(--text-tertiary);
+    letter-spacing: 0.07em; text-transform: uppercase;
+    margin: 1.75rem 0 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .area-heading:first-of-type { margin-top: 0; }
+  .area-count { font-size: 10px; background: var(--bg-secondary); color: var(--text-tertiary); padding: 2px 8px; border-radius: 20px; font-weight: 400; }
+
+  /* Cards */
+  .card {
+    background: var(--bg); border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 10px;
+  }
+  .card-top { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+  .badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-sm); }
+  .b-red    { background: #FCEBEB; color: #A32D2D; }
+  .b-amber  { background: #FAEEDA; color: #854F0B; }
+  .b-teal   { background: #E1F5EE; color: #0F6E56; }
+  .b-ops    { background: #FAECE7; color: #712B13; }
+  .b-com    { background: #E1F5EE; color: #0F6E56; }
+  .b-prod   { background: #EEEDFE; color: #3C3489; }
+
+  .card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; line-height: 1.4; }
+  .card-body  { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+
+  .quote {
+    font-size: 12px; font-style: italic; color: var(--text-tertiary);
+    border-left: 2px solid var(--border-md); padding-left: 10px;
+    margin: 8px 0; line-height: 1.55; border-radius: 0;
+  }
+
+  .root { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 10px 12px; margin-top: 8px; }
+  .root-lbl { font-size: 10px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .root-text { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+  .rec { font-size: 12px; color: var(--text-tertiary); margin-top: 8px; padding-top: 8px; border-top: 0.5px solid var(--border); line-height: 1.55; }
+  .rec strong { color: var(--text-secondary); font-weight: 600; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .tag {
+    font-size: 10px; padding: 2px 8px; border-radius: var(--radius-sm);
+    background: var(--bg-secondary); color: var(--text-secondary);
+    border: 0.5px solid var(--border);
+  }
+
+  /* Backlog */
+  .backlog-card {
+    background: var(--bg); border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 10px;
+  }
+  .bl-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 1.25rem; border-bottom: 0.5px solid var(--border); }
+  .bl-row:last-child { border-bottom: none; }
+  .bl-num { font-size: 11px; color: var(--text-tertiary); min-width: 16px; margin-top: 3px; }
+  .bl-body { flex: 1; }
+  .bl-title { font-size: 13px; color: var(--text-primary); margin-bottom: 4px; line-height: 1.4; }
+  .bl-meta { font-size: 11px; color: var(--text-tertiary); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .area-pill { font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: var(--radius-sm); }
+
+  .section-lbl { font-size: 11px; font-weight: 600; color: var(--text-tertiary); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 12px; }
+  .hidden { display: none !important; }
+
+  /* Footer */
+  .footer { margin-top: 2rem; padding-top: 1rem; border-top: 0.5px solid var(--border); font-size: 11px; color: var(--text-tertiary); }
+
+  @media (max-width: 600px) {
+    .container { padding: 1.25rem 1rem; }
+    .hdr-title { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hdr">
+    <p class="hdr-meta">#producto-renta-continua &middot; 1&ndash;17 abril 2026</p>
+    <h1 class="hdr-title">Reporte de producto &mdash; Renta Continua</h1>
+    <p class="hdr-sub">Se&ntilde;ales detectadas en conversaciones del equipo. Foco en causa ra&iacute;z, no solo s&iacute;ntoma.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><p class="stat-label">Se&ntilde;ales detectadas</p><p class="stat-value">8</p><p class="stat-sub">Producto, comercial y ops</p></div>
+    <div class="stat"><p class="stat-label">Cr&iacute;ticas</p><p class="stat-value">3</p><p class="stat-sub">Requieren acci&oacute;n inmediata</p></div>
+    <div class="stat"><p class="stat-label">Sin sistema detr&aacute;s</p><p class="stat-value">6</p><p class="stat-sub">Se resuelven a mano hoy</p></div>
+    <div class="stat"><p class="stat-label">Items de backlog</p><p class="stat-value">7</p><p class="stat-sub">Detectados en el canal</p></div>
+  </div>
+
+  <div class="pattern-banner">
+    <p class="pattern-lbl">Patr&oacute;n dominante del mes</p>
+    <p class="pattern-text">Los problemas se resuelven una vez en Slack y vuelven a ocurrir. La causa ra&iacute;z es siempre la misma: el proceso vive como conocimiento del equipo, no como sistema. Mientras eso no cambie, escalar volumen = escalar problemas.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="filter(this,'todas')">Todas</button>
+    <button class="tab" onclick="filter(this,'ops')"><span class="dot" style="background:#993C1D"></span>Operaciones</button>
+    <button class="tab" onclick="filter(this,'com')"><span class="dot" style="background:#0F6E56"></span>Comercial</button>
+    <button class="tab" onclick="filter(this,'prod')"><span class="dot" style="background:#534AB7"></span>Producto</button>
+    <button class="tab" onclick="filter(this,'backlog')">Backlog</button>
+  </div>
+
+  <div id="view-insights">
+
+    <div class="area-heading" data-area="ops">
+      <span class="dot" style="background:#993C1D"></span>Operaciones
+      <span class="area-count">4 se&ntilde;ales</span>
+    </div>
+
+    <div class="card" data-area="ops">
+      <div class="card-top"><span class="badge b-red">Cr&iacute;tico</span><span class="badge b-ops">Operaciones</span></div>
+      <p class="card-title">Nadie contesta: el soporte post-firma no existe como producto</p>
+      <p class="card-body">Inquilinos sin canal de contacto claro. En el edificio AO, Julio (admin externo) se convirti&oacute; en el &uacute;nico punto de contacto &mdash; e inquilinos estuvieron a punto de ir a Profeco.</p>
+      <div class="quote">&ldquo;Todos los inquilinos se quejan de que nadie de Homie contesta.&rdquo; / &ldquo;Los vecinos quer&iacute;an meter una demanda a Profeco.&rdquo;</div>
+      <div class="root">
+        <p class="root-lbl">Causa ra&iacute;z</p>
+        <p class="root-text">No hay flujo de onboarding post-firma. El producto asume que el lead se convierte en cliente, pero no dise&ntilde;a qu&eacute; pasa despu&eacute;s. El soporte vive en personas, no en un sistema. Sin sistema, escalar volumen = escalar quejas.</p>
+      </div>
+      <p class="rec"><strong>Acci&oacute;n:</strong> Comunicado autom&aacute;tico al firmar con canales de contacto claros (WhatsApp, correo). Flujo de ticketing simple visible en el panel interno.</p>
+      <div class="tags"><span class="tag">onboarding inquilinos</span><span class="tag">soporte post-firma</span><span class="tag">comunicaci&oacute;n</span></div>
+    </div>
+
+    <div class="card" data-area="ops">
+      <div class="card-top"><span class="badge b-red">Cr&iacute;tico</span><span class="badge b-ops">Operaciones</span></div>
+      <p class="card-title">Pagos bloqueados sin visibilidad: propietarios sin cobrar durante semanas</p>
+      <p class="card-body">Dos propietarios RC sin recibir pago en abril. Uno cancel&oacute; su factura. El otro lleva desde inicio de contrato sin cobrar por mantenimientos pendientes. No hay estado de pago centralizado.</p>
+      <div class="quote">&ldquo;Desde el inicio del contrato no ha recibido pagos. No cuenta con el desglose ni comprobantes.&rdquo;</div>
+      <div class="root">
+        <p class="root-lbl">Causa ra&iacute;z</p>
+        <p class="root-text">El estado del pago mensual por propiedad no existe como dato estructurado. Los bloqueos se descubren cuando el propietario se queja, no cuando ocurren. La l&oacute;gica de cu&aacute;ndo pagar y cu&aacute;ndo bloquear vive en el conocimiento del equipo, no en el producto.</p>
+      </div>
+      <p class="rec"><strong>Acci&oacute;n:</strong> Estado de pago por propiedad en HubSpot: pendiente / en proceso / pagado / bloqueado. Notificaci&oacute;n proactiva autom&aacute;tica al propietario si hay bloqueo antes del vencimiento.</p>
+      <div class="tags"><span class="tag">pagos propietarios</span><span class="tag">visibilidad pipeline</span><span class="tag">HubSpot</span><span class="tag">notificaciones</span></div>
+    </div>
+
+    <div class="card" data-area="ops">
+      <div class="card-top"><span class="badge b-red">Cr&iacute;tico</span><span class="badge b-ops">Operaciones</span></div>
+      <p class="card-title">45 citas perdidas en un d&iacute;a por falta de duplicado de llaves</p>
+      <p class="card-body">Un inmueble perdi&oacute; todas sus visitas del d&iacute;a porque las llaves estaban retenidas por un proveedor que no respond&iacute;a. No hay gate que garantice disponibilidad antes de activar citas.</p>
+      <div class="quote">&ldquo;Perdimos 45 citas de un depa de RC por falta del duplicado de llave.&rdquo;</div>
+      <div class="root">
+        <p class="root-lbl">Causa ra&iacute;z</p>
+        <p class="root-text">El proceso de activaci&oacute;n no tiene precondiciones verificables. Se asume que las llaves est&aacute;n porque alguien lo gestion&oacute;, pero ese dato no existe en el sistema. La verificaci&oacute;n es verbal e informal.</p>
+      </div>
+      <p class="rec"><strong>Acci&oacute;n:</strong> Campo obligatorio en HubSpot &ldquo;llaves disponibles (m&iacute;n. 2 juegos)&rdquo; como gate de activaci&oacute;n. La agenda no puede activarse si no est&aacute; confirmado.</p>
+      <div class="tags"><span class="tag">checklist activaci&oacute;n</span><span class="tag">disponibilidad citas</span><span class="tag">HubSpot gate</span></div>
+    </div>
+
+    <div class="card" data-area="ops">
+      <div class="card-top"><span class="badge b-amber">Alto</span><span class="badge b-ops">Operaciones</span></div>
+      <p class="card-title">Mantenimiento ejecutado sin avisar al propietario</p>
+      <p class="card-body">Retenci&oacute;n de $6k al propietario del edificio AO sin notificaci&oacute;n previa, incumpliendo el contrato. El propietario reclam&oacute; que &eacute;l lo hubiera hecho m&aacute;s barato.</p>
+      <div class="quote">&ldquo;No le avisamos al prop. El contrato dice que debemos avisar antes de ejecutar y no lo hicimos.&rdquo;</div>
+      <div class="root">
+        <p class="root-lbl">Causa ra&iacute;z</p>
+        <p class="root-text">No hay flujo de aprobaci&oacute;n de mantenimiento. La decisi&oacute;n de ejecutar y cargar al propietario es individual del equipo de ops, sin umbral de costo ni step de notificaci&oacute;n obligatorio. El contrato lo exige pero el producto no lo soporta.</p>
+      </div>
+      <p class="rec"><strong>Acci&oacute;n:</strong> Flujo de aprobaci&oacute;n con umbral de costo. Notificaci&oacute;n y respuesta del propietario registradas en HubSpot antes de ejecutar.</p>
+      <div class="tags"><span class="tag">mantenimiento</span><span class="tag">propietarios B2B</span><span class="tag">aprobaci&oacute;n</span><span class="tag">contrato</span></div>
+    </div>
+
+    <div class="area-heading" data-area="com">
+      <span class="dot" style="background:#0F6E56"></span>Comercial
+      <span class="area-count">2 se&ntilde;ales</span>
+    </div>
+
+    <div class="card" data-area="com">
+      <div class="card-top"><span class="badge b-amber">Alto</span><span class="badge b-com">Comercial</span></div>
+      <p class="card-title">Negociaciones de precio resueltas caso a caso en Slack</p>
+      <p class="card-body">Cada descuento se discute en tiempo real. Sin playbook activo, distintos leads obtienen condiciones distintas por puro timing. La junta RC se usa para revisar casos, no para revisar reglas.</p>
+      <div class="quote">&ldquo;No podemos seguir vi&eacute;ndolas case by case.&rdquo; / &ldquo;No deber&iacute;amos discutir los casos por ac&aacute;.&rdquo;</div>
+      <div class="root">
+        <p class="root-lbl">Causa ra&iacute;z</p>
+        <p class="root-text">El playbook comercial existe como intenci&oacute;n, no como sistema. Las reglas de negociaci&oacute;n est&aacute;n en la cabeza del equipo. El KAM no tiene autonom&iacute;a estructurada: necesita validaci&oacute;n para cada caso porque no hay criterios claros embebidos en su flujo.</p>
+      </div>
+      <p class="rec"><strong>Acci&oacute;n:</strong> Playbook de comercializaci&oacute;n embebido en el flujo del KAM con criterios de descuento por d&iacute;as de vacancia y tracci&oacute;n. Cada decisi&oacute;n de precio registrada en HubSpot, no en Slack.</p>
+      <div class="tags"><span class="tag">playbook comercial</span><span class="tag">negociaci&oacute;n</span><span class="tag">autonom&iacute;a KAM</span><span class="tag">HubSpot</span></div>
+    </div>
+
+    <div class="card" data-area="com">
+      <div class="card-top"><span class="badge b-amber">Alto</span><span class="badge b-com">Comercial</span></div>
+      <p class="card-title">Disponibilidad de visitas sin cobertura ni alertas autom&aacute;ticas</p>
+      <p class="card-body">Varios depas sin horarios para visitar, incluyendo fines de semana. Se detecta revisando el panel manualmente, no por alerta del sistema.</p>
+      <div class="quote">&ldquo;Loft Papaloapan sin visitas para este s&aacute;bado.&rdquo; / &ldquo;Que se prenda una alarma cuando no se pueda visitar en horarios core.&rdquo;</div>
+      <div class="root">
+        <p class="root-lbl">Causa ra&iacute;z</p>
+        <p class="root-text">La disponibilidad de agenda es responsabilidad del KAM pero no hay monitoreo autom&aacute;tico. El sistema no diferencia entre &ldquo;sin disponibilidad por decisi&oacute;n&rdquo; y &ldquo;sin disponibilidad por olvido&rdquo;. Un depa publicado puede perder leads sin que nadie lo note.</p>
+      </div>
+      <p class="rec"><strong>Acci&oacute;n:</strong> Alerta autom&aacute;tica si un depa activo lleva m&aacute;s de 48h sin disponibilidad en horarios core (L&ndash;V 10&ndash;19h, s&aacute;bados). Asignada al KAM para resoluci&oacute;n.</p>
+      <div class="tags"><span class="tag">disponibilidad visitas</span><span class="tag">alertas</span><span class="tag">vacancia</span></div>
+    </div>
+
+    <div class="area-heading" data-area="prod">
+      <span class="dot" style="background:#534AB7"></span>Producto
+      <span class="area-count">2 se&ntilde;ales</span>
+    </div>
+
+    <div class="card" data-area="prod">
+      <div class="card-top"><span class="badge b-amber">Alto</span><span class="badge b-prod">Producto</span></div>
+      <p class="card-title">Depas publicados sin fotos actualizadas ni backend completo</p>
+      <p class="card-body">Un depa publicado con fotos viejas antes de que mantenimiento interviniera. Otro publicado sin llenar campos del backend, rompiendo los dashboards de m&eacute;tricas.</p>
+      <div class="quote">&ldquo;Tienen fotos viejas, espantosas.&rdquo; / &ldquo;Publicaron sin llenar la propiedad en backend. Para que la data salga bien en los dashboards debemos llenarlo.&rdquo;</div>
+      <div class="root">
+        <p class="root-lbl">Causa ra&iacute;z</p>
+        <p class="root-text">&ldquo;Captado&rdquo;, &ldquo;en preparaci&oacute;n&rdquo; y &ldquo;listo para publicar&rdquo; colapsan en el mismo estado. No existe checklist que bloquee la publicaci&oacute;n hasta cumplir criterios m&iacute;nimos. La publicaci&oacute;n es una acci&oacute;n manual sin precondiciones t&eacute;cnicas.</p>
+      </div>
+      <p class="rec"><strong>Acci&oacute;n:</strong> Estado &ldquo;listo para publicar&rdquo; con checklist obligatorio: fotos post-mantenimiento, campos backend completos, llaves disponibles. Publicaci&oacute;n bloqueada hasta que los tres est&eacute;n confirmados.</p>
+      <div class="tags"><span class="tag">calidad listing</span><span class="tag">gate publicaci&oacute;n</span><span class="tag">datos backend</span><span class="tag">fotos</span></div>
+    </div>
+
+    <div class="card" data-area="prod">
+      <div class="card-top"><span class="badge b-teal">Oportunidad</span><span class="badge b-prod">Producto</span></div>
+      <p class="card-title">Copy &ldquo;Homie Select&rdquo; propuesto pero no estandarizado</p>
+      <p class="card-body">El equipo tiene un bloque diferenciador para publicaciones RC (pet friendly real, reparaciones 24/7, estabilidad sin riesgo de venta) pero se copia manualmente en cada listado.</p>
+      <div class="quote">&ldquo;Inmueble Homie Select &mdash; Operado directamente por Homie. Pet Friendly real &middot; Entrega con limpieza profunda y pintura nueva &middot; Reparaciones 24/7 sin intermediarios.&rdquo;</div>
+      <div class="root">
+        <p class="root-lbl">Causa ra&iacute;z</p>
+        <p class="root-text">La diferenciaci&oacute;n del producto RC frente al inventario regular no est&aacute; sistematizada. Depende de la memoria y disciplina del KAM. Sin estandarizaci&oacute;n, la propuesta de valor no llega de forma consistente al lead.</p>
+      </div>
+      <p class="rec"><strong>Acci&oacute;n:</strong> Bloque de copy &ldquo;Homie Select&rdquo; autogenerado en la descripci&oacute;n de cada publicaci&oacute;n RC desde el backend. No deber&iacute;a ser editable ni opcional.</p>
+      <div class="tags"><span class="tag">copy listing</span><span class="tag">Homie Select</span><span class="tag">diferenciaci&oacute;n</span><span class="tag">automatizaci&oacute;n</span></div>
+    </div>
+
+  </div>
+
+  <div id="view-backlog" class="hidden">
+    <p class="section-lbl">7 items &middot; detectados en el canal</p>
+    <div class="backlog-card">
+      <div class="bl-row">
+        <span class="bl-num">1</span>
+        <div class="bl-body">
+          <p class="bl-title">Gate de publicaci&oacute;n con checklist obligatorio (fotos, llaves, backend completo)</p>
+          <div class="bl-meta"><span class="area-pill b-ops">Operaciones</span> Listing quality &middot; tasa de conversi&oacute;n</div>
+        </div>
+      </div>
+      <div class="bl-row">
+        <span class="bl-num">2</span>
+        <div class="bl-body">
+          <p class="bl-title">Onboarding autom&aacute;tico del inquilino al firmar con canales de contacto claros</p>
+          <div class="bl-meta"><span class="area-pill b-ops">Operaciones</span> Soporte &middot; retenci&oacute;n &middot; NPS</div>
+        </div>
+      </div>
+      <div class="bl-row">
+        <span class="bl-num">3</span>
+        <div class="bl-body">
+          <p class="bl-title">Estado de pago mensual por propiedad en HubSpot con notificaci&oacute;n proactiva de bloqueos</p>
+          <div class="bl-meta"><span class="area-pill b-ops">Operaciones</span> Experiencia propietarios &middot; confianza</div>
+        </div>
+      </div>
+      <div class="bl-row">
+        <span class="bl-num">4</span>
+        <div class="bl-body">
+          <p class="bl-title">Flujo de aprobaci&oacute;n de mantenimiento con umbral de costo y notificaci&oacute;n al propietario</p>
+          <div class="bl-meta"><span class="area-pill b-ops">Operaciones</span> Relaci&oacute;n propietarios B2B &middot; cumplimiento contractual</div>
+        </div>
+      </div>
+      <div class="bl-row">
+        <span class="bl-num">5</span>
+        <div class="bl-body">
+          <p class="bl-title">Alerta autom&aacute;tica de disponibilidad de visitas en horarios core por depa activo</p>
+          <div class="bl-meta"><span class="area-pill b-com">Comercial</span> Velocidad de absorci&oacute;n &middot; vacancia</div>
+        </div>
+      </div>
+      <div class="bl-row">
+        <span class="bl-num">6</span>
+        <div class="bl-body">
+          <p class="bl-title">Playbook de negociaci&oacute;n embebido en flujo KAM con registro de decisiones en HubSpot</p>
+          <div class="bl-meta"><span class="area-pill b-com">Comercial</span> Consistencia comercial &middot; tiempo de liderazgo</div>
+        </div>
+      </div>
+      <div class="bl-row">
+        <span class="bl-num">7</span>
+        <div class="bl-body">
+          <p class="bl-title">Copy &ldquo;Homie Select&rdquo; autogenerado en publicaciones RC desde el backend</p>
+          <div class="bl-meta"><span class="area-pill b-prod">Producto</span> Diferenciaci&oacute;n del listing &middot; CTR</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer">Reporte generado autom&aacute;ticamente a partir del an&aacute;lisis de conversaciones en #producto-renta-continua &middot; Per&iacute;odo: 1&ndash;17 abril 2026</p>
+
+</div>
+
+<script>
+function filter(btn, area) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+  var vi = document.getElementById('view-insights');
+  var vb = document.getElementById('view-backlog');
+  if (area === 'backlog') {
+    vi.classList.add('hidden');
+    vb.classList.remove('hidden');
+    return;
+  }
+  vi.classList.remove('hidden');
+  vb.classList.add('hidden');
+  document.querySelectorAll('.card[data-area]').forEach(function(c) {
+    c.style.display = (area === 'todas' || c.dataset.area === area) ? '' : 'none';
+  });
+  document.querySelectorAll('.area-heading[data-area]').forEach(function(h) {
+    h.style.display = (area === 'todas' || h.dataset.area === area) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
