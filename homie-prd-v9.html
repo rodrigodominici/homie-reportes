@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRD — App de Citas · Homie Backoffice</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F5F0;
+  --surface: #FDFCFA;
+  --ink: #181714;
+  --ink-2: #56544D;
+  --ink-3: #9B9890;
+  --accent: #1B4F3A;
+  --accent-2: #2D7A5A;
+  --accent-light: #E4F2EC;
+  --accent-mid: #4BAF82;
+  --warn: #B86B1A;
+  --warn-light: #FBF0E3;
+  --danger: #9B2C2C;
+  --danger-light: #FBECEC;
+  --info: #1A4B8F;
+  --info-light: #E8EFF9;
+  --purple: #4A3590;
+  --purple-light: #ECEAFA;
+  --border: #E4E0D8;
+  --border-strong: #C9C5BB;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --r: 10px;
+  --rl: 14px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.6; font-size: 14px; }
+
+/* HEADER */
+.header { background: var(--ink); position: relative; overflow: hidden; }
+.header-bg { position:absolute;inset:0; background: radial-gradient(ellipse at 75% 40%, #1B3A2A 0%, transparent 55%), radial-gradient(ellipse at 15% 90%, #0D1A12 0%, transparent 45%); }
+.header-grid { position:absolute;inset:0; background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size:40px 40px; }
+.header-inner { max-width:1080px; margin:0 auto; padding:3rem 2rem 2.5rem; position:relative; z-index:1; }
+.hdr-badge { display:inline-flex; align-items:center; gap:8px; padding:5px 12px; border-radius:99px; border:1px solid rgba(75,175,130,.4); background:rgba(75,175,130,.1); font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-mid); margin-bottom:1.5rem; }
+.hdr-badge-dot { width:6px;height:6px;border-radius:50%;background:var(--accent-mid);animation:pulse 2s ease-in-out infinite; }
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hdr-top { display:grid; grid-template-columns:1fr auto; gap:3rem; align-items:start; }
+.hdr-h1 { font-family:var(--serif); font-size:clamp(28px,5vw,46px); font-weight:400; line-height:1.1; color:#F7F5F0; margin-bottom:.75rem; }
+.hdr-h1 em { font-style:italic; color:var(--accent-mid); }
+.hdr-desc { font-size:13px; color:rgba(247,245,240,.5); max-width:480px; line-height:1.7; margin-bottom:1.5rem; }
+.hdr-chips { display:flex; gap:7px; flex-wrap:wrap; }
+.hdr-chip { padding:5px 12px; border-radius:99px; font-size:11px; font-weight:500; border:1px solid rgba(247,245,240,.12); color:rgba(247,245,240,.55); cursor:pointer; transition:all .15s; background:transparent; }
+.hdr-chip:hover,.hdr-chip.active { background:rgba(247,245,240,.1); color:#F7F5F0; border-color:rgba(247,245,240,.3); }
+.hdr-meta { min-width:210px; }
+.hmr { display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid rgba(247,245,240,.08); font-size:12px; }
+.hmr:last-child { border-bottom:none; }
+.hmr-k { font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:rgba(247,245,240,.3); }
+.hmr-v { color:rgba(247,245,240,.7); text-align:right; }
+.status-pill { padding:2px 8px; border-radius:99px; font-size:11px; font-weight:500; background:var(--warn-light); color:var(--warn); }
+
+/* METRICS STRIP */
+.mstrip { background:rgba(247,245,240,.04); border-top:1px solid rgba(247,245,240,.08); padding:.875rem 2rem; }
+.mstrip-inner { max-width:1080px; margin:0 auto; display:flex; }
+.mi { flex:1; padding:6px 14px; border-right:1px solid rgba(247,245,240,.08); }
+.mi:last-child { border-right:none; }
+.mi-l { font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:rgba(247,245,240,.3); margin-bottom:2px; }
+.mi-v { font-family:var(--serif); font-size:20px; color:rgba(247,245,240,.9); line-height:1; }
+.mi-d { font-size:10px; margin-top:2px; font-family:var(--mono); }
+.mi-d.neg { color:#F87171; }
+.mi-d.pos { color:var(--accent-mid); }
+
+/* NAV */
+.nav { background:var(--surface); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; }
+.nav-i { max-width:1080px; margin:0 auto; padding:0 2rem; display:flex; overflow-x:auto; scrollbar-width:none; }
+.nav-i::-webkit-scrollbar { display:none; }
+.nbtn { padding:12px 15px; font-family:var(--sans); font-size:13px; font-weight:500; color:var(--ink-3); background:none; border:none; cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:color .15s,border-color .15s; }
+.nbtn:hover { color:var(--ink); }
+.nbtn.active { color:var(--ink); border-bottom-color:var(--accent-2); }
+
+/* MAIN */
+.main { max-width:1080px; margin:0 auto; padding:2.5rem 2rem 5rem; }
+.section { display:none; animation:fi .2s ease; }
+.section.active { display:block; }
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* TYPOGRAPHY */
+.eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-2); margin-bottom:8px; }
+.stitle { font-family:var(--serif); font-size:clamp(22px,3vw,30px); font-weight:400; color:var(--ink); margin-bottom:8px; line-height:1.2; }
+.sdesc { font-size:13px; color:var(--ink-2); margin-bottom:2rem; max-width:680px; line-height:1.7; }
+.prose { font-size:13px; color:var(--ink-2); line-height:1.75; margin-bottom:1rem; max-width:700px; }
+.prose strong { color:var(--ink); font-weight:600; }
+.h3 { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:8px; margin-top:1.5rem; }
+.divider { height:1px; background:var(--border); margin:2.5rem 0; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:640px){ .two-col { grid-template-columns:1fr; } }
+
+/* CARDS */
+.callout { border-radius:var(--r); padding:14px 16px; margin-bottom:1.25rem; display:flex; gap:12px; }
+.callout.info { background:var(--info-light); border:1px solid #B0C8F0; }
+.callout.warn { background:var(--warn-light); border:1px solid #F5C686; }
+.callout.green { background:var(--accent-light); border:1px solid var(--accent-mid); }
+.callout.danger { background:var(--danger-light); border:1px solid #F0AAAA; }
+.callout.purple { background:var(--purple-light); border:1px solid #C0B5E8; }
+.callout.dark { background:rgba(24,23,20,.05); border:1px solid var(--border-strong); }
+.ci { font-size:15px; flex-shrink:0; margin-top:1px; }
+.ct { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.cb { font-size:13px; color:var(--ink-2); line-height:1.6; }
+
+.pill { display:inline-block; padding:2px 9px; border-radius:99px; font-size:11px; font-weight:500; white-space:nowrap; }
+.p-green { background:var(--accent-light); color:var(--accent); }
+.p-warn { background:var(--warn-light); color:var(--warn); }
+.p-info { background:var(--info-light); color:var(--info); }
+.p-dark { background:#EDEAE3; color:var(--ink-2); }
+.p-danger { background:var(--danger-light); color:var(--danger); }
+.p-purple { background:var(--purple-light); color:var(--purple); }
+
+/* SCOPE BOX */
+.scope-box { background:var(--surface); border:1px solid var(--border); border-radius:var(--rl); padding:20px; margin-bottom:1.5rem; }
+.scope-box-title { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.scope-list { list-style:none; display:flex; flex-direction:column; gap:0; }
+.scope-item { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:13px; color:var(--ink); line-height:1.5; align-items:flex-start; }
+.scope-item:last-child { border-bottom:none; }
+.scope-dot { width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; flex-shrink:0; margin-top:2px; }
+.sd-in { background:var(--accent-light); color:var(--accent); }
+.sd-out { background:#EDEAE3; color:var(--ink-3); }
+
+/* STAT GRID */
+.stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:1.5rem; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:16px; position:relative; overflow:hidden; }
+.stat-card::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+.stat-card.green::after { background:var(--accent-mid); }
+.stat-card.warn::after { background:var(--warn); }
+.stat-card.info::after { background:var(--info); }
+.stat-card.danger::after { background:var(--danger); }
+.snum { font-family:var(--serif); font-size:30px; line-height:1; margin-bottom:5px; }
+.snum.green { color:var(--accent); }
+.snum.warn { color:var(--warn); }
+.snum.info { color:var(--info); }
+.snum.danger { color:var(--danger); }
+.slabel { font-size:12px; color:var(--ink-2); line-height:1.4; }
+.ssource { font-family:var(--mono); font-size:10px; color:var(--ink-3); margin-top:7px; }
+.sdelta-neg { font-family:var(--mono); font-size:10px; color:var(--danger); margin-top:3px; }
+.sdelta-pos { font-family:var(--mono); font-size:10px; color:var(--accent-2); margin-top:3px; }
+
+/* FUNNEL */
+.funnel-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--rl); padding:20px; margin-bottom:1.5rem; }
+.funnel-row { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.funnel-row:last-child { margin-bottom:0; }
+.fl { font-size:12px; color:var(--ink-2); min-width:160px; text-align:right; }
+.fbw { flex:1; height:30px; background:var(--bg); border-radius:4px; overflow:hidden; }
+.fb { height:100%; border-radius:4px; display:flex; align-items:center; padding-left:10px; font-size:12px; font-weight:600; color:#fff; }
+.fn { display:flex; flex-direction:column; min-width:90px; }
+.fn-main { font-size:14px; font-weight:600; color:var(--ink); font-family:var(--serif); }
+.fn-delta { font-family:var(--mono); font-size:10px; color:var(--danger); }
+.fn-conv { font-family:var(--mono); font-size:10px; color:var(--accent-2); margin-top:1px; }
+
+/* TABLE */
+.tw { background:var(--surface); border:1px solid var(--border); border-radius:var(--rl); overflow:hidden; margin-bottom:1.5rem; overflow-x:auto; }
+.tbl { width:100%; border-collapse:collapse; font-size:13px; min-width:460px; }
+.tbl th { text-align:left; padding:10px 14px; font-family:var(--mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3); background:var(--bg); border-bottom:1px solid var(--border); font-weight:500; }
+.tbl td { padding:11px 14px; border-bottom:1px solid var(--border); color:var(--ink); vertical-align:top; line-height:1.5; }
+.tbl tr:last-child td { border-bottom:none; }
+.tbl tr:hover td { background:var(--bg); }
+
+/* FEATURE LIST */
+.fl-list { list-style:none; margin-bottom:1.5rem; border:1px solid var(--border); border-radius:var(--rl); overflow:hidden; background:var(--surface); }
+.fl-item { display:flex; gap:12px; padding:14px 16px; border-bottom:1px solid var(--border); }
+.fl-item:last-child { border-bottom:none; }
+.fl-check { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px; }
+.fc-in { background:var(--accent-light); color:var(--accent); }
+.fc-out { background:#EDEAE3; color:var(--ink-3); }
+.fl-name { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.fl-desc { font-size:12px; color:var(--ink-2); line-height:1.55; }
+.fl-tech { font-family:var(--mono); font-size:10px; color:var(--accent-2); margin-top:5px; padding:4px 8px; background:var(--accent-light); border-radius:4px; display:inline-block; }
+
+/* UX SPEC */
+.ux-spec { background:var(--surface); border:1px solid var(--border); border-radius:var(--rl); overflow:hidden; margin-bottom:1.5rem; }
+.ux-spec-h { padding:12px 16px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+.ux-spec-b { padding:16px; }
+.ux-row { display:flex; gap:12px; margin-bottom:10px; font-size:13px; }
+.ux-row:last-child { margin-bottom:0; }
+.ux-k { min-width:130px; color:var(--ink-3); font-family:var(--mono); font-size:10px; padding-top:2px; text-transform:uppercase; letter-spacing:.04em; flex-shrink:0; }
+.ux-v { color:var(--ink); line-height:1.6; flex:1; }
+
+/* FLOW */
+.flow { display:flex; flex-direction:column; }
+.fnode { display:grid; grid-template-columns:44px 1fr; gap:0 14px; }
+.fspine { display:flex; flex-direction:column; align-items:center; }
+.fdot { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:10px; font-weight:500; flex-shrink:0; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink-2); z-index:2; }
+.fdot.key { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+.fdot.green { background:var(--accent-2); color:#fff; border-color:var(--accent-2); }
+.fdot.warn { background:var(--warn); color:#fff; border-color:var(--warn); }
+.fdot.info { background:var(--info); color:#fff; border-color:var(--info); }
+.fdot.ghost { background:var(--bg); color:var(--ink-3); border-style:dashed; }
+.fdot.danger { background:var(--danger); color:#fff; border-color:var(--danger); }
+.fline { width:1px; flex:1; background:var(--border-strong); min-height:14px; }
+.fline.dash { background:repeating-linear-gradient(to bottom,var(--border-strong) 0,var(--border-strong) 4px,transparent 4px,transparent 8px); }
+.fcontent { padding:3px 0 22px; }
+.ftime { font-family:var(--mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3); margin-bottom:3px; }
+.ftitle { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+.fdesc { font-size:13px; color:var(--ink-2); line-height:1.55; margin-bottom:8px; }
+.ftags { display:flex; flex-wrap:wrap; gap:5px; }
+.ft { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500; }
+.ft-g { background:var(--accent-light); color:var(--accent); }
+.ft-w { background:var(--warn-light); color:var(--warn); }
+.ft-i { background:var(--info-light); color:var(--info); }
+.ft-d { background:#EDEAE3; color:var(--ink-2); }
+
+/* BRANCH */
+.bgrid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+@media(max-width:560px){ .bgrid { grid-template-columns:1fr; } }
+.bc { border:1px solid var(--border); border-radius:8px; padding:11px; font-size:12px; background:var(--surface); }
+.bc.green { border-color:var(--accent-mid); background:var(--accent-light); }
+.bc.warn { border-color:#F5C686; background:var(--warn-light); }
+.bc.danger { border-color:#F0AAAA; background:var(--danger-light); }
+.bch { font-weight:600; margin-bottom:4px; font-size:12px; }
+.bcb { color:var(--ink-2); line-height:1.5; }
+
+/* MSG */
+.mbubble { background:#EDEAE3; border-radius:3px 10px 10px 10px; padding:11px 13px; font-size:13px; color:var(--ink); line-height:1.65; max-width:400px; white-space:pre-line; border:1px solid var(--border); position:relative; margin:8px 0; }
+.mbubble::before { content:''; position:absolute; top:0; left:-1px; width:12px; height:12px; background:#EDEAE3; border-left:1px solid var(--border); border-top:1px solid var(--border); clip-path:polygon(0 0,100% 0,0 100%); }
+.mbtns { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+.mbtn { padding:6px 13px; border-radius:99px; font-size:12px; font-weight:500; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink); }
+.mbtn.p { background:#25D366; color:#fff; border-color:#25D366; }
+
+/* PERSONAS */
+.pgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(185px,1fr)); gap:10px; margin-bottom:1.5rem; }
+.pcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px; }
+.pav { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; margin-bottom:8px; }
+.pname { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.pgoal { font-size:12px; color:var(--ink-2); line-height:1.45; margin-bottom:8px; }
+.pneeds { list-style:none; }
+.pneeds li { font-size:11px; color:var(--ink-3); padding:3px 0; border-bottom:1px solid var(--border); display:flex; gap:6px; line-height:1.4; }
+.pneeds li:last-child { border-bottom:none; }
+
+/* LAYERS */
+.lgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:12px; margin-bottom:2rem; }
+.lcard { border-radius:var(--rl); padding:18px; border:1px solid var(--border); background:var(--surface); cursor:pointer; transition:border-color .15s,transform .15s; }
+.lcard:hover { border-color:var(--border-strong); transform:translateY(-1px); }
+.lcnum { font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; font-weight:500; }
+.lctitle { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:5px; }
+.lcdesc { font-size:12px; color:var(--ink-2); line-height:1.5; margin-bottom:10px; }
+
+/* CAPA HEADER */
+.chadr { display:flex; gap:14px; padding:18px; background:var(--surface); border:1px solid var(--border); border-radius:var(--rl); margin-bottom:1.5rem; }
+.cnum { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-size:20px; flex-shrink:0; }
+.ctitle { font-size:16px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+.csub { font-size:13px; color:var(--ink-2); line-height:1.55; }
+
+/* MOCKUP LINK */
+.mockup-link { background:var(--surface); border:1px solid var(--border); border-radius:var(--rl); padding:20px; margin-bottom:1.5rem; display:flex; align-items:center; gap:16px; }
+.ml-icon { width:44px; height:44px; border-radius:10px; background:var(--info-light); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+.ml-body { flex:1; }
+.ml-title { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.ml-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.ml-btn { padding:8px 16px; border-radius:8px; background:var(--ink); color:#F7F5F0; font-size:12px; font-weight:500; text-decoration:none; display:inline-block; margin-top:10px; transition:opacity .15s; }
+.ml-btn:hover { opacity:.85; }
+
+/* HIERARCHY */
+.hierarchy { margin-bottom:1.5rem; }
+.hier-item { display:flex; gap:14px; }
+.hier-left { display:flex; flex-direction:column; align-items:center; width:38px; }
+.hier-num { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:13px; font-weight:500; flex-shrink:0; z-index:1; }
+.hier-line { width:1px; flex:1; min-height:8px; }
+.hier-body { flex:1; padding:6px 0 18px; }
+.hier-title { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.hier-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
+
+/* ADVISOR SCREENS */
+.ascreens { display:grid; grid-template-columns:repeat(auto-fit,minmax(195px,1fr)); gap:12px; margin-bottom:1.5rem; }
+.ascreen { background:var(--surface); border:1px solid var(--border); border-radius:var(--rl); overflow:hidden; }
+.ash { padding:10px 14px; background:var(--bg); border-bottom:1px solid var(--border); }
+.ash-t { font-size:12px; font-weight:600; color:var(--ink); }
+.ash-s { font-size:11px; color:var(--ink-3); }
+.asb { padding:12px 14px; }
+.asi { font-size:12px; color:var(--ink); padding:6px 0; border-bottom:1px solid var(--border); display:flex; gap:8px; align-items:flex-start; line-height:1.4; }
+.asi:last-child { border-bottom:none; }
+.asi-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+
+/* ESCALATE */
+.ei { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px; margin-bottom:10px; display:flex; gap:12px; }
+.ei-icon { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+.ei-t { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.ei-d { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.ei-a { margin-top:7px; padding:7px 10px; border-radius:6px; font-size:12px; font-weight:500; }
+
+/* EVENT CARD */
+.ecard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px; margin-bottom:10px; }
+.ec-h { display:flex; align-items:center; gap:10px; margin-bottom:7px; flex-wrap:wrap; }
+.ec-name { font-family:var(--mono); font-size:12px; font-weight:500; color:var(--ink); background:#EDEAE3; padding:3px 10px; border-radius:4px; }
+.ec-trigger { font-size:12px; color:var(--ink-2); margin-bottom:8px; line-height:1.5; }
+.ec-props { display:flex; flex-wrap:wrap; gap:6px; }
+.ec-prop { font-size:11px; padding:2px 8px; border-radius:4px; border:1px solid var(--border); color:var(--ink-2); font-family:var(--mono); }
+
+/* STATES */
+.states-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:1.5rem; }
+.scard { border-radius:var(--r); padding:14px; border:1px solid var(--border); background:var(--surface); }
+.sdot { width:10px; height:10px; border-radius:50%; margin-bottom:8px; }
+.sname { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+.sdesc-s { font-size:12px; color:var(--ink-2); line-height:1.4; }
+.scond { font-family:var(--mono); font-size:10px; color:var(--ink-3); margin-top:6px; }
+
+/* RISK */
+.risk { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px; margin-bottom:10px; display:flex; gap:14px; }
+.rb { padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600; white-space:nowrap; align-self:flex-start; }
+.rb-h { background:var(--danger-light); color:var(--danger); }
+.rb-m { background:var(--warn-light); color:var(--warn); }
+.rb-l { background:var(--accent-light); color:var(--accent); }
+.rt { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.rm { font-size:12px; color:var(--ink-2); line-height:1.5; }
+
+@media(max-width:700px){
+  .hdr-top { grid-template-columns:1fr; }
+  .hdr-meta { display:none; }
+  .mstrip-inner { flex-wrap:wrap; }
+  .mi { min-width:110px; border-right:none; border-bottom:1px solid rgba(247,245,240,.08); }
+  .main { padding:1.5rem 1.25rem 3rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-bg"></div>
+  <div class="header-grid"></div>
+  <div class="header-inner">
+    <div class="hdr-badge"><span class="hdr-badge-dot"></span>PRD In Progress · Homie Backoffice</div>
+    <div class="hdr-top">
+      <div>
+        <h1 class="hdr-h1">App de Citas —<br><em>sistema completo</em></h1>
+        <p class="hdr-desc">Digitalización del proceso de agendamiento de visitas de punta a punta. Cuatro capas: Admin, Booking Experience, Advisor y Communications. Base escalable para futuros procesos y mercados.</p>
+        <div class="hdr-chips">
+          <button class="hdr-chip active" onclick="show('overview')">Overview</button>
+          <button class="hdr-chip" onclick="show('capa1')">Capa 1 · Admin</button>
+          <button class="hdr-chip" onclick="show('capa2')">Capa 2 · Booking</button>
+          <button class="hdr-chip" onclick="show('capa3')">Capa 3 · Advisor</button>
+          <button class="hdr-chip" onclick="show('capa4')">Capa 4 · Comms</button>
+          <button class="hdr-chip" onclick="show('tracking')">Tracking Plan</button>
+          <button class="hdr-chip" onclick="show('futuro')">Mejoras a futuro</button>
+          
+        </div>
+      </div>
+      <div class="hdr-meta">
+        <div class="hmr"><span class="hmr-k">PM</span><span class="hmr-v">Rodrigo Dominici</span></div>
+        <div class="hmr"><span class="hmr-k">Eng Lead</span><span class="hmr-v">Pablo Levin · Leandro Intelisano</span></div>
+        <div class="hmr"><span class="hmr-k">Approvers</span><span class="hmr-v">Catalina Molina · Vicente Jacob</span></div>
+        <div class="hmr"><span class="hmr-k">Estado</span><span class="hmr-v"><span class="status-pill">In Progress</span></span></div>
+        <div class="hmr"><span class="hmr-k">Mercado</span><span class="hmr-v">Chile → México</span></div>
+        <div class="hmr"><span class="hmr-k">Sistema base</span><span class="hmr-v">Backoffice Homie (REM + nuevos módulos)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="mstrip">
+    <div class="mstrip-inner">
+      <div class="mi"><div class="mi-l">Leads S16</div><div class="mi-v">352</div><div class="mi-d neg">−39.8% WoW</div></div>
+      <div class="mi"><div class="mi-l">Citas agendadas</div><div class="mi-v">27</div><div class="mi-d neg">−42.5% WoW</div></div>
+      <div class="mi"><div class="mi-l">Lead → Cita</div><div class="mi-v">7.7%</div><div class="mi-d neg">Palanca principal</div></div>
+      <div class="mi"><div class="mi-l">Cita → Reserva</div><div class="mi-v">74%</div><div class="mi-d pos">Alta conversión</div></div>
+      <div class="mi"><div class="mi-l">Reservas S16</div><div class="mi-v">20</div><div class="mi-d pos">+11.1% WoW</div></div>
+      <div class="mi"><div class="mi-l">Rentas nuevas</div><div class="mi-v">7</div><div class="mi-d neg">−30% WoW</div></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-i">
+    <button class="nbtn active" onclick="show('overview')">Overview</button>
+    <button class="nbtn" onclick="show('capa1')">Admin / Backoffice</button>
+    <button class="nbtn" onclick="show('capa2')">User Facing Booking</button>
+    <button class="nbtn" onclick="show('capa3')">Advisor Experience</button>
+    <button class="nbtn" onclick="show('capa4')">Communications</button>
+    <button class="nbtn" onclick="show('tracking')">Tracking Plan</button>
+    <button class="nbtn" onclick="show('futuro')">Mejoras a futuro</button>
+    
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════ OVERVIEW ══════════════ -->
+<div class="section active" id="section-overview">
+
+  <!-- ONE PAGER -->
+  <div class="eyebrow">One pager</div>
+  <div class="stitle">Visión del proyecto</div>
+
+  <p class="prose">Desarrollar una <strong>App de Citas dentro del Backoffice Homie</strong>, como nuevo módulo operativo de la plataforma, para gestionar de punta a punta el agendamiento de visitas a propiedades en arriendo en Chile.</p>
+  <p class="prose">La iniciativa busca digitalizar un proceso que hoy tiene una alta carga operativa y manual, centralizando la configuración, coordinación, ejecución y seguimiento de citas dentro de una plataforma única, trazable y escalable.</p>
+  <p class="prose">El proyecto se estructura en <strong>cuatro capas complementarias</strong>: Admin/Backoffice (motor operativo), User Facing Booking Experience (cara al inquilino), Advisor Experience (operación en campo) y Communications (comunicaciones automatizadas vía Darwin.ia). Aunque el desarrollo inicial es para Chile, la arquitectura se diseña desde el inicio como base escalable para otros mercados y futuros módulos operativos de Homie.</p>
+
+  <div class="divider"></div>
+
+  <!-- PROBLEMA -->
+  <div class="eyebrow">Problema</div>
+  <div class="stitle">El funnel se rompe antes de la primera visita</div>
+  <p class="prose">Homie Rent Chile no tiene hoy un flujo digital de booking. Esto genera alta carga operativa manual, baja visibilidad sobre disponibilidad de asesores e inmuebles, poca trazabilidad del estado de las citas y dificultad para confirmar, reprogramar o reasignar. El resultado es una experiencia inconsistente para el inquilino, el asesor y el propietario.</p>
+  <p class="prose">Los datos del funnel de arrendatarios de la <strong>semana 16 de 2026</strong> (datos del reporte semanal disponible — se actualizará con datos 2026) muestran que la tasa de conversión Lead → Cita agendada es del <strong>7.7%</strong>. Sin embargo, una vez que la visita ocurre, la tasa de conversión Cita → Reserva es del <strong>74%</strong>. El cuello de botella no es la propiedad ni el precio: es la fricción para agendar.</p>
+
+  <div class="funnel-wrap">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:16px">Funnel arrendatarios · Semana 16 de 2026 (datos de referencia · se actualizará con 2026)</div>
+    <div class="funnel-row">
+      <div class="fl">Leads</div>
+      <div class="fbw"><div class="fb" style="width:100%;background:var(--info)">352</div></div>
+      <div class="fn"><div class="fn-main">352</div><div class="fn-delta">−39.8% WoW · −53.3% últ 12 sem</div></div>
+    </div>
+    <div class="funnel-row">
+      <div class="fl">Citas agendadas</div>
+      <div class="fbw"><div class="fb" style="width:7.7%;background:var(--warn)">27</div></div>
+      <div class="fn"><div class="fn-main">27</div><div class="fn-delta">−42.5% WoW</div><div class="fn-conv">↳ 7.7% de leads</div></div>
+    </div>
+    <div class="funnel-row">
+      <div class="fl">Citas confirmadas</div>
+      <div class="fbw"><div class="fb" style="width:7.7%;background:var(--warn)">27</div></div>
+      <div class="fn"><div class="fn-main">27</div><div class="fn-delta">−40% WoW</div><div class="fn-conv">↳ 100% de citas agendadas</div></div>
+    </div>
+    <div class="funnel-row">
+      <div class="fl">Reservas</div>
+      <div class="fbw"><div class="fb" style="width:5.7%;background:var(--accent-2)">20</div></div>
+      <div class="fn"><div class="fn-main">20</div><div class="fn-delta" style="color:var(--accent-2)">+11.1% WoW</div><div class="fn-conv">↳ 74% de citas</div></div>
+    </div>
+    <div class="funnel-row" style="margin-bottom:0">
+      <div class="fl">Rentas nuevas</div>
+      <div class="fbw"><div class="fb" style="width:2%;background:var(--accent)">7</div></div>
+      <div class="fn"><div class="fn-main">7</div><div class="fn-delta">−30% WoW</div><div class="fn-conv">↳ 35% de reservas</div></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ci">△</div>
+    <div>
+      <div class="ct">La oportunidad concreta</div>
+      <div class="cb">Si la tasa Lead → Cita mejora de 7.7% a 15% (benchmark de plataformas con booking digital) con el mismo volumen de leads de la semana analizada, pasaríamos de 27 a ~53 citas semanales. A una tasa de conversión Cita → Reserva del 74%, eso equivale a ~39 reservas vs 20 actuales — sin necesitar más leads ni más propiedades.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- OBJETIVOS -->
+  <div class="eyebrow">Objetivos del proyecto</div>
+  <div class="stat-grid">
+    <div class="stat-card green"><div class="snum green">01</div><div class="slabel">Centralizar la operación de citas dentro del Backoffice Homie.</div></div>
+    <div class="stat-card info"><div class="snum info">02</div><div class="slabel">Reducir el trabajo manual de coordinación.</div></div>
+    <div class="stat-card warn"><div class="snum warn">03</div><div class="slabel">Aumentar la tasa de citas agendadas y confirmadas.</div></div>
+    <div class="stat-card danger"><div class="snum danger">04</div><div class="slabel">Sentar la base para una app regional replicable en México.</div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PERSONAS -->
+  <div class="eyebrow">Personas clave</div>
+  <p class="prose" style="margin-bottom:1rem">Las personas involucradas en el proceso de agendamiento. El propietario no tiene una experiencia propia en este PRD — es un stakeholder afectado cuya visibilidad sobre visitas está fuera del scope de esta fase.</p>
+  <div class="pgrid">
+    <div class="pcard">
+      <div class="pav" style="background:#EDEAE3">⚙️</div>
+      <div class="pname">Admin / Operaciones</div>
+      <div class="pgoal">Visibilidad global y control de la operación de citas.</div>
+      <ul class="pneeds">
+        <li><span>→</span>Ver disponibilidad global consolidada</li>
+        <li><span>→</span>Gestionar reglas y excepciones</li>
+        <li><span>→</span>Reasignar y transferir citas</li>
+        <li><span>→</span>Monitorear estados en tiempo real</li>
+      </ul>
+    </div>
+    <div class="pcard">
+      <div class="pav" style="background:var(--purple-light)">🧑</div>
+      <div class="pname">Asesor</div>
+      <div class="pgoal">Ejecutar visitas con mínima fricción y máximo contexto.</div>
+      <ul class="pneeds">
+        <li><span>→</span>Agenda del día clara en mobile</li>
+        <li><span>→</span>Acceso a datos de acceso al inmueble</li>
+        <li><span>→</span>CTAs rápidos de contacto</li>
+        <li><span>→</span>Registro de resultado simple</li>
+      </ul>
+    </div>
+    <div class="pcard">
+      <div class="pav" style="background:var(--warn-light)">👤</div>
+      <div class="pname">Inquilino</div>
+      <div class="pgoal">Agendar, confirmar y reprogramar con mínima fricción.</div>
+      <ul class="pneeds">
+        <li><span>→</span>Disponibilidad visible sin clicks previos</li>
+        <li><span>→</span>Agendar sin salir de la ficha</li>
+        <li><span>→</span>Confirmación clara post-agendamiento</li>
+        <li><span>→</span>Reprogramar en 1 acción</li>
+      </ul>
+    </div>
+    <div class="pcard">
+      <div class="pav" style="background:var(--accent-light)">📊</div>
+      <div class="pname">Negocio / Liderazgo</div>
+      <div class="pgoal">Mejorar throughput de visitas y trazabilidad.</div>
+      <ul class="pneeds">
+        <li><span>→</span>Booking rate y no-show rate</li>
+        <li><span>→</span>Time-to-first-visit</li>
+        <li><span>→</span>Listing velocity</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout dark">
+    <div class="ci">ℹ</div>
+    <div>
+      <div class="ct">Propietario — fuera de scope como persona con experiencia propia</div>
+      <div class="cb">El propietario se beneficia indirectamente del proyecto (más visitas coordinadas, menos fricciones operativas), pero no tiene una interfaz ni un flujo diseñado para él en esta fase. La visibilidad del propietario sobre sus visitas queda como item a evaluar en iteraciones futuras.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CAPAS -->
+  <div class="eyebrow">Las cuatro capas del sistema</div>
+  <div class="lgrid">
+    <div class="lcard" onclick="show('capa1')">
+      <div class="lcnum" style="color:var(--info)">Capa 01 · Admin</div>
+      <div class="lctitle">Módulo Booking · Backoffice Homie</div>
+      <div class="lcdesc">Motor operativo central. Usuarios, roles, disponibilidad de asesores, propiedades, exclusiones globales y gestión de citas.</div>
+      <span class="pill p-info">Motor operativo</span>
+    </div>
+    <div class="lcard" onclick="show('capa2')">
+      <div class="lcnum" style="color:var(--accent-2)">Capa 02 · Booking UX</div>
+      <div class="lctitle">User Facing Booking Experience</div>
+      <div class="lcdesc">Experiencia del inquilino en la ficha de propiedad. Disponibilidad visible, selector de slot, formulario modal, OTP WhatsApp y pantalla de éxito.</div>
+      <span class="pill p-green">Cara al inquilino</span>
+    </div>
+    <div class="lcard" onclick="show('capa3')">
+      <div class="lcnum" style="color:var(--purple)">Capa 03 · Advisor</div>
+      <div class="lctitle">Advisor Experience</div>
+      <div class="lcdesc">App mobile-first task-first para el asesor. Agenda, detalle de visita, datos de acceso, CTAs rápidos y formulario de cierre.</div>
+      <span class="pill p-purple">Campo operativo</span>
+    </div>
+    <div class="lcard" onclick="show('capa4')">
+      <div class="lcnum" style="color:var(--warn)">Capa 04 · Comms</div>
+      <div class="lctitle">Communications · Darwin.ia</div>
+      <div class="lcdesc">Confirmaciones, recordatorios, reprogramaciones y seguimiento post-visita via WhatsApp. Escalamiento automático a humano.</div>
+      <span class="pill p-warn">Darwin.ia</span>
+    </div>
+  </div>
+
+  <!-- ESTADOS -->
+  <div class="divider"></div>
+  <div class="eyebrow">Estados de cita</div>
+  <p class="prose" style="margin-bottom:1rem">La cita se crea siempre desde operación y queda asignada a un asesor e inmueble. No se considera confirmada hasta que el cliente la confirme activamente.</p>
+  <div class="states-grid">
+    <div class="scard"><div class="sdot" style="background:var(--warn)"></div><div class="sname">Pendiente</div><div class="sdesc-s">Creada y asignada. No confirmada aún por el cliente.</div><div class="scond">Entrada: cita creada desde el backoffice</div></div>
+    <div class="scard"><div class="sdot" style="background:var(--accent-2)"></div><div class="sname">Confirmada</div><div class="sdesc-s">Cliente validó la cita. Lista para ejecutarse.</div><div class="scond">Entrada: cliente confirma vía WhatsApp</div></div>
+    <div class="scard"><div class="sdot" style="background:var(--danger)"></div><div class="sname">Cancelada</div><div class="sdesc-s">No se ejecutará. Puede cancelar asesor o cliente. Requiere motivo.</div><div class="scond">Incluye motivo de cancelación</div></div>
+    <div class="scard"><div class="sdot" style="background:var(--info)"></div><div class="sname">Concretada</div><div class="sdesc-s">Visita realizada. Requiere formulario post-visita obligatorio del asesor.</div><div class="scond">Entrada: advisor registra realizada</div></div>
+  </div>
+</div>
+
+<!-- ══════════════ CAPA 1 ══════════════ -->
+<div class="section" id="section-capa1">
+  <div class="chadr">
+    <div class="cnum" style="background:var(--info-light);color:var(--info)">1</div>
+    <div>
+      <div class="ctitle">Admin Global + Módulo Booking</div>
+      <div class="csub">Motor operativo central del sistema de citas. Nuevo módulo del Backoffice Homie, que convive con el REM (módulo de inventario de propiedades). Agrega capacidades transversales de booking: gestión de usuarios, disponibilidad de asesores, vinculación con propiedades y control completo del ciclo de citas.</div>
+    </div>
+  </div>
+
+  <!-- QUE ES -->
+  <div class="eyebrow">Qué es esta capa y por qué existe</div>
+  <p class="prose">El Backoffice Homie ya contiene el REM — el módulo de inventario y gestión de propiedades. Esta capa agrega el Módulo de Booking como una nueva capacidad del backoffice, al mismo nivel que el REM, dentro de la misma plataforma operativa.</p>
+  <p class="prose">Sin esta capa el sistema de citas no tiene motor: no hay forma de definir quién puede mostrar qué propiedad, cuándo está disponible, ni de gestionar el estado de cada visita. Es la infraestructura sobre la que se apoyan todas las demás capas.</p>
+  <p class="prose">Esta capa está pensada como la <strong>primera expansión del Backoffice Homie más allá del REM</strong>. La sección de Usuarios es una capacidad transversal que luego podrán usar otros módulos. Los patrones de roles y permisos se diseñan para escalar a medida que el backoffice incorpore nuevos módulos.</p>
+
+  <!-- SCOPE -->
+  <div class="eyebrow" style="margin-top:1.5rem">Scope de esta capa</div>
+  <div class="two-col" style="margin-bottom:1.5rem">
+    <div class="scope-box">
+      <div class="scope-box-title"><span style="color:var(--accent-2)">✓</span> Dentro de scope</div>
+      <ul class="scope-list">
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Gestión de usuarios internos del admin con roles</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Disponibilidad base semanal por asesor con timezone</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Excepciones individuales por asesor</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Exclusiones globales con alerta de impacto en citas</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Vinculación asesor-inmueble (1:1 en esta fase)</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Cálculo de slots agendables con lógica grupal</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Gestión centralizada de citas con estados y filtros</li>
+      </ul>
+    </div>
+    <div class="scope-box">
+      <div class="scope-box-title"><span style="color:var(--ink-3)">—</span> Fuera de scope</div>
+      <ul class="scope-list">
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>SSO / identity management avanzado</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Vinculación 1:N asesor-inmueble (arquitectura sí, UI no)</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Optimización de rutas o matching inteligente</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Analytics y reportes avanzados</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Portal de visibilidad para el propietario</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Configuración multi-país automática</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LINK MOCKUP -->
+  <div class="mockup-link">
+    <div class="ml-icon">🎨</div>
+    <div class="ml-body">
+      <div class="ml-title">Mockup de referencia — Homie Booking Hub</div>
+      <div class="ml-desc">Prototipo visual del módulo de booking construido en Lovable. Incluye vistas del admin, gestión de disponibilidad y flujo de citas. Usar como referencia de diseño, no como especificación final.</div>
+      <a class="ml-btn" href="https://homie-booking-hub.lovable.app" target="_blank" rel="noopener">Abrir mockup →</a>
+    </div>
+  </div>
+
+  <!-- NAVEGACION ADMIN -->
+  <div class="eyebrow">Estructura de navegación del admin</div>
+  <p class="prose" style="margin-bottom:1rem">La navegación del módulo de booking dentro del Backoffice Homie se compone de cuatro secciones ordenadas según la lógica operativa: primero las personas, luego los inmuebles, después la capacidad operativa y finalmente las citas como resultado.</p>
+  <div class="tw">
+    <table class="tbl">
+      <thead><tr><th>#</th><th>Sección</th><th>Scope</th><th>Qué resuelve</th><th>Roles con acceso</th></tr></thead>
+      <tbody>
+        <tr><td style="font-family:var(--mono);color:var(--ink-3)">01</td><td><strong>Usuarios</strong></td><td><span class="pill p-dark">Global admin</span></td><td>Alta, edición, activación/desactivación y asignación de rol. Base reutilizable para todos los módulos futuros.</td><td>Admin</td></tr>
+        <tr><td style="font-family:var(--mono);color:var(--ink-3)">02</td><td><strong>Inmuebles</strong></td><td><span class="pill p-info">Booking</span></td><td>Vinculación asesor-inmueble, elegibilidad para booking, indicador de estado de configuración.</td><td>Admin, Operaciones</td></tr>
+        <tr><td style="font-family:var(--mono);color:var(--ink-3)">03</td><td><strong>Disponibilidad de asesores</strong></td><td><span class="pill p-info">Booking</span></td><td>Configuración semanal, excepciones individuales, exclusiones globales y cálculo de slots agendables.</td><td>Admin, Operaciones</td></tr>
+        <tr><td style="font-family:var(--mono);color:var(--ink-3)">04</td><td><strong>Gestión de citas</strong></td><td><span class="pill p-info">Booking</span></td><td>Vista centralizada operativa con estados, filtros, detalle y acciones sobre cada cita. Vive en el Backoffice Homie como módulo independiente del REM.</td><td>Admin, Operaciones, Asesor (vista propia)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ROLES -->
+  <div class="eyebrow">Definición de negocio — Usuarios y roles</div>
+  <p class="prose">El sistema debe incorporar una sección de Usuarios a nivel global del admin. No es una necesidad puntual del módulo de booking — es una capacidad estructural sobre la cual se apoyarán otros módulos. En esta fase, la definición funcional de roles y permisos estará orientada principalmente al equipo de booking.</p>
+  <div class="callout info">
+    <div class="ci">◎</div>
+    <div>
+      <div class="ct">Principio: role-based experience, no solo role-based access</div>
+      <div class="cb">El rol no solo define qué puede hacer el usuario — define cómo se presenta la experiencia. Un admin ve navegación completa y capacidades de configuración. Un asesor ve una experiencia mobile-first orientada a ejecución diaria. Un operador ve foco en seguimiento. Esta distinción debe estar presente en el diseño desde el inicio, aunque los roles estén hardcodeados en esta fase.</div>
+    </div>
+  </div>
+  <div class="tw">
+    <table class="tbl">
+      <thead><tr><th>Rol</th><th>Descripción</th><th>Módulos visibles</th><th>Acciones habilitadas</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Admin</strong></td><td>Control total del sistema</td><td>Todos</td><td>Crear/editar/desactivar usuarios, configurar disponibilidad global, gestionar todas las citas, crear exclusiones globales</td></tr>
+        <tr><td><strong>Operaciones</strong></td><td>Gestión operativa diaria</td><td>Inmuebles, Disponibilidad, Citas</td><td>Ver y gestionar citas, reasignar, cambiar estados, ver disponibilidad</td></tr>
+        <tr><td><strong>Asesor</strong></td><td>Ejecución de visitas en campo</td><td>Experiencia Advisor (Capa 3)</td><td>Ver su agenda, detalle de citas asignadas, marcar como realizada, completar formulario post-visita</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="fl-list">
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Alta y gestión de usuarios</div><div class="fl-desc">Crear usuario con nombre, email, rol y estado activo/inactivo. Edición de datos básicos. Baja lógica (desactivar, no borrar). Vista paginada con filtros por rol y estado.</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Roles hardcodeados con diferenciación de experiencia</div><div class="fl-desc">Admin, Operaciones, Asesor. No configurables desde interfaz en esta fase. La arquitectura debe soportar agregar nuevos roles sin refactor.</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Vista de roles y permisos</div><div class="fl-desc">Pantalla de referencia visible y auditable que muestra qué puede hacer cada rol. No editable en esta fase. Funciona como documentación operativa interna.</div></div></li>
+  </ul>
+
+  <!-- DISPONIBILIDAD -->
+  <div class="eyebrow">Definición de negocio — Disponibilidad de asesores</div>
+  <p class="prose">El sistema debe permitir definir la disponibilidad operativa base de cada asesor mediante una configuración semanal estructurada. Esta configuración es la regla principal sobre la cual se construye la agenda disponible del asesor y sirve como base para el cálculo de slots agendables.</p>
+  <p class="prose">La lógica no debe modelarse como disponibilidad genérica o textual, sino como una configuración explícita compuesta por selección de días de la semana, rangos horarios dentro de cada día y timezone asociada. Esto es importante porque el sistema opera hoy en Chile pero debe quedar preparado para múltiples países.</p>
+
+  <div class="ux-spec">
+    <div class="ux-spec-h"><span class="pill p-info">Especificación</span><span style="font-size:13px;font-weight:600;margin-left:8px">Estructura de disponibilidad base</span></div>
+    <div class="ux-spec-b">
+      <div class="ux-row"><div class="ux-k">Días laborables</div><div class="ux-v">Selección múltiple de días de la semana. Si un día no tiene bloques configurados → no laborable.</div></div>
+      <div class="ux-row"><div class="ux-k">Rangos horarios</div><div class="ux-v">Uno o más bloques por día (ej: Lunes 09:00–13:00 / 14:00–18:00). Los bloques no pueden solaparse dentro del mismo día.</div></div>
+      <div class="ux-row"><div class="ux-k">Timezone</div><div class="ux-v">Explícita por configuración. Default: America/Santiago. Escalable a America/Mexico_City y otros. Nunca depender del timezone del servidor.</div></div>
+      <div class="ux-row"><div class="ux-k">Reutilización</div><div class="ux-v">La disponibilidad base es una "semana tipo" persistente. No se reconfigura cada semana manualmente.</div></div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Jerarquía de disponibilidad — regla de prioridad</div>
+  <p class="prose" style="margin-bottom:1rem">Cuando el sistema calcula si un slot es agendable, aplica estas tres capas en orden de prioridad. Una capa superior siempre invalida las inferiores.</p>
+  <div class="hierarchy">
+    <div class="hier-item">
+      <div class="hier-left"><div class="hier-num" style="background:var(--danger-light);color:var(--danger);border:1px solid #F0AAAA">1</div><div class="hier-line" style="background:var(--border-strong)"></div></div>
+      <div class="hier-body"><div class="hier-title">Exclusiones globales · prioridad máxima</div><div class="hier-desc">Feriados, cierres operativos, eventos internos. Invalidan cualquier disponibilidad. Si existe una exclusión global, ningún asesor puede ser agendado en esa fecha/hora. Al crear o editar una exclusión, el sistema detecta citas existentes impactadas y exige resolución antes de guardar.</div></div>
+    </div>
+    <div class="hier-item">
+      <div class="hier-left"><div class="hier-num" style="background:var(--warn-light);color:var(--warn);border:1px solid #F5C686">2</div><div class="hier-line" style="background:var(--border-strong)"></div></div>
+      <div class="hier-body"><div class="hier-title">Excepciones individuales</div><div class="hier-desc">Vacaciones, licencias, permisos, aperturas extraordinarias de agenda. Aplican solo al asesor específico en las fechas/horas definidas. Sobreescriben la disponibilidad base de ese asesor.</div></div>
+    </div>
+    <div class="hier-item">
+      <div class="hier-left"><div class="hier-num" style="background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-mid)">3</div><div class="hier-line" style="background:transparent"></div></div>
+      <div class="hier-body"><div class="hier-title">Disponibilidad base del asesor</div><div class="hier-desc">Semana tipo configurada. Solo válida si no existe excepción individual ni exclusión global que la invalide para esa fecha y hora específica.</div></div>
+    </div>
+  </div>
+
+  <ul class="fl-list">
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Configuración semanal base por asesor</div><div class="fl-desc">Interfaz de selección de días + rangos horarios múltiples por día. Timezone explícita. Validación de solapamientos. Persiste como semana tipo reutilizable.</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Excepciones individuales</div><div class="fl-desc">Bloqueos o aperturas extraordinarias sobre fechas específicas. Tipos: vacaciones, licencia, permiso, apertura extra. Día completo o franja horaria. Prioridad 2 en la jerarquía.</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Exclusiones globales</div><div class="fl-desc">Feriados, cierres operativos. Afectan a todos los asesores. Timezone explícita. Al crear/editar sobre fechas con citas existentes: el sistema lista las citas impactadas y bloquea hasta que sean resueltas.</div></div></li>
+  </ul>
+
+  <!-- INMUEBLES -->
+  <div class="eyebrow">Definición de negocio — Vinculación inmueble-asesor</div>
+  <p class="prose">El sistema debe permitir vincular asesores a inmuebles para que el módulo de booking pueda determinar quiénes están habilitados para mostrar cada propiedad. Un slot solo tiene sentido si existe una combinación válida entre un inmueble habilitado, al menos un asesor asignado, una ventana horaria disponible y ausencia de bloqueos.</p>
+  <ul class="fl-list">
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Asignación asesor a inmueble (1:1 en esta fase)</div><div class="fl-desc">Cada inmueble tiene un único asesor asignado. Un inmueble sin asesor no es agendable. La arquitectura del modelo de datos debe diseñarse para soportar 1:N en el futuro sin refactor conceptual.</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Indicador de estado de configuración del inmueble</div><div class="fl-desc">El listado de inmuebles muestra si cada uno está "listo para booking" o no. Condiciones: activo + asesor asignado + booking habilitado + sin restricciones bloqueantes. Filtrable en el listado.</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Cálculo de slots agendables</div><div class="fl-desc">Endpoint que devuelve los slots disponibles para una propiedad en una fecha dada, aplicando la jerarquía completa: disponibilidad del asesor → excepciones → exclusiones globales → citas ya tomadas. Resultado: slots con status available / grouped / unavailable.</div></div></li>
+  </ul>
+
+  <!-- GESTION DE CITAS -->
+  <div class="eyebrow">Definición de negocio — Gestión de citas</div>
+  <p class="prose">El admin debe contar con una sección central de Gestión de Citas desde la cual el equipo pueda visualizar y operar todas las citas vinculadas al proceso de booking. Esta sección funciona como el centro operativo del módulo y está pensada para trabajo diario, no solo para consulta histórica.</p>
+
+  <div class="ux-spec">
+    <div class="ux-spec-h"><span class="pill p-dark">UX / Diseño</span><span style="font-size:13px;font-weight:600;margin-left:8px">Vista de gestión de citas</span></div>
+    <div class="ux-spec-b">
+      <div class="ux-row"><div class="ux-k">Layout</div><div class="ux-v">Tabla principal con ordenamiento por fecha (próximas primero). Click en fila abre panel lateral o modal con detalle completo.</div></div>
+      <div class="ux-row"><div class="ux-k">Columnas mínimas</div><div class="ux-v">Fecha + hora · Estado (chip con color) · Inmueble · Asesor · Nombre del inquilino · Acciones rápidas</div></div>
+      <div class="ux-row"><div class="ux-k">Filtros</div><div class="ux-v">Por estado · por asesor · por inmueble · por rango de fechas. Todos combinables entre sí.</div></div>
+      <div class="ux-row"><div class="ux-k">Chips de estado</div><div class="ux-v">Pendiente → amber · Confirmada → verde · Cancelada → rojo (tachada) · Concretada → azul. Deben ser legibles a distancia para operación rápida.</div></div>
+      <div class="ux-row"><div class="ux-k">Acciones en detalle</div><div class="ux-v">Reprogramar · Cancelar (requiere seleccionar motivo) · Reasignar asesor · Ver historial de cambios de estado</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CAPA 2 ══════════════ -->
+<div class="section" id="section-capa2">
+  <div class="chadr">
+    <div class="cnum" style="background:var(--accent-light);color:var(--accent)">2</div>
+    <div>
+      <div class="ctitle">User Facing Booking Experience</div>
+      <div class="csub">Experiencia del inquilino en la ficha de propiedad. Sin rediseñar la ficha existente — solo se agregan CTAs inteligentes según el estado de disponibilidad y se habilita el flujo de agendamiento completo desde la misma página.</div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Qué es esta capa y por qué existe</div>
+  <p class="prose">Esta capa habilita al inquilino para agendar una visita directamente desde la ficha de la propiedad, sin salir de la página ni crear una cuenta. Es la capa que convierte el tráfico existente en citas — y donde está la mayor oportunidad de mejora según los datos del funnel.</p>
+  <p class="prose">El objetivo no es rediseñar la ficha de propiedad ni modificar la estructura del journey existente. Se agregan y condicionan CTAs inteligentes según el estado de disponibilidad de cada propiedad. Si hay disponibilidad configurada, el usuario puede agendar. Si no la hay, se le ofrece contactar por WhatsApp.</p>
+
+  <div class="eyebrow" style="margin-top:1.5rem">Scope de esta capa</div>
+  <div class="two-col" style="margin-bottom:1.5rem">
+    <div class="scope-box">
+      <div class="scope-box-title"><span style="color:var(--accent-2)">✓</span> Dentro de scope</div>
+      <ul class="scope-list">
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Disponibilidad visible sin click previo en la ficha</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Selector de día y horario en contexto (sin salir de la página)</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Señalización de visitas grupales en el slot</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Formulario modal con 4 campos y T&C explícitos</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>OTP vía WhatsApp con sesión persistente de 24h</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Pantalla de éxito con add to calendar</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>CTA fallback "Contactar" con mensaje predefinido a WhatsApp</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Tracking en Amplitude (ver sección dedicada)</li>
+      </ul>
+    </div>
+    <div class="scope-box">
+      <div class="scope-box-title"><span style="color:var(--ink-3)">—</span> Fuera de scope</div>
+      <ul class="scope-list">
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Reprogramación y cancelación desde la UX del inquilino</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Login o creación de cuenta de usuario</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Panel de autogestión de citas del inquilino</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Comunicaciones post-formulario (pertenecen a Capa 4)</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Rediseño estructural de la ficha de propiedad</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Recomendaciones personalizadas de horarios</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="eyebrow">Definición de negocio — UX / Diseño</div>
+  <p class="prose">La experiencia debe ser de baja fricción, alta claridad y visibilidad inmediata de la disponibilidad. El usuario no debe tener que hacer click previo para descubrir si hay o no horarios disponibles. La disponibilidad debe estar visible directamente en la página de propiedad.</p>
+
+  <div class="ux-spec" style="margin-bottom:1.5rem">
+    <div class="ux-spec-h"><span class="pill p-green">Principios de UX</span></div>
+    <div class="ux-spec-b">
+      <div class="ux-row"><div class="ux-k">Disponibilidad</div><div class="ux-v">Visible directamente en la ficha sin click previo. Si hay disponibilidad, el selector está expuesto. Si no hay, el CTA "Contactar" está expuesto. El estado es inmediatamente legible al llegar a la página.</div></div>
+      <div class="ux-row"><div class="ux-k">Contexto</div><div class="ux-v">El usuario no abandona la ficha en ningún paso del flujo. Todo ocurre en modales o microestados embebidos dentro de la misma página.</div></div>
+      <div class="ux-row"><div class="ux-k">CTA principal</div><div class="ux-v">Estado disabled hasta que día + horario estén seleccionados. El cambio de disabled → enabled debe ser visualmente claro y notorio.</div></div>
+      <div class="ux-row"><div class="ux-k">Visitas grupales</div><div class="ux-v">Horarios con citas existentes se muestran con indicación visual diferenciada y texto "Este horario ya tiene visitas agendadas — si continúas, la visita será grupal." El usuario puede continuar, pero debe entender el contexto antes del formulario.</div></div>
+      <div class="ux-row"><div class="ux-k">Mobile</div><div class="ux-v">El flujo completo debe funcionar en mobile con la misma lógica. Selector de horarios como chips apilables. Modal como pantalla completa en mobile.</div></div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Features — Flujo A: con disponibilidad configurada</div>
+  <ul class="fl-list">
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Disponibilidad visible en página sin click previo</div><div class="fl-desc">Cuando la propiedad tiene disponibilidad configurada, el selector de días se muestra directamente. Ningún día ni horario viene preseleccionado por defecto. El CTA principal está en estado disabled.</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Selector de días y horarios con tres estados</div><div class="fl-desc">Disponible (estado normal) · Disponible grupal (indicador visual diferenciado) · No disponible (deshabilitado). Al seleccionar un día, los horarios de ese día aparecen sin redirección ni scroll mayor.</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Formulario modal con 4 campos y T&C obligatorios</div><div class="fl-desc">Se abre sobre la ficha al hacer click en el CTA activo. Header del modal muestra el resumen de la selección. Campos: Nombre, Apellido, Correo, Teléfono con selector de código de área. Términos y condiciones explícitos (no opt-in opcional) con justificación de por qué se piden los datos: "para coordinar la visita, enviar el detalle del agendamiento y gestionar cambios".</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Validación OTP vía WhatsApp con sesión persistente</div><div class="fl-desc">Al enviar el formulario, se envía un código por WhatsApp al número ingresado. El usuario lo ingresa en el modal. Si ya validó en la misma sesión y navegador (dentro de las últimas 24h de actividad), este paso se omite y se muestra "Teléfono validado". Al expirar por inactividad: "Tu validación expiró por inactividad. Vuelve a confirmar tu teléfono."</div></div></li>
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">Pantalla de éxito (congrats) con contexto completo</div><div class="fl-desc">Reemplaza el modal al completarse el agendamiento. Muestra: ícono o estado visual de confirmación, nombre de la propiedad, dirección completa, día y hora de la visita, nombre del arrendatario. Incluye dos CTAs: <strong>"Ver más propiedades"</strong> (link al portal de Homie) y <strong>"Agregar al calendario"</strong> (genera evento en Google Calendar o iCal con los datos de la visita). El copy debe dejar claro si la visita quedó agendada o pendiente de confirmación por parte del equipo.</div></div></li>
+  </ul>
+
+  <div class="eyebrow">Features — Flujo B: sin disponibilidad</div>
+  <ul class="fl-list">
+    <li class="fl-item"><div class="fl-check fc-in">✓</div><div><div class="fl-name">CTA "Contactar" con mensaje predefinido a WhatsApp</div><div class="fl-desc">Cuando la propiedad no tiene disponibilidad o no está configurada, se muestra directamente el CTA "Contactar". Al hacer click, abre WhatsApp con mensaje predefinido: "Hola, estoy interesado/a en la propiedad [URL de la propiedad]. ¿Pueden darme más información?". El usuario no necesita escribir nada. El link de la propiedad da contexto al asesor.</div></div></li>
+  </ul>
+</div>
+
+<!-- ══════════════ CAPA 3 ══════════════ -->
+<div class="section" id="section-capa3">
+  <div class="chadr">
+    <div class="cnum" style="background:var(--purple-light);color:var(--purple)">3</div>
+    <div>
+      <div class="ctitle">Advisor Experience</div>
+      <div class="csub">App web mobile-first y task-first para quien realiza las visitas. Principio central: una acción principal por momento. Sienta las bases para un modelo futuro de showing de propiedades similar a Uber — cualquier persona habilitada por Homie podría mostrar propiedades dentro de una red operativa distribuida.</div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Qué es esta capa y por qué existe</div>
+  <p class="prose">El asesor es quien ejecuta la visita física. Hoy no tiene una herramienta digital que le dé el contexto necesario para llegar preparado, contactar al inquilino fácilmente y registrar el resultado de la visita. Esta capa resuelve eso con una interfaz diseñada específicamente para el contexto de campo: mobile-first, rápida y orientada a la tarea inmediata.</p>
+  <p class="prose">La experiencia del advisor no debe copiar la del admin general. Es una interfaz diferenciada por rol, con navegación simplificada y componentes pensados para uso con una sola mano, en la calle, posiblemente con poco tiempo disponible.</p>
+
+  <div class="eyebrow" style="margin-top:1.5rem">Scope de esta capa</div>
+  <div class="two-col" style="margin-bottom:1.5rem">
+    <div class="scope-box">
+      <div class="scope-box-title"><span style="color:var(--accent-2)">✓</span> Dentro de scope</div>
+      <ul class="scope-list">
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Home operativa con próxima acción y visitas del día</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Vista de agenda con navegación por fecha</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Vista de visitas activas y cerradas</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Card y detalle de visita con todos los bloques</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Bloque "Antes de salir" con datos de acceso al inmueble</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>CTAs rápidos obligatorios en cada visita</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Resolución visual de visitas grupales (card agrupada)</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Formulario post-visita obligatorio al marcar "Concretada"</li>
+      </ul>
+    </div>
+    <div class="scope-box">
+      <div class="scope-box-title"><span style="color:var(--ink-3)">—</span> Fuera de scope</div>
+      <ul class="scope-list">
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Check-in, contratos, pagos, garantías</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Analytics personales del asesor</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Optimización de rutas y mapas avanzados</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Chat interno entre asesores</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Reprogramación compleja desde la app del advisor</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Darwin.ia o comunicaciones automatizadas desde esta capa</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="eyebrow">Definición de negocio — UX / Diseño</div>
+  <p class="prose">La app debe responder siempre a estas cuatro preguntas: ¿qué tengo que hacer ahora? → ¿qué información necesito para hacerlo? → ¿qué acción rápida debo ejecutar? → ¿cómo cierro esta tarea? Una acción principal por momento. Contexto mínimo, ejecución máxima.</p>
+
+  <div class="ux-spec" style="margin-bottom:1.5rem">
+    <div class="ux-spec-h"><span class="pill p-purple">Principios de UX</span></div>
+    <div class="ux-spec-b">
+      <div class="ux-row"><div class="ux-k">Navegación</div><div class="ux-v">Bottom navigation (comportamiento nativo de app). Tres tabs: Home · Agenda · Visitas. No replicar la navegación del admin general.</div></div>
+      <div class="ux-row"><div class="ux-k">Tap targets</div><div class="ux-v">Mínimo 44px de altura en todos los elementos interactivos. Los CTAs principales deben ser prominentes y alcanzables con el pulgar.</div></div>
+      <div class="ux-row"><div class="ux-k">Formularios</div><div class="ux-v">Bottom sheet o modal compacto. El formulario post-visita es la única excepción que puede requerir más espacio (5 preguntas), pero debe sentirse corto y rápido.</div></div>
+      <div class="ux-row"><div class="ux-k">Visitas grupales (1:N)</div><div class="ux-v">Card agrupada por propiedad + hora. Dirección y horario una sola vez. Indicador de N personas. Expandible para ver cada contacto y sus CTAs individuales. Una sola ejecución física, múltiples contactos.</div></div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Pantallas del advisor</div>
+  <div class="ascreens">
+    <div class="ascreen">
+      <div class="ash"><div class="ash-t">Home</div><div class="ash-s">¿Qué hago ahora?</div></div>
+      <div class="asb">
+        <div class="asi"><span class="asi-dot" style="background:var(--warn)"></span>Próxima visita (card destacada)</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--info)"></span>Visitas del día (lista cronológica)</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--danger)"></span>Pendientes de cierre</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--ink-3)"></span>Empty state si no hay visitas</div>
+      </div>
+    </div>
+    <div class="ascreen">
+      <div class="ash"><div class="ash-t">Agenda</div><div class="ash-s">Visión temporal</div></div>
+      <div class="asb">
+        <div class="asi"><span class="asi-dot" style="background:var(--info)"></span>Selector de día (carrusel horizontal)</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--info)"></span>Listado cronológico del día seleccionado</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--info)"></span>Badges de estado en cada card</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--info)"></span>Acceso al detalle de cada visita</div>
+      </div>
+    </div>
+    <div class="ascreen">
+      <div class="ash"><div class="ash-t">Visitas</div><div class="ash-s">Por estado</div></div>
+      <div class="asb">
+        <div class="asi"><span class="asi-dot" style="background:var(--accent-2)"></span>Tab: Activas (pendientes + confirmadas)</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--ink-3)"></span>Tab: Cerradas (concretadas + canceladas)</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--warn)"></span>Sin confirmar destacadas visualmente</div>
+      </div>
+    </div>
+    <div class="ascreen">
+      <div class="ash"><div class="ash-t">Detalle de visita</div><div class="ash-s">Ejecutar la tarea</div></div>
+      <div class="asb">
+        <div class="asi"><span class="asi-dot" style="background:var(--info)"></span>Estado + fecha/hora</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--info)"></span>Dirección + CTA "Cómo llegar"</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--info)"></span>CTAs rápidos (WA, llamar, calendar)</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--warn)"></span>Bloque "Antes de salir" (acceso)</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--ink-3)"></span>Datos del contacto e inmueble</div>
+        <div class="asi"><span class="asi-dot" style="background:var(--accent-2)"></span>CTA "Marcar como realizada"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Features — CTAs rápidos obligatorios</div>
+  <div class="tw">
+    <table class="tbl">
+      <thead><tr><th>CTA</th><th>Acción</th><th>En card</th><th>En detalle</th><th>Notas</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Enviar WhatsApp</strong></td><td>Abre WA con el número del inquilino</td><td>✓ Primario</td><td>✓ Primario</td><td>wa.me/ link directo con número registrado en la cita</td></tr>
+        <tr><td><strong>Llamar</strong></td><td>Inicia llamada directa</td><td>✓ Secundario</td><td>✓ Secundario</td><td>tel:// link</td></tr>
+        <tr><td><strong>Cómo llegar</strong></td><td>Abre Google Maps con la dirección de la propiedad</td><td>✓ Secundario</td><td>✓ Prominente</td><td>maps.google.com/?q= con coordenadas si disponibles, dirección si no</td></tr>
+        <tr><td><strong>Google Calendar</strong></td><td>Agrega la visita al calendario del asesor</td><td>—</td><td>✓</td><td>Genera evento con dirección, hora, datos del contacto</td></tr>
+        <tr><td><strong>Confirmar preparación</strong></td><td>Marca que el asesor está listo para la visita</td><td>—</td><td>✓</td><td>Actualiza estado interno. Visible para operaciones en el backoffice.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="eyebrow">Features — Bloque "Antes de salir" (datos de acceso)</div>
+  <p class="prose" style="margin-bottom:1rem">Dentro del detalle de la visita debe existir un bloque específico de datos de acceso a la propiedad. Este bloque muestra información operativa crítica para ejecutar correctamente la visita. Los datos provienen del REM a nivel propiedad.</p>
+  <div class="ux-spec" style="margin-bottom:1.5rem">
+    <div class="ux-spec-h"><span class="pill p-dark">Especificación del bloque</span></div>
+    <div class="ux-spec-b">
+      <div class="ux-row"><div class="ux-k">Contenido mínimo</div><div class="ux-v">Status llaves · Código de candado · Clave de candado. Preparado para agregar más campos de acceso en iteraciones futuras.</div></div>
+      <div class="ux-row"><div class="ux-k">Dato faltante</div><div class="ux-v">Si algún dato no existe, mostrar explícitamente "Sin información" — nunca dejar vacío de forma ambigua. El asesor debe saber que falta, no asumir que está en otro lugar.</div></div>
+      <div class="ux-row"><div class="ux-k">Tratamiento visual</div><div class="ux-v">Section card con fondo diferenciado del resto del detalle. Alta visibilidad. Label + value pairs. Status chip para el estado de llaves. Fácil lectura en mobile con poca luz.</div></div>
+      <div class="ux-row"><div class="ux-k">Observaciones</div><div class="ux-v">Campo de texto para observaciones del inmueble: acceso especial, mascotas, restricciones. Recordatorio de llegada anticipada si aplica.</div></div>
+      <div class="ux-row"><div class="ux-k">Iteración futura</div><div class="ux-v">Botón "Copiar" para código y clave — no obligatorio en esta fase pero la estructura del componente debe soportarlo.</div></div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Features — Formulario post-visita obligatorio</div>
+  <p class="prose" style="margin-bottom:1rem">Cuando el asesor marca una visita como Concretada, el sistema exige completar un formulario obligatorio antes de cerrar definitivamente la tarea. La acción "Marcar como realizada" no cierra la visita directamente — abre el formulario como paso intermedio. Sin completarlo, la cita no pasa a estado Concretada.</p>
+  <div class="callout purple">
+    <div class="ci">📋</div>
+    <div>
+      <div class="ct">Implementación recomendada</div>
+      <div class="cb">Bottom sheet o modal compacto. Componentes táctiles: radio groups, segmented controls. Textarea solo para "Otra" en objeción principal. Debe resolverse en menos de 30 segundos. Al guardar: la cita pasa a Concretada y se muestra confirmación visual inmediata.</div>
+    </div>
+  </div>
+  <div class="tw">
+    <table class="tbl">
+      <thead><tr><th>#</th><th>Pregunta</th><th>Opciones</th><th>Componente</th></tr></thead>
+      <tbody>
+        <tr><td style="font-family:var(--mono);color:var(--ink-3)">1</td><td>¿El prospecto mostró interés real?</td><td>Sí, va a aplicar · Interesado pero con dudas · No le interesó</td><td>Radio group</td></tr>
+        <tr><td style="font-family:var(--mono);color:var(--ink-3)">2</td><td>¿Inició la postulación en la cita?</td><td>Sí · No, le envié el link · No quiso</td><td>Radio group</td></tr>
+        <tr><td style="font-family:var(--mono);color:var(--ink-3)">3</td><td>¿El precio está acorde al mercado?</td><td>Competitivo · Un poco alto · Muy por encima</td><td>Segmented control</td></tr>
+        <tr><td style="font-family:var(--mono);color:var(--ink-3)">4</td><td>¿Principal objeción o duda?</td><td>Precio · Ubicación · Estado del inmueble · Requisitos · Otra (campo libre)</td><td>Radio group + textarea</td></tr>
+        <tr><td style="font-family:var(--mono);color:var(--ink-3)">5</td><td>¿Se mencionó alguna promoción vigente?</td><td>Sí · No · No hay promoción activa</td><td>Radio group</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════ CAPA 4 ══════════════ -->
+<div class="section" id="section-capa4">
+  <div class="chadr">
+    <div class="cnum" style="background:var(--warn-light);color:var(--warn)">4</div>
+    <div>
+      <div class="ctitle">Communications · Darwin.ia</div>
+      <div class="csub">Flujo de comunicaciones al inquilino durante todo el ciclo de la cita. Motor: Darwin.ia como orquestador conversacional. Canal principal: WhatsApp. Escalamiento automático a humano ante cualquier interacción fuera del flujo previsto.</div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Mapa de canales</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:1.5rem;">
+    <div style="padding:14px 18px;background:var(--bg);border-bottom:1px solid var(--border);">
+      <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px">Canales de mensajería según escenario</div>
+      <div style="font-size:12px;color:var(--ink-2)">Dos canales distintos según el objetivo del mensaje: Darwin para automatización del flujo de confirmación, Wapisimo para el seguimiento personal post-visita.</div>
+    </div>
+    <div style="padding:16px 18px;">
+
+      <!-- DARWIN CHANNEL -->
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:8px;background:#E8F5EE;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🤖</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--ink)">Darwin.ia — número automatizado</div>
+            <div style="font-size:12px;color:var(--ink-2)">Todos los mensajes del flujo de confirmación y notificaciones del sistema</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;">
+          <div style="background:var(--bg);border-radius:8px;padding:10px 12px;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">T+0</div>
+            <div style="font-size:12px;color:var(--ink);font-weight:500">Confirmación de visita</div>
+            <div style="font-size:11px;color:var(--ink-2);margin-top:2px">Al arrendatario</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:10px 12px;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">T−24h</div>
+            <div style="font-size:12px;color:var(--ink);font-weight:500">Confirmación activa</div>
+            <div style="font-size:11px;color:var(--ink-2);margin-top:2px">Al arrendatario</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:10px 12px;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">T−2h</div>
+            <div style="font-size:12px;color:var(--ink);font-weight:500">Recordatorio final</div>
+            <div style="font-size:11px;color:var(--ink-2);margin-top:2px">Al arrendatario (solo confirmados)</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:10px 12px;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">T−1h</div>
+            <div style="font-size:12px;color:var(--ink);font-weight:500">Cancelación automática</div>
+            <div style="font-size:11px;color:var(--ink-2);margin-top:2px">Al arrendatario (sin confirmar)</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:10px 12px;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">Cancelaciones</div>
+            <div style="font-size:12px;color:var(--ink);font-weight:500">Notif. al asesor</div>
+            <div style="font-size:11px;color:var(--ink-2);margin-top:2px">Darwin → WhatsApp del asesor</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:10px 12px;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">Reserva inmueble</div>
+            <div style="font-size:12px;color:var(--ink);font-weight:500">Notif. inmueble apartado</div>
+            <div style="font-size:11px;color:var(--ink-2);margin-top:2px">Al arrendatario + al asesor</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin:4px 0 16px;"></div>
+
+      <!-- WAPISIMO CHANNEL -->
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:8px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">👤</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--ink)">Wapisimo — número personal del asesor</div>
+            <div style="font-size:12px;color:var(--ink-2)">Solo el mensaje de cierre post-visita, para habilitar seguimiento humano directo</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;">
+          <div style="background:var(--accent-light);border-radius:8px;padding:10px 12px;border:1px solid var(--accent-mid);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px">T+15min</div>
+            <div style="font-size:12px;color:var(--ink);font-weight:500">Cierre y siguiente paso</div>
+            <div style="font-size:11px;color:var(--accent-2);margin-top:2px">Al arrendatario · desde el número del asesor</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;padding:10px 12px;background:var(--bg);border-radius:8px;border-left:3px solid var(--accent-mid);">
+          <div style="font-size:12px;color:var(--ink-2);line-height:1.55">El asesor escanea un QR en Wapisimo (similar a WhatsApp Web) para vincular su número. El sistema usa el endpoint generado para enviar el mensaje de cierre desde ese número. El objetivo es que el arrendatario pueda responder directamente al asesor que realizó la visita — y que el asesor pueda darle seguimiento desde su propio WhatsApp.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="eyebrow">Qué es esta capa y por qué existe</div>
+  <p class="prose">Sin comunicaciones estructuradas, el no-show en visitas inmobiliarias oscila entre 30% y 50%. Con un protocolo de tres touchpoints — confirmación inmediata, recordatorio con confirmación activa 24h antes y recordatorio final 2h antes — la industria reduce ese número a 8–15%.</p>
+  <p class="prose">Esta capa implementa ese protocolo usando Darwin.ia como motor de envío y orquestación, con WhatsApp como canal principal por su alta tasa de apertura (92–98%) en LATAM. El agente enviará mensajes estructurados del flujo previsto y escalará a un asesor humano ante cualquier respuesta que salga de ese flujo.</p>
+  <p class="prose">La capa se divide en dos componentes: <strong>Componente A</strong> (flujo de aviso y confirmación para citas ya creadas) y <strong>Componente B</strong> (agendamiento desde portales — gestión de consultas entrantes). Este PRD desarrolla principalmente el Componente A.</p>
+
+  <div class="eyebrow" style="margin-top:1.5rem">Scope de esta capa</div>
+  <div class="two-col" style="margin-bottom:1.5rem">
+    <div class="scope-box">
+      <div class="scope-box-title"><span style="color:var(--accent-2)">✓</span> Dentro de scope</div>
+      <ul class="scope-list">
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Confirmación inmediata post-OTP (T+0)</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Recordatorio con confirmación activa 24h antes</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Recordatorio final 2h antes (solo a citas confirmadas)</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Cancelación automática a T−1h si no hay confirmación, con notificación al arrendatario</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Notificación al arrendatario cuando el inmueble es reservado</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Notificación al equipo Booking ante cualquier cancelación de cita</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Cancelación masiva de citas al reservarse un inmueble</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Mensaje de cierre post-visita vía Wapisimo (número del líder de Booking)</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Mensaje post-visita de cierre y siguiente paso</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Registro de no-show en backoffice (resultado de la visita)</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Escalamiento automático a humano con mensaje de puente</li>
+        <li class="scope-item"><div class="scope-dot sd-in">✓</div>Ciclo completo al reprogramar (T+0 se dispara nuevamente)</li>
+      </ul>
+    </div>
+    <div class="scope-box">
+      <div class="scope-box-title"><span style="color:var(--ink-3)">—</span> Fuera de scope</div>
+      <ul class="scope-list">
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Componente B — agendamiento desde portales (documentar por separado)</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Lógica conversacional avanzada de Darwin.ia</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>Canal email como principal (complementario solo)</li>
+        <li class="scope-item"><div class="scope-dot sd-out">—</div>SMS como canal (redundante con WhatsApp en LATAM)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FLUJO -->
+  <div class="eyebrow">Flujo completo de comunicaciones</div>
+  <div class="flow">
+    <div class="fnode">
+      <div class="fspine"><div class="fdot key">T+0</div><div class="fline"></div></div>
+      <div class="fcontent">
+        <div class="ftime">Inmediato · OTP confirmado</div>
+        <div class="ftitle">Confirmación completa de visita agendada</div>
+        <div class="fdesc">Se dispara automáticamente al completar el OTP. Todos los datos de la visita. CTA secundario: Reprogramar (URL marketplace con disponibilidad actualizada). Add to calendar. No hay botón de cancelar directo — la cancelación ocurre desde la URL de reprogramación si el usuario decide no reagendar.</div>
+        <div class="mbubble">Hola <strong>[Nombre]</strong>, tu visita quedó agendada.
+
+<strong>[Propiedad]</strong>
+📍 [Dirección completa]
+📅 [Día] a las [Hora]
+🧑 Tu asesor: [Nombre]
+
+Si necesitas cambiar el horario: [link]</div>
+        <div class="mbtns"><span class="mbtn secondary">+ Agregar al calendario</span><span class="mbtn">Reprogramar</span></div>
+        <div class="ftags" style="margin-top:10px"><span class="ft ft-g">WhatsApp + Email</span><span class="ft ft-d">Automático · Darwin.ia</span><span class="ft ft-d">Estado → Pendiente</span></div>
+      </div>
+    </div>
+
+    <div class="fnode">
+      <div class="fspine"><div class="fdot warn">−24h</div><div class="fline"></div></div>
+      <div class="fcontent">
+        <div class="ftime">24 horas antes · siempre · el touchpoint más importante</div>
+        <div class="ftitle">Recordatorio con confirmación activa</div>
+        <div class="fdesc">Solicita respuesta explícita. El usuario que responde "Sí" reduce su probabilidad de no-show hasta 38% vs quien solo recibe información (behavioral economics — compromiso explícito). Los CTAs son siempre Confirmar y Reprogramar — nunca Cancelar.</div>
+        <div class="mbubble">Hola <strong>[Nombre]</strong>, mañana es tu visita a <strong>[Propiedad]</strong> a las <strong>[Hora]</strong>.
+
+¿Confirmas tu asistencia?</div>
+        <div class="mbtns"><span class="mbtn p">Sí, confirmo asistencia</span><span class="mbtn">Necesito reprogramar</span></div>
+        <div class="bgrid">
+          <div class="bc green"><div class="bch" style="color:var(--accent)">✓ Confirma</div><div class="bcb">Darwin.ia responde: "¡Listo, ahí te esperamos!" Solo acuse de recibo. Estado → <strong>Confirmada</strong>. T−2h será solo informativo — sin volver a preguntar.</div></div>
+          <div class="bc warn"><div class="bch" style="color:var(--warn)">→ Reprogramar</div><div class="bcb">Envía link URL marketplace. Al reagendar → cita anterior cancelada → <strong>T+0 se dispara con los nuevos datos.</strong> Ciclo completo de nuevo.</div></div>
+          <div class="bc"><div class="bch" style="color:var(--ink-2)">— Sin respuesta (4h)</div><div class="bcb">Estado → Sin confirmar. T−2h incluirá CTA activo. Alerta interna al asesor a T−30min.</div></div>
+          <div class="bc danger"><div class="bch" style="color:var(--danger)">💬 Texto libre</div><div class="bcb">Mensaje fuera del flujo previsto. <strong>Escalamiento inmediato a humano.</strong> Mensaje de puente al usuario.</div></div>
+        </div>
+        <div class="ftags" style="margin-top:10px"><span class="ft ft-w">WhatsApp solo</span><span class="ft ft-w">Mayor impacto en reducción de no-show</span></div>
+      </div>
+    </div>
+
+    <div class="fnode">
+      <div class="fspine"><div class="fdot key">−2h</div><div class="fline"></div></div>
+      <div class="fcontent">
+        <div class="ftime">2 horas antes · solo para citas confirmadas</div>
+        <div class="ftitle">Recordatorio final — solo a arrendatarios que confirmaron</div>
+        <div class="fdesc">A 2 horas de la visita el sistema evalúa el estado. Solo los arrendatarios con estado <strong>Confirmada</strong> reciben el mensaje informativo. Los arrendatarios sin confirmar no reciben nada aquí — el sistema espera hasta T−1h para cancelar automáticamente.</div>
+        <div class="bgrid">
+          <div class="bc green">
+            <div class="bch" style="color:var(--accent)">Estado: Confirmada</div>
+            <div class="bcb" style="margin-bottom:8px">Solo información práctica. Sin preguntar nuevamente.</div>
+            <div class="mbubble" style="font-size:12px;max-width:100%">Tu visita a <strong>[Propiedad]</strong> es hoy a las <strong>[Hora]</strong>.
+📍 Cómo llegar: [Link Maps]
+🧑 [Asesor] · [Tel]</div>
+          </div>
+          <div class="bc" style="border-color:var(--border-strong);background:var(--bg)">
+            <div class="bch" style="color:var(--ink-2)">Estado: Sin confirmar</div>
+            <div class="bcb">Sin mensaje. El sistema espera hasta T−1h. Si no confirma, la cita se <strong>cancela automáticamente</strong> y se envía el aviso de cancelación.</div>
+          </div>
+        </div>
+        <div class="ftags" style="margin-top:10px"><span class="ft ft-g">WhatsApp · solo a confirmados</span><span class="ft ft-d">Sin doble confirmación</span></div>
+      </div>
+    </div>
+
+    <div class="fnode">
+      <div class="fspine"><div class="fdot warn">−1h</div><div class="fline"></div></div>
+      <div class="fcontent">
+        <div class="ftime">1 hora antes · solo para citas sin confirmar</div>
+        <div class="ftitle">Cancelación automática por falta de confirmación</div>
+        <div class="fdesc">Si el arrendatario no confirmó su asistencia antes de T−1h, la cita se cancela automáticamente. El estado cambia a <strong>Cancelada</strong> con motivo "sin confirmación del arrendatario", el slot queda disponible para otros y se notifica al asesor.</div>
+        <div class="mbubble">Hola <strong>[Nombre]</strong>, tu visita a <strong>[Propiedad]</strong> de hoy fue cancelada porque no pudimos confirmar tu asistencia.
+
+Si aún quieres visitar esta propiedad, puedes reagendar aquí: [link]</div>
+        <div class="mbtns"><span class="mbtn p">Reagendar visita</span></div>
+        <div style="margin-top:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">Impacto en el sistema</div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;gap:8px;font-size:12px;"><span style="color:var(--accent-mid)">→</span><span style="color:var(--ink-2)">Estado: <strong>Cancelada — motivo: sin confirmación del arrendatario</strong></span></div>
+            <div style="display:flex;gap:8px;font-size:12px;"><span style="color:var(--accent-mid)">→</span><span style="color:var(--ink-2)">Slot liberado y disponible para nuevas reservas</span></div>
+            <div style="display:flex;gap:8px;font-size:12px;"><span style="color:var(--accent-mid)">→</span><span style="color:var(--ink-2)">Alerta al asesor: "Cita cancelada automáticamente por falta de confirmación"</span></div>
+            <div style="display:flex;gap:8px;font-size:12px;"><span style="color:var(--accent-mid)">→</span><span style="color:var(--ink-2)">Si reagenda → T+0 se dispara con los nuevos datos</span></div>
+          </div>
+        </div>
+        <div class="ftags" style="margin-top:10px"><span class="ft ft-d">Automático</span><span class="ft ft-w">Estado → Cancelada (sin confirmación)</span></div>
+      </div>
+    </div>
+
+    <div class="fnode">
+      <div class="fspine"><div class="fdot green">+15'</div><div class="fline dash"></div></div>
+      <div class="fcontent">
+        <div class="ftime">15 minutos post-visita · si asesor registra "Concretada"</div>
+        <div class="ftitle">Cierre y siguiente paso</div>
+        <div class="fdesc">Se dispara automáticamente cuando el asesor marca la visita como Concretada y completa el formulario post-visita. Darwin envía el mensaje al usuario y registra la respuesta en el backoffice. Si el usuario responde con intención de renta, el sistema escala al asesor humano y actualiza el estado del lead.</div>
+        <div class="mbubble">Hola <strong>[Nombre]</strong>, ¿qué te pareció la visita a <strong>[Propiedad]</strong>?
+
+Si te interesó y quieres saber cómo arrendarla, escríbenos directamente.
+
+Si prefieres ver otras opciones similares: [link]</div>
+        <div class="mbtns"><span class="mbtn p">Me interesó, quiero arrendar</span><span class="mbtn">Ver más opciones</span></div>
+        <div class="ftags" style="margin-top:10px"><span class="ft ft-g">WhatsApp solo</span><span class="ft ft-g">Escalar en &lt;30 min si responde con intención</span></div>
+
+        <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+          <div style="padding:11px 14px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+            <span class="pill p-purple">Backoffice</span>
+            <span style="font-size:13px;font-weight:600;color:var(--ink)">Qué registra el sistema</span>
+          </div>
+          <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+            <div style="background:var(--warn-light);border-radius:8px;padding:10px 12px;border-left:3px solid var(--warn);">
+              <div style="font-size:12px;color:var(--ink-2);line-height:1.55">Como el mensaje de cierre se envía desde el número personal del asesor vía Wapisimo, <strong>no hay trazabilidad de lo que ocurre después del envío</strong>. El sistema solo registra que el mensaje fue enviado. La conversación posterior ocurre directamente entre el asesor y el arrendatario en WhatsApp, fuera del alcance del sistema.</div>
+            </div>
+            <div style="display:flex;gap:10px;font-size:13px;">
+              <div style="min-width:140px;color:var(--ink-3);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.04em;padding-top:2px;flex-shrink:0">Lo que sí registra</div>
+              <div style="color:var(--ink);line-height:1.6;flex:1">Fecha y hora del envío del mensaje de cierre, confirmación de que el endpoint de Wapisimo respondió correctamente, y el estado de la cita como Concretada.</div>
+            </div>
+            <div style="display:flex;gap:10px;font-size:13px;">
+              <div style="min-width:140px;color:var(--ink-3);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.04em;padding-top:2px;flex-shrink:0">Lo que no registra</div>
+              <div style="color:var(--ink);line-height:1.6;flex:1">Si el arrendatario respondió, qué respondió, ni el contenido de la conversación posterior. El seguimiento queda en manos del asesor.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;background:var(--warn-light);border:1px solid #F5C686;border-radius:10px;overflow:hidden;">
+          <div style="padding:11px 14px;border-bottom:1px solid #F5C686;display:flex;align-items:center;gap:8px;">
+            <span class="pill p-warn">HubSpot</span>
+            <span style="font-size:13px;font-weight:600;color:var(--ink)">Integración con HubSpot — definiciones pendientes</span>
+          </div>
+          <div style="padding:14px 16px;">
+            <p style="font-size:13px;color:var(--ink-2);line-height:1.65;margin-bottom:12px">Cuando el usuario confirma interés de renta, parte de esa información puede necesitar actualizarse en HubSpot (stage del deal, actividad del contacto, resultado de la visita). La definición exacta de qué viaja a HubSpot y en qué dirección está pendiente de alineación con negocio.</p>
+            <div style="background:var(--surface);border:1px solid #F5C686;border-radius:8px;padding:12px 14px;">
+              <div style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:10px;">Preguntas abiertas a cerrar con negocio</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;gap:8px;font-size:13px;"><span style="color:var(--warn);font-weight:600;flex-shrink:0;width:14px">?</span><span style="color:var(--ink-2);line-height:1.5">¿Debe actualizarse el stage del deal en HubSpot cuando el usuario responde "Me interesó, quiero arrendar"? ¿A qué stage?</span></div>
+                <div style="display:flex;gap:8px;font-size:13px;"><span style="color:var(--warn);font-weight:600;flex-shrink:0;width:14px">?</span><span style="color:var(--ink-2);line-height:1.5">¿Deben registrarse las respuestas del formulario post-visita del asesor (interés, objeción, precio) como actividad o notas en el deal de HubSpot?</span></div>
+                <div style="display:flex;gap:8px;font-size:13px;"><span style="color:var(--warn);font-weight:600;flex-shrink:0;width:14px">?</span><span style="color:var(--ink-2);line-height:1.5">¿El no-show debe registrarse como actividad en HubSpot para seguimiento comercial posterior?</span></div>
+                <div style="display:flex;gap:8px;font-size:13px;"><span style="color:var(--warn);font-weight:600;flex-shrink:0;width:14px">?</span><span style="color:var(--ink-2);line-height:1.5">¿Las confirmaciones de visita (T+0, T−24h) deben generar actividad en HubSpot o solo importa el resultado final?</span></div>
+                <div style="display:flex;gap:8px;font-size:13px;"><span style="color:var(--warn);font-weight:600;flex-shrink:0;width:14px">?</span><span style="color:var(--ink-2);line-height:1.5">¿Quién es el sistema de verdad para el dato de la visita: REM/Backoffice o HubSpot? Definir dirección y ownership del sync.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+
+  
+  <div class="divider"></div>
+  <div class="eyebrow">Notificaciones automáticas del sistema</div>
+  <p class="prose" style="margin-bottom:1rem">Además del flujo de confirmación de visitas, el sistema genera notificaciones automáticas ante eventos específicos del ciclo de la cita. Se distinguen dos tipos de destinatario: el <strong>arrendatario</strong> (usuario externo) y el equipo de <strong>Booking</strong> (equipo interno).</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;">
+      <div style="padding:11px 16px;background:var(--bg);border-bottom:1px solid var(--border);">
+        <div class="eyebrow" style="margin-bottom:0">Notificaciones al arrendatario</div>
+      </div>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:12px;">
+
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">Cita cancelada por falta de confirmación (T−1h)</div>
+          <div style="font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:8px">Se envía cuando el sistema cancela automáticamente a T−1h. Incluye siempre un link para reagendar.</div>
+          <div class="mbubble" style="font-size:12px;max-width:100%">Hola <strong>[Nombre]</strong>, tu visita a <strong>[Propiedad]</strong> de hoy fue cancelada porque no pudimos confirmar tu asistencia.
+
+Si aún quieres visitar esta propiedad, puedes reagendar aquí: [link]</div>
+          <div class="mbtns"><span class="mbtn p" style="font-size:11px">Reagendar visita</span></div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">Cita cancelada por el arrendatario (vía reprogramación)</div>
+          <div style="font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:8px">Cuando el arrendatario elige "Cancelar visita" desde la URL de reprogramación en lugar de elegir un nuevo horario. El slot queda liberado.</div>
+          <div class="mbubble" style="font-size:12px;max-width:100%">Hola <strong>[Nombre]</strong>, tu visita a <strong>[Propiedad]</strong> fue cancelada.
+
+Si cambias de opinión, puedes agendar una nueva visita aquí: [link portal]</div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">Inmueble reservado — propiedad no disponible</div>
+          <div style="font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:8px">Cuando un inmueble es reservado (apartado), todas las visitas pendientes a esa propiedad se cancelan automáticamente. Se notifica a cada arrendatario con visita activa. No se pueden sugerir propiedades similares automáticamente en esta fase.</div>
+          <div class="mbubble" style="font-size:12px;max-width:100%">Hola <strong>[Nombre]</strong>, te informamos que el departamento <strong>[Propiedad]</strong> que ibas a visitar ya fue reservado.
+
+Puedes explorar otras propiedades disponibles en nuestro portal: [link portal Homie]</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;">
+      <div style="padding:11px 16px;background:var(--bg);border-bottom:1px solid var(--border);">
+        <div class="eyebrow" style="margin-bottom:0;color:var(--accent-2)">Notificaciones al asesor vía WhatsApp · Darwin</div>
+      </div>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:12px;">
+
+        <div style="background:var(--bg);border-radius:8px;padding:10px 12px;border-left:3px solid var(--border-strong);">
+          <div style="font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px">Canal</div>
+          <div style="font-size:12px;color:var(--ink-2)">Estas notificaciones se envían por <strong>Darwin de forma automática</strong> al WhatsApp del asesor. No utilizan Wapisimo — son mensajes informativos del sistema que no requieren seguimiento conversacional.</div>
+        </div>
+
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">Cita cancelada por el arrendatario</div>
+          <div style="font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:6px">El asesor recibe un mensaje cuando un arrendatario cancela su visita (vía URL de reprogramación sin reagendar). Estado interno de la cita: <strong>cancelled_by_lead</strong>.</div>
+          <div class="mbubble" style="font-size:12px;max-width:100%">Hola <strong>[Asesor]</strong>, el arrendatario <strong>[Nombre]</strong> canceló su visita a <strong>[Propiedad]</strong> del [Día] a las [Hora].</div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">Cita cancelada automáticamente por falta de confirmación</div>
+          <div style="font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:6px">El asesor recibe un mensaje cuando el sistema cancela automáticamente a T−1h. Estado interno: <strong>cancelled_no_confirmation</strong>.</div>
+          <div class="mbubble" style="font-size:12px;max-width:100%">Hola <strong>[Asesor]</strong>, la visita de <strong>[Nombre]</strong> a <strong>[Propiedad]</strong> de hoy a las [Hora] fue cancelada automáticamente porque el arrendatario no confirmó su asistencia.</div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">Inmueble reservado — cancelación masiva de visitas</div>
+          <div style="font-size:12px;color:var(--ink-2);line-height:1.55;margin-bottom:6px">El asesor recibe un mensaje por cada visita cancelada al reservarse el inmueble. Estado interno: <strong>cancelled_property_reserved</strong>.</div>
+          <div class="mbubble" style="font-size:12px;max-width:100%">Hola <strong>[Asesor]</strong>, el departamento <strong>[Propiedad]</strong> fue reservado. La visita de <strong>[Nombre]</strong> programada para el [Día] a las [Hora] fue cancelada automáticamente.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ci">△</div>
+    <div>
+      <div class="ct">Estados internos de cancelación — diferenciación importante</div>
+      <div class="cb">El sistema distingue tres motivos de cancelación: <strong>cancelled_by_lead</strong> (el arrendatario canceló activamente), <strong>cancelled_no_confirmation</strong> (cancelación automática a T−1h por falta de confirmación) y <strong>cancelled_property_reserved</strong> (el inmueble fue reservado). En los tres casos, el asesor recibe una notificación directa en su WhatsApp enviada por Darwin de forma automática.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="eyebrow">Wapisimo — mensaje de cierre desde el número del asesor</div>
+  <p class="prose" style="margin-bottom:1rem">Wapisimo se usa exclusivamente para el mensaje de Cierre y siguiente paso (T+15min post-visita). Su objetivo es que ese mensaje salga del número personal del asesor que realizó la visita, habilitando un seguimiento conversacional directo entre el asesor y el arrendatario.</p>
+  <div class="ux-spec" style="margin-bottom:1.5rem;">
+    <div class="ux-spec-h"><span class="pill p-green">Caso 1</span><span style="font-size:13px;font-weight:600;margin-left:8px">Cierre y siguiente paso — desde el número del asesor</span></div>
+    <div class="ux-spec-b">
+      <div class="ux-row"><div class="ux-k">Qué es</div><div class="ux-v">El mensaje de cierre post-visita (T+15min) se envía desde el número personal de WhatsApp del asesor que realizó la visita, no desde el número automatizado del sistema.</div></div>
+      <div class="ux-row"><div class="ux-k">Por qué</div><div class="ux-v">Si el mensaje llega desde un número desconocido o automatizado, el arrendatario probablemente no lo responde ni le da seguimiento, especialmente si el asesor está en la calle y no puede reaccionar a tiempo. Que el mensaje salga del número del asesor le permite al arrendatario responder directamente y al asesor continuar la conversación de forma natural desde su propio WhatsApp.</div></div>
+      <div class="ux-row"><div class="ux-k">Configuración</div><div class="ux-v">Cada asesor escanea un QR en Wapisimo (similar a WhatsApp Web) para vincular su número personal. Wapisimo genera un endpoint asociado a ese número. Cuando el sistema detecta que una visita fue marcada como Concretada, llama al endpoint del asesor asignado para enviar el mensaje de cierre.</div></div>
+      <div class="ux-row"><div class="ux-k">Dependencia operativa</div><div class="ux-v">El número del asesor debe estar vinculado y activo en Wapisimo. Si se desconecta (cambio de dispositivo, cierre de sesión), el mensaje de cierre no se enviará hasta que el asesor lo vincule nuevamente.</div></div>
+      <div class="ux-row"><div class="ux-k">Alcance</div><div class="ux-v">Solo aplica al mensaje de Cierre y siguiente paso. Todos los demás mensajes del flujo (confirmaciones, recordatorios, notificaciones) se envían desde el número automatizado de Darwin.</div></div>
+    </div>
+  </div>
+  <div class="callout dark" style="margin-bottom:1.5rem;">
+    <div class="ci">ℹ</div>
+    <div>
+      <div class="ct">Wapisimo aplica solo al mensaje de Cierre y siguiente paso</div>
+      <div class="cb">Las notificaciones de cancelación al asesor se envían por Darwin automáticamente — no usan Wapisimo. Wapisimo se reserva exclusivamente para el mensaje de cierre post-visita, donde es importante que el mensaje salga del número personal del asesor para habilitar el seguimiento directo con el arrendatario.</div>
+    </div>
+  </div>
+
+<!-- ESCALAMIENTO -->
+  <div class="divider"></div>
+  <div class="eyebrow">Protocolo de escalamiento a humano</div>
+  <p class="prose" style="margin-bottom:1rem">Darwin.ia solo envía mensajes estructurados del flujo. Cualquier interacción fuera de los botones previstos activa el escalamiento. El usuario nunca debe sentir que está atascado con un bot.</p>
+  <div class="ei"><div class="ei-icon" style="background:var(--danger-light)">💬</div><div><div class="ei-t">Texto libre fuera del flujo</div><div class="ei-d">Cualquier mensaje que no sea respuesta a un botón previsto. Preguntas sobre precio, documentos, dirección, mascotas, etc.</div><div class="ei-a" style="background:var(--danger-light);color:var(--danger)">"En un momento te comunicamos con un asesor que puede ayudarte." · Notifica al asesor con conversación completa.</div></div></div>
+  <div class="ei"><div class="ei-icon" style="background:var(--danger-light)">🙋</div><div><div class="ei-t">Solicitud de hablar con una persona</div><div class="ei-d">"Quiero hablar con alguien", "¿hay un humano?", "¿me pueden llamar?", expresión de frustración.</div><div class="ei-a" style="background:var(--danger-light);color:var(--danger)">Escalamiento inmediato de alta prioridad. Alerta prioritaria al asesor.</div></div></div>
+  <div class="ei"><div class="ei-icon" style="background:var(--warn-light)">🔄</div><div><div class="ei-t">Segundo intento de reprogramación fallido</div><div class="ei-d">Usuario intentó reprogramar pero la URL no tiene disponibilidad o falló técnicamente y vuelve a escribir.</div><div class="ei-a" style="background:var(--warn-light);color:var(--warn)">Escalamiento con contexto "sin disponibilidad para reprogramar". Asesor busca horario alternativo manualmente.</div></div></div>
+  <div class="ei"><div class="ei-icon" style="background:var(--accent-light)">✅</div><div><div class="ei-t">Intención de renta post-visita</div><div class="ei-d">"Me interesó, quiero arrendar" o variante de intención de avanzar en el proceso.</div><div class="ei-a" style="background:var(--accent-light);color:var(--accent)">Escalamiento prioritario. El asesor debe contactar en menos de 30 minutos.</div></div></div>
+
+  <div class="callout info" style="margin-top:1.5rem">
+    <div class="ci">◎</div>
+    <div>
+      <div class="ct">Mensaje de puente obligatorio al escalar</div>
+      <div class="cb">Antes de pasar el hilo, Darwin.ia siempre envía: <em>"En breve te contactará un asesor de Homie que puede ayudarte con eso."</em> El usuario nunca queda en silencio esperando sin saber qué pasa.</div>
+    </div>
+  </div>
+
+  <!-- TABLA DECISION -->
+  <div class="divider"></div>
+  <div class="eyebrow">Tabla de decisiones · lógica condicional completa</div>
+  <div class="tw">
+    <table class="tbl">
+      <thead><tr><th>Momento</th><th>Estado entrada</th><th>Condición</th><th>Acción Darwin.ia</th><th>Estado resultado</th></tr></thead>
+      <tbody>
+        <tr><td><strong>T+0</strong></td><td><span class="pill p-dark">Agendado</span></td><td>OTP completado</td><td>Confirmación + link reprogramar + add to calendar</td><td><span class="pill p-warn">Pendiente</span></td></tr>
+        <tr><td>T−24h</td><td><span class="pill p-warn">Pendiente</span></td><td>Visita al día siguiente</td><td>"¿Confirmas tu asistencia?" + botones</td><td>Espera respuesta</td></tr>
+        <tr><td>→ Confirma</td><td>—</td><td>"Sí, confirmo asistencia"</td><td>Acuse: "¡Listo, ahí te esperamos!"</td><td><span class="pill p-green">Confirmada</span></td></tr>
+        <tr><td>→ Reprograma</td><td>—</td><td>"Cambiar horario"</td><td>Link URL disponibilidad. Al reagendar: cancela anterior. <strong>T+0 se dispara con nuevos datos.</strong></td><td><span class="pill p-info">Nuevo ciclo T+0</span></td></tr>
+        <tr><td>→ Sin respuesta</td><td>—</td><td>Sin respuesta en 4h</td><td>Mantiene estado. T−2h con CTA activo.</td><td><span class="pill p-warn">Sin confirmar</span></td></tr>
+        <tr><td><strong>T−2h · confirmado</strong></td><td><span class="pill p-green">Confirmada</span></td><td>Ya confirmó</td><td>Mensaje informativo: hora + link Maps + asesor. Sin preguntar de nuevo.</td><td><span class="pill p-green">Confirmada</span></td></tr>
+        <tr><td><strong>T−2h · sin confirmar</strong></td><td><span class="pill p-warn">Sin confirmar</span></td><td>No respondió en T−24h</td><td>Sin mensaje. El sistema espera hasta T−1h.</td><td><span class="pill p-warn">Sin confirmar</span></td></tr>
+        <tr><td><strong>T−1h</strong></td><td><span class="pill p-warn">Sin confirmar</span></td><td>Sigue sin confirmar</td><td>Cancelación automática. Notificación al arrendatario con link para reagendar. Alerta al asesor.</td><td><span class="pill p-danger">Cancelada (sin confirmación)</span></td></tr>
+        <tr><td>Post-visita</td><td>—</td><td>Asesor registra Concretada</td><td>Mensaje cierre a 15 min: "¿Cómo te fue?"</td><td>Espera respuesta</td></tr>
+        <tr><td>→ Intención renta</td><td>—</td><td>"Me interesó, quiero arrendar"</td><td>Escalamiento prioritario. Asesor contacta en &lt;30 min.</td><td><span class="pill p-green">Lead calificado</span></td></tr>
+        <tr><td>Post no-show</td><td>—</td><td>Asesor registra No-show</td><td>Se registra el no-show en backoffice. Sin mensaje automático en esta fase — ver Mejoras a futuro.</td><td><span class="pill p-dark">Registrado en backoffice</span></td></tr>
+        <tr><td>Cualquier momento</td><td>—</td><td>Texto libre / fuera del flujo</td><td>Mensaje de puente. Escala a humano con contexto.</td><td><span class="pill p-danger">Escalado a humano</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════ TRACKING ══════════════ -->
+<div class="section" id="section-tracking">
+  <div class="eyebrow">Amplitude · Capa 2 — User Facing Booking</div>
+  <div class="stitle">Tracking plan — propuesta</div>
+  <div class="sdesc">Nomenclatura: Objeto + Acción. Propiedades base presentes en todos los eventos: <code style="background:#EDEAE3;padding:1px 6px;border-radius:3px;font-size:12px">property_id · market (cl|mx) · platform (web|mobile_web) · session_id · has_availability · timestamp</code></div>
+  <div class="callout dark" style="margin-bottom:1.5rem;">
+    <div class="ci">ℹ</div>
+    <div>
+      <div class="ct">Ajustes al plan de tracking</div>
+      <div class="cb"><strong>Eventos eliminados:</strong> Property Page Viewed (volumen muy alto, no aporta señal accionable en esta fase), Booking Form Field Error, Booking Abandoned (reemplazado por versión con propiedad <code>abandon_reason</code>). <strong>Propiedades removidas:</strong> Booking Slot Selected pierde slot_type y existing_bookings_count · Booking Form Started pierde otp_required y phone_pre_validated · Booking Form Submitted pierde property_id. <strong>Agregado:</strong> Booking Abandoned incluye ahora <code>abandon_reason</code> para distinguir motivos de abandono.</div>
+    </div>
+  </div>
+
+  
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">Booking Day Selected</span><span class="pill p-info">Interaction</span></div><div class="ec-trigger">El usuario selecciona un día disponible en el selector.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">selected_date</span><span class="ec-prop">days_from_today</span><span class="ec-prop">available_slots_for_day</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">Booking Slot Selected</span><span class="pill p-info">Interaction</span></div><div class="ec-trigger">El usuario selecciona un horario específico. El CTA se activa en este momento.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">selected_date</span><span class="ec-prop">selected_time</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">Booking CTA Clicked</span><span class="pill p-warn">Conversion step</span></div><div class="ec-trigger">El usuario hace click en "Agendar visita" (CTA activo). Abre el modal.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">selected_date</span><span class="ec-prop">selected_time</span><span class="ec-prop">slot_type</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">Booking Form Started</span><span class="pill p-warn">Conversion step</span></div><div class="ec-trigger">El usuario comienza a completar el formulario modal (primer campo con foco).</div><div class="ec-props"><span class="ec-prop">property_id</span></div></div>
+
+  
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">Booking Form Submitted</span><span class="pill p-warn">Conversion step</span></div><div class="ec-trigger">El usuario envía el formulario con todos los campos válidos. Inicia flujo OTP si aplica.</div><div class="ec-props"><span class="ec-prop">slot_type</span><span class="ec-prop">otp_required</span><span class="ec-prop">country_code</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">OTP Sent</span><span class="pill p-dark">System</span></div><div class="ec-trigger">El OTP es enviado vía WhatsApp al número del usuario.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">country_code</span><span class="ec-prop">attempt_number</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">OTP Validated</span><span class="pill p-green">Conversion step</span></div><div class="ec-trigger">El código OTP es validado correctamente. El agendamiento se completa.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">attempts_count</span><span class="ec-prop">time_to_validate_seconds</span><span class="ec-prop">session_reused (boolean)</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">OTP Failed</span><span class="pill p-danger">Error</span></div><div class="ec-trigger">El código OTP ingresado es incorrecto o expiró.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">failure_reason (wrong_code|expired)</span><span class="ec-prop">attempt_number</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">Booking Completed</span><span class="pill p-green">✓ Conversión final</span></div><div class="ec-trigger">La visita queda registrada exitosamente. Se muestra la pantalla de éxito.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">booking_id</span><span class="ec-prop">slot_type</span><span class="ec-prop">scheduled_date</span><span class="ec-prop">scheduled_time</span><span class="ec-prop">days_until_visit</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">Booking Abandoned</span><span class="pill p-danger">Drop-off</span></div><div class="ec-trigger">El usuario cierra el modal o navega fuera sin completar el agendamiento. Disparar en unload del modal o navegación fuera del flujo.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">last_step (form_start|form_submitted|otp_sent|otp_failed)</span><span class="ec-prop">abandon_reason (closed_modal|navigated_away|otp_timeout)</span><span class="ec-prop">time_spent_seconds</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">Add To Calendar Clicked</span><span class="pill p-info">Post-conversión</span></div><div class="ec-trigger">El usuario hace click en "Agregar al calendario" en la pantalla de éxito.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">booking_id</span><span class="ec-prop">calendar_type (google|ical)</span></div></div>
+
+  <div class="ecard"><div class="ec-h"><span class="ec-name">Contact CTA Clicked</span><span class="pill p-dark">Fallback</span></div><div class="ec-trigger">El usuario hace click en "Contactar" en el flujo sin disponibilidad. Abre WhatsApp.</div><div class="ec-props"><span class="ec-prop">property_id</span><span class="ec-prop">has_availability: false</span><span class="ec-prop">reason (no_config|fully_booked)</span></div></div>
+
+  <div class="divider"></div>
+  <div class="eyebrow">Funnels a configurar en Amplitude</div>
+  <div class="tw">
+    <table class="tbl">
+      <thead><tr><th>Funnel</th><th>Eventos en orden</th><th>Métrica objetivo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Agendamiento completo</strong></td><td>Booking Day Selected → Booking Slot Selected → Booking CTA Clicked → Booking Form Started → Booking Form Submitted → OTP Validated → Booking Completed</td><td>Conversión pageview → booking. Detectar step con mayor drop-off.</td></tr>
+        <tr><td><strong>Funnel OTP</strong></td><td>Booking Form Submitted → OTP Sent → OTP Validated</td><td>Tasa de éxito del OTP. Optimizar si cae por debajo de 80%.</td></tr>
+        <tr><td><strong>Disponibilidad vs contacto</strong></td><td>Booking Day Selected → [Booking Slot Selected | Contact CTA Clicked]</td><td>% de arrendatarios que seleccionan un slot y avanzan vs los que contactan directamente por WhatsApp.</td></tr>
+        <tr><td><strong>Valor del add to calendar</strong></td><td>Booking Completed → Add To Calendar Clicked</td><td>Correlacionar con no-show rate para validar su impacto como commitment device.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<!-- ══════════════ MEJORAS A FUTURO ══════════════ -->
+<div class="section" id="section-futuro">
+  <div class="eyebrow">Fuera de scope · iteraciones futuras</div>
+  <div class="stitle">Mejoras a futuro</div>
+  <div class="sdesc">Funcionalidades identificadas durante el diseño del producto que agregan valor real pero no forman parte de esta fase. Quedan documentadas para ser priorizadas en iteraciones posteriores.</div>
+
+  <div class="callout dark">
+    <div class="ci">ℹ</div>
+    <div>
+      <div class="ct">Criterio de exclusión</div>
+      <div class="cb">Estas mejoras fueron descartadas de esta fase por complejidad, dependencias externas no resueltas, o porque su valor depende de que los flujos base ya estén funcionando y generando datos. Son candidatas naturales para el backlog post-lanzamiento.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="eyebrow">Communications</div>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:2rem;">
+    <div class="scope-box">
+      <div class="scope-box-title" style="font-size:14px">Recuperación automática de no-show</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.65;margin-bottom:12px">Cuando el asesor registra un no-show, Darwin envía automáticamente un mensaje al inquilino 2–4 horas después del horario de la visita. El mensaje ofrece reagendar con un link directo a la disponibilidad actualizada de la propiedad.</p>
+      <div class="mbubble" style="font-size:12px;max-width:420px">Hola <strong>[Nombre]</strong>, vimos que no pudiste ir a ver <strong>[Propiedad]</strong> hoy.
+
+La propiedad sigue disponible. Si quieres reagendar, puedes elegir otro horario aquí: [link]</div>
+      <div class="mbtns" style="margin-top:8px"><span class="mbtn p" style="font-size:12px">Reagendar visita</span></div>
+      <div style="margin-top:12px;padding:10px 12px;background:var(--bg);border-radius:8px;border-left:2px solid var(--border-strong);">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">Por qué está fuera de esta fase</div>
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.5">Requiere que el registro de no-show por parte del asesor sea consistente antes de automatizar mensajes sobre él. En etapas tempranas, enviar este mensaje sobre un registro incorrecto genera una experiencia negativa. Primero establecer el hábito de registro del asesor.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Backoffice · visibilidad operativa</div>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:2rem;">
+
+    <div class="scope-box">
+      <div class="scope-box-title" style="font-size:14px">Vista por lead — historial completo de visitas</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.65;margin-bottom:12px">Una vista en el backoffice que permite ver, por cada lead o inquilino, todas las propiedades que visitó, cuáles confirmó y a cuáles no fue, el resultado del formulario post-visita del asesor en cada caso, y el estado actual del proceso. Permite al equipo de operaciones tener una visión completa del comportamiento del inquilino en lugar de solo ver citas aisladas.</p>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+        <div style="padding:9px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)">Información que debería incluir la vista por lead</div>
+        <div style="padding:12px 14px;display:flex;flex-direction:column;">
+          <div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--accent-mid);flex-shrink:0">→</span><span style="color:var(--ink)">Datos de contacto del lead: nombre, teléfono, correo</span></div>
+          <div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--accent-mid);flex-shrink:0">→</span><span style="color:var(--ink)">Lista de propiedades visitadas con fecha, asesor y resultado (Concretada / No-show)</span></div>
+          <div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--accent-mid);flex-shrink:0">→</span><span style="color:var(--ink)">Respuesta del formulario post-visita del asesor por cada propiedad visitada</span></div>
+          <div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--accent-mid);flex-shrink:0">→</span><span style="color:var(--ink)">Respuesta al mensaje de cierre post-visita (interesado / explorar más / sin respuesta)</span></div>
+          <div style="display:flex;gap:10px;padding:7px 0;font-size:13px;"><span style="color:var(--accent-mid);flex-shrink:0">→</span><span style="color:var(--ink)">Estado actual del lead en el proceso de renta</span></div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px 12px;background:var(--bg);border-radius:8px;border-left:2px solid var(--border-strong);">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">Por qué está fuera de esta fase</div>
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.5">Requiere datos acumulados de múltiples visitas por lead para ser útil. En la fase inicial la mayoría de los leads tendrá pocas visitas registradas. Es más valioso cuando el sistema lleva meses operando.</div>
+      </div>
+    </div>
+
+    <div class="scope-box">
+      <div class="scope-box-title" style="font-size:14px">Vista para el propietario — visibilidad sobre sus visitas</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.65;margin-bottom:10px">Una interfaz o reporte para que el propietario pueda ver las visitas programadas a su propiedad: quién va, cuándo, y cuál fue el resultado. Hoy el propietario no tiene visibilidad directa de este proceso.</p>
+      <div style="padding:10px 12px;background:var(--bg);border-radius:8px;border-left:2px solid var(--border-strong);">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">Por qué está fuera de esta fase</div>
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.5">Requiere definir el canal y formato de comunicación con el propietario. Decisión que involucra al equipo de negocio. Se deja como mejora una vez que el flujo interno esté estabilizado.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="eyebrow">Admin / Backoffice</div>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:2rem;">
+    <div class="scope-box">
+      <div class="scope-box-title" style="font-size:14px">Vinculación 1:N asesor-inmueble</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.65;margin-bottom:10px">Permitir que un mismo inmueble tenga más de un asesor asignado, habilitando mayor cobertura operativa. La arquitectura de datos se diseña para soportarlo desde el inicio, pero la UI y la lógica de asignación se limitan a 1:1 en esta fase.</p>
+      <div style="padding:10px 12px;background:var(--bg);border-radius:8px;border-left:2px solid var(--border-strong);">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">Por qué está fuera de esta fase</div>
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.5">Agrega complejidad en la lógica de asignación de citas. No es necesario para la operación inicial en Chile. La arquitectura lo soporta sin refactor.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Advisor Experience</div>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <div class="scope-box">
+      <div class="scope-box-title" style="font-size:14px">Analytics personales del asesor</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.65">Métricas de rendimiento dentro de la app del asesor: visitas completadas, tasa de no-show, tasa de interés post-visita. Útil para motivación y seguimiento de performance, pero requiere datos acumulados para ser significativo.</p>
+    </div>
+    <div class="scope-box">
+      <div class="scope-box-title" style="font-size:14px">Modelo distribuido de showing (red de asesores)</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.65">Cualquier persona habilitada por Homie puede mostrar propiedades dentro de una red operativa distribuida, similar a un modelo tipo Uber. La arquitectura de la Capa 3 se diseña con este modelo en mente para que la expansión sea natural.</p>
+    </div>
+    <div class="scope-box">
+      <div class="scope-box-title" style="font-size:14px">Link al hilo de Darwin desde la app del asesor</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.65;margin-bottom:10px">Un acceso directo dentro del detalle de visita que lleva al asesor a la conversación de Darwin con ese arrendatario, permitiéndole ver el estado del flujo de confirmación sin salir de su app. Útil para entender si el arrendatario confirmó, reprogramó o no respondió, sin necesidad de consultar otro sistema.</p>
+      <div style="padding:10px 12px;background:var(--bg);border-radius:8px;border-left:2px solid var(--border-strong);">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px">Por qué está fuera de esta fase</div>
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.5">Requiere integración entre Darwin y la app del asesor para obtener el link de la conversación por número de teléfono. Depende de que la API de Darwin exponga este endpoint. Bajo impacto en la operación inicial.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</main>
+
+<script>
+const sMap = {overview:0,capa1:1,capa2:2,capa3:3,capa4:4,tracking:5,futuro:6};
+function show(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.hdr-chip').forEach(b=>b.classList.remove('active'));
+  document.getElementById('section-'+id).classList.add('active');
+  const i = sMap[id];
+  document.querySelectorAll('.nbtn')[i]?.classList.add('active');
+  document.querySelectorAll('.hdr-chip')[i]?.classList.add('active');
+  window.scrollTo({top:document.querySelector('.nav').offsetTop-10,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
