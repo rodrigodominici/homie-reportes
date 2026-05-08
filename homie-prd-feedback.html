@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRD · Feedback Post-Visita · Homie Rent</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:wght@400;500&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#238D7E;--green-mid:#1A6E62;--green-light:#E8F5F3;--green-pale:#F2FAF9;--orange:#ED8735;--orange-light:#FDF3EA;--ink:#111827;--ink-2:#374151;--ink-3:#6B7280;--ink-4:#9CA3AF;--border:#E5E7EB;--bg:#F9FAFB;--surface:#FFFFFF;--warn:#D97706;--warn-light:#FFFBEB;--info:#2563EB;--info-light:#EFF6FF;--sans:'Cabinet Grotesk',sans-serif;--serif:'Fraunces',Georgia,serif;--mono:'DM Mono',monospace;--r:10px;--rl:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:8px}
+.nav-dot{width:22px;height:22px;border-radius:5px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px}
+.nav-title{font-size:13px;font-weight:700;color:var(--ink)}
+.nav-chips{display:flex;gap:4px}
+.chip{padding:4px 12px;border-radius:99px;font-size:12px;font-weight:600;background:transparent;border:1px solid var(--border);color:var(--ink-3);cursor:pointer;transition:all .15s;font-family:var(--sans)}
+.chip:hover{color:var(--ink);border-color:#ccc}
+.chip.active{background:var(--green);border-color:var(--green);color:#fff}
+.nav-meta{font-family:var(--mono);font-size:10px;color:var(--ink-4)}
+.section{display:none;padding:68px 0 60px}
+.section.active{display:block}
+.wrap{max-width:820px;margin:0 auto;padding:0 2rem}
+.page-header{padding:2.5rem 0 2rem;border-bottom:1px solid var(--border);margin-bottom:2rem}
+.page-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.page-title{font-family:var(--serif);font-size:clamp(26px,3.5vw,36px);font-weight:400;line-height:1.15;margin-bottom:8px}
+.page-title em{font-style:italic;color:var(--green)}
+.page-desc{font-size:14px;color:var(--ink-3);line-height:1.7;margin-bottom:1.25rem}
+.meta-row{display:flex;gap:24px;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-key{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4)}
+.meta-val{font-size:12px;font-weight:600;color:var(--ink-2)}
+.sec-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;margin-top:2rem}
+.sec-title{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.prose{font-size:14px;color:var(--ink-2);line-height:1.75;margin-bottom:1.25rem}
+.divider{height:1px;background:var(--border);margin:2rem 0}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600}
+.p-green{background:var(--green-light);color:var(--green)}
+.p-orange{background:var(--orange-light);color:var(--orange)}
+.p-warn{background:var(--warn-light);color:var(--warn)}
+.p-dark{background:var(--bg);color:var(--ink-3);border:1px solid var(--border)}
+.p-done{background:var(--green-light);color:var(--green-mid);border:1px solid rgba(35,141,126,.2)}
+.callout{border-radius:var(--r);padding:13px 15px;margin-bottom:1.25rem;display:flex;gap:10px;font-size:13px}
+.callout.warn{background:var(--warn-light);border:1px solid #FDE68A}
+.callout.green{background:var(--green-light);border:1px solid rgba(35,141,126,.2)}
+.callout.neutral{background:var(--bg);border:1px solid var(--border)}
+.ci{font-size:14px;flex-shrink:0;margin-top:1px}
+.ct{font-weight:700;margin-bottom:3px;color:var(--ink)}
+.cb{color:var(--ink-2);line-height:1.65}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:12px}
+.card-header{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.card-title{font-size:13px;font-weight:700;color:var(--ink)}
+.card-body{padding:16px}
+.flow{display:flex;flex-direction:column}
+.flow-step{display:flex;gap:16px}
+.flow-spine{display:flex;flex-direction:column;align-items:center;width:44px;flex-shrink:0}
+.flow-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;border:2px solid var(--border);background:var(--surface);font-family:var(--mono)}
+.fd-green{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.fd-orange{border-color:var(--orange);background:var(--orange-light);color:var(--orange);font-size:10px}
+.fd-dark{border-color:var(--ink);background:var(--ink);color:#fff;font-size:15px}
+.fd-slack{border-color:#611f69;background:#f9f0fb;color:#611f69;font-size:15px}
+.flow-line{width:2px;flex:1;min-height:16px;background:var(--border);margin:3px 0}
+.fl-green{background:linear-gradient(to bottom,#d1ece8,#E8F5F3)}
+.flow-content{flex:1;padding:4px 0 22px}
+.flow-time{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);margin-bottom:3px}
+.flow-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.flow-desc{font-size:13px;color:var(--ink-2);line-height:1.65;margin-bottom:8px}
+.flow-tags{display:flex;gap:6px;flex-wrap:wrap}
+.wa-phone{background:#F0F0F0;border-radius:10px;overflow:hidden;border:1px solid var(--border);max-width:280px;margin-top:10px}
+.wa-header{background:#075E54;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.wa-av{width:24px;height:24px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff}
+.wa-nm{font-size:11px;font-weight:700;color:#fff}
+.wa-body{background:#ECE5DD;padding:10px 8px}
+.wa-bubble{background:#fff;border-radius:3px 10px 10px 10px;padding:9px 11px;font-size:12px;line-height:1.6;color:#111;white-space:pre-line;box-shadow:0 1px 2px rgba(0,0,0,.1);max-width:240px;position:relative}
+.wa-bubble::before{content:'';position:absolute;top:0;left:-5px;width:8px;height:8px;background:#fff;clip-path:polygon(100% 0,100% 100%,0 0)}
+.wa-time{font-size:9px;color:#999;text-align:right;margin-top:3px}
+.screen-grid{display:grid;grid-template-columns:190px 1fr;gap:20px;align-items:flex-start;margin-bottom:1.5rem}
+@media(max-width:580px){.screen-grid{grid-template-columns:1fr}}
+.phone-frame{background:var(--surface);border:2px solid var(--ink);border-radius:18px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.1)}
+.ph-bar{background:var(--ink);height:6px;border-radius:0 0 6px 6px;width:50px;margin:0 auto}
+.ph-header{padding:12px 12px 8px;text-align:center;border-bottom:1px solid var(--border)}
+.ph-logo{font-size:10px;font-weight:800;color:var(--green);letter-spacing:.04em}
+.ph-body{padding:10px}
+.ph-sec{margin-bottom:10px}
+.ph-label{font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.ph-sub{font-size:9px;color:var(--ink-3);margin-bottom:6px}
+.ph-stars{display:flex;gap:3px;font-size:15px;margin-bottom:3px}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.ph-opt{padding:6px 4px;border-radius:6px;border:1.5px solid var(--border);font-size:9px;font-weight:600;text-align:center;line-height:1.3}
+.ph-opt.sel{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.ph-ta{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px;font-size:9px;color:var(--ink-3);font-family:var(--sans);background:var(--bg);height:36px;resize:none}
+.ph-btn{width:100%;padding:8px;border-radius:7px;background:var(--green);color:#fff;font-size:10px;font-weight:700;text-align:center;margin-top:6px}
+.ann-list{display:flex;flex-direction:column;gap:7px}
+.ann{display:flex;gap:10px;padding:9px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px}
+.ann-n{width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ann-t{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.ann-d{font-size:11px;color:var(--ink-3);line-height:1.5}
+.spec-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
+.spec-header{padding:11px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.spec-title{font-size:13px;font-weight:700;color:var(--ink)}
+.spec-body{padding:0}
+.spec-row{display:flex;gap:0;border-bottom:1px solid var(--border);font-size:13px}
+.spec-row:last-child{border-bottom:none}
+.spec-key{min-width:180px;padding:10px 14px;color:var(--ink-3);font-weight:500;flex-shrink:0;background:var(--bg);border-right:1px solid var(--border)}
+.spec-val{padding:10px 14px;color:var(--ink-2);line-height:1.55;flex:1}
+.tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;padding:9px 14px;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-4);background:var(--bg);border-bottom:1px solid var(--border)}
+.tbl td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--ink);vertical-align:top;line-height:1.5}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--bg)}
+.slack-bar{border-left:4px solid var(--green);border-radius:0 6px 6px 0;background:#222529;padding:10px 12px;margin-top:8px}
+.slack-field{margin-bottom:3px;font-size:12px;color:#d1d2d3}
+.slack-label{color:#868686}
+.pend-list{display:flex;flex-direction:column;gap:8px}
+.pend{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px}
+.pend.done{border-color:rgba(35,141,126,.25);background:var(--green-pale)}
+.pend-ico{font-size:14px;flex-shrink:0;margin-top:2px}
+.pend-t{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.pend.done .pend-t{color:var(--green)}
+.pend-d{font-size:12px;color:var(--ink-3);line-height:1.5}
+.pend-who{font-family:var(--mono);font-size:9px;color:var(--ink-4);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+@keyframes fade-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fade-up .35s ease both}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}
+
+/* IFRAME EMBEDS */
+.mockup-embed {
+  margin: 1.5rem 0;
+  border-radius: var(--rl);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  background: var(--surface);
+}
+.mockup-embed-header {
+  padding: 10px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px;
+}
+.mockup-embed-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-3);
+  display: flex; align-items: center; gap: 7px;
+}
+.mockup-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.3} }
+.mockup-open-link {
+  font-size: 11px; font-weight: 600; color: var(--green);
+  text-decoration: none; display: flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 6px; background: var(--green-light);
+  transition: opacity .15s;
+}
+.mockup-open-link:hover { opacity: .8; }
+.mockup-embed iframe {
+  width: 100%; border: none; display: block;
+}
+
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-logo">
+    <div class="nav-dot">🏠</div>
+    <div class="nav-title">Homie Rent · PRD</div>
+  </div>
+  <div class="nav-chips">
+    <button class="chip active" onclick="show('resumen')">Resumen</button>
+    <button class="chip" onclick="show('flujo')">Flujo</button>
+    <button class="chip" onclick="show('pantallas')">Pantallas</button>
+    <button class="chip" onclick="show('slack')">Slack</button>
+    <button class="chip" onclick="show('specs')">Especificaciones</button>
+  </div>
+  <div class="nav-meta">v1.1 · Mayo 2026</div>
+</div>
+
+<!-- RESUMEN -->
+<div class="section active" id="s-resumen">
+<div class="wrap">
+  <div class="page-header fade">
+    <div class="page-eyebrow">Feature · App de Citas Chile</div>
+    <h1 class="page-title">Feedback <em>post-visita</em></h1>
+    <p class="page-desc">Luego de cada visita concretada, el arrendatario recibe un mensaje del asesor con un link para evaluar su experiencia y expresar su nivel de interés. Esa información queda disponible para el equipo de KAMs en el backoffice y se notifica en Slack.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-key">Mercado</div><div class="meta-val">Chile</div></div>
+      <div class="meta-item"><div class="meta-key">Canal de envío</div><div class="meta-val">WhatsApp · número del asesor</div></div>
+      <div class="meta-item"><div class="meta-key">Trigger</div><div class="meta-val">Visita marcada como Concretada</div></div>
+      <div class="meta-item"><div class="meta-key">Audiencia backoffice</div><div class="meta-val">Admin y KAM</div></div>
+    </div>
+  </div>
+
+  <div class="sec-eyebrow">Problema que resuelve</div>
+  <div class="sec-title">¿Por qué lo hacemos?</div>
+  <p class="prose">Hoy el asesor envía un mensaje de cierre al arrendatario después de la visita, pero no hay forma de saber qué pasó después: si le gustó la propiedad, si quiere avanzar, ni cómo fue su experiencia con el asesor. Esta información es valiosa para el KAM y para el negocio, y hoy se pierde.</p>
+
+  <div class="divider"></div>
+  <div class="sec-eyebrow">Alcance</div>
+  <div class="sec-title">Qué cambia con este feature</div>
+
+  <div class="tbl-wrap fade d2">
+    <table class="tbl">
+      <thead><tr><th>Componente</th><th>Qué cambia</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Mensaje post-visita</strong></td><td>Se actualiza el copy e incluye un link a la pantalla de feedback</td><td><span class="pill p-warn">Pendiente</span></td></tr>
+        <tr><td><strong>Pantalla de feedback</strong></td><td>Nueva página pública donde el arrendatario evalúa al asesor y expresa su interés en la propiedad</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+        <tr><td><strong>Detalle de cita · Backoffice</strong></td><td>Nueva sección "Feedback del arrendatario" con el resultado de la evaluación</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+        <tr><td><strong>Lista de citas · Backoffice</strong></td><td>Columnas de feedback e interés + filtros para visualizar por resultado</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+        <tr><td><strong>Tag 🔥 HOT</strong></td><td>Las visitas donde el arrendatario quiere aplicar se marcan automáticamente como HOT</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+        <tr><td><strong>Perfil del asesor · Calificaciones</strong></td><td>Nueva pestaña con historial de calificaciones y scoring del asesor</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+        <tr><td><strong>Notificación en Slack</strong></td><td>Cada feedback genera un mensaje en #feedback-visitas-cl con todos los datos y link a la visita</td><td><span class="pill p-warn">Pendiente</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn fade d3">
+    <div class="ci">—</div>
+    <div>
+      <div class="ct">Fuera de alcance en esta iteración</div>
+      <div class="cb">Notificación automática al KAM cuando llega un feedback HOT · Integración del feedback con HubSpot · Métricas de feedback en el dashboard de Analytics · Reenvío automático del link cuando no se envió.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FLUJO -->
+<div class="section" id="s-flujo">
+<div class="wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">Flujo completo</div>
+    <h1 class="page-title">De la visita al <em>feedback registrado</em></h1>
+    <p class="page-desc">El flujo se activa automáticamente cuando el asesor marca la visita como Concretada. No requiere intervención adicional del equipo.</p>
+  </div>
+  <div class="flow fade">
+    <div class="flow-step">
+      <div class="flow-spine"><div class="flow-dot fd-dark">✓</div><div class="flow-line fl-green"></div></div>
+      <div class="flow-content">
+        <div class="flow-time">El asesor · app mobile</div>
+        <div class="flow-title">Marca la visita como Concretada</div>
+        <div class="flow-desc">El asesor completa el formulario post-visita y marca la visita como Concretada. Esto activa el flujo de feedback automáticamente.</div>
+        <div class="flow-tags"><span class="pill p-dark">App mobile · asesor</span></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-spine"><div class="flow-dot fd-orange">+15'</div><div class="flow-line fl-green"></div></div>
+      <div class="flow-content">
+        <div class="flow-time">15 minutos después · automático</div>
+        <div class="flow-title">El arrendatario recibe el mensaje con el link</div>
+        <div class="flow-desc">El mensaje llega desde el número personal del asesor. El link lleva a la pantalla de feedback, personalizada con los datos de esa visita específica.</div>
+        <div class="wa-phone">
+          <div class="wa-header"><div class="wa-av">👤</div><div><div class="wa-nm">Leandro (Homie)</div></div></div>
+          <div class="wa-body"><div class="wa-bubble">Hola <strong>[Nombre]</strong>, ¿qué te pareció la visita a <strong>[Propiedad]</strong>?
+
+Cuéntanos tu experiencia y dinos si te interesó:
+[link]<div class="wa-time">14:15</div></div></div>
+        </div>
+        <div class="flow-tags" style="margin-top:10px;"><span class="pill p-orange">Desde el número del asesor</span></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-spine"><div class="flow-dot fd-green">📱</div><div class="flow-line fl-green"></div></div>
+      <div class="flow-content">
+        <div class="flow-time">Arrendatario · cuando quiera</div>
+        <div class="flow-title">Completa el feedback</div>
+        <div class="flow-desc">El arrendatario abre el link y responde dos preguntas: cómo fue su experiencia con el asesor (estrellas) y qué tanto le interesó la propiedad (cuatro opciones). Puede agregar un comentario opcional.</div>
+        <div class="flow-tags"><span class="pill p-green">Página pública · sin login</span><span class="pill p-dark">Mobile-first</span></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-spine"><div class="flow-dot fd-slack">💬</div><div class="flow-line fl-green"></div></div>
+      <div class="flow-content">
+        <div class="flow-time">Automático · al recibir el feedback</div>
+        <div class="flow-title">Notificación en Slack con todos los datos</div>
+        <div class="flow-desc">El canal <strong>#feedback-visitas-cl</strong> recibe un mensaje con la información completa y un link directo a la visita en el backoffice. Si el arrendatario quiere aplicar, el mensaje se marca como <strong>🔥 HOT</strong>.</div>
+        <div class="flow-tags"><span class="pill p-dark">#feedback-visitas-cl</span><span style="padding:2px 9px;border-radius:99px;font-size:11px;font-weight:700;background:#FEF9C3;color:#92400E;border:1px solid #FDE68A;">🔥 HOT si quiere aplicar</span></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-spine"><div class="flow-dot fd-green">🖥️</div><div class="flow-line" style="background:transparent;"></div></div>
+      <div class="flow-content">
+        <div class="flow-time">Backoffice · Admin y KAM</div>
+        <div class="flow-title">Feedback visible en la visita + tag HOT si aplica</div>
+        <div class="flow-desc">El detalle de la visita muestra el feedback recibido. Si el arrendatario quiere aplicar, la visita recibe automáticamente el tag <strong>🔥 HOT</strong> visible en la lista y en el detalle.</div>
+        <div class="flow-tags"><span class="pill p-green">Admin y KAM</span><span style="padding:2px 9px;border-radius:99px;font-size:11px;font-weight:700;background:#FEF9C3;color:#92400E;border:1px solid #FDE68A;">🔥 HOT automático</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PANTALLAS -->
+<div class="section" id="s-pantallas">
+<div class="wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">Especificación de pantallas</div>
+    <h1 class="page-title">Qué ve cada <em>usuario</em></h1>
+    <p class="page-desc">Descripción de cada pantalla, los datos que muestra y las acciones disponibles. El diseño visual está aprobado en el mockup de Lovable.</p>
+  </div>
+
+  <!-- PANTALLA 1 -->
+  <div class="sec-eyebrow">Pantalla 1 · Pública · Arrendatario</div>
+  <div class="sec-title">Página de feedback de la visita</div>
+  <p class="prose">Accesible desde el link del mensaje. Sin login. Personalizada con el nombre de la propiedad y del asesor para esa visita.</p>
+
+    <div class="mockup-embed fade d2">
+      <div class="mockup-embed-header">
+        <div class="mockup-embed-label"><span class="mockup-dot"></span>Mockup · Pantalla arrendatario</div>
+        <a class="mockup-open-link" href="https://homie-booking-hub.lovable.app/visita/feedback/SCH-RE0004991-2" target="_blank">Abrir en Lovable ↗</a>
+      </div>
+      <div class="mockup-embed">
+        <iframe src="https://homie-booking-hub.lovable.app/visita/feedback/SCH-RE0004991-2" height="720" loading="lazy"></iframe>
+      </div>
+    </div>
+  <div class="screen-grid fade">
+    <div>
+      <div style="font-size:10px;font-family:var(--mono);color:var(--ink-4);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;">Vista arrendatario</div>
+      <div class="phone-frame">
+        <div class="ph-bar"></div>
+        <div class="ph-header"><div class="ph-logo">HOMIE RENT</div></div>
+        <div class="ph-body">
+          <div class="ph-sec">
+            <div class="ph-label">¿Cómo fue tu experiencia con Leandro M.?</div>
+            <div class="ph-sub">Toledo 730, D 1108 — San Miguel</div>
+            <div class="ph-stars">⭐⭐⭐⭐⭐</div>
+            <div style="font-size:9px;color:var(--green);font-weight:600;">Muy buena</div>
+          </div>
+          <div class="ph-sec">
+            <div class="ph-label">¿Qué tanto te interesó el departamento?</div>
+            <div class="ph-grid">
+              <div class="ph-opt sel">🔥 Me encantó, quiero aplicar</div>
+              <div class="ph-opt">👍 Me interesó, necesito pensarlo</div>
+              <div class="ph-opt">🔍 Lo estoy comparando</div>
+              <div class="ph-opt">❌ No era lo que buscaba</div>
+            </div>
+          </div>
+          <div class="ph-sec">
+            <div class="ph-label" style="font-size:9px;color:var(--ink-3);">Comentario (opcional)</div>
+            <textarea class="ph-ta" placeholder="¿Algo que quieras contarnos?"></textarea>
+          </div>
+          <div class="ph-btn">Enviar mi opinión</div>
+        </div>
+      </div>
+    </div>
+    <div class="ann-list">
+      <div class="ann"><div class="ann-n">1</div><div><div class="ann-t">Header mínimo</div><div class="ann-d">Solo logo. Sin navegación. Una sola tarea.</div></div></div>
+      <div class="ann"><div class="ann-n">2</div><div><div class="ann-t">Rating del asesor — obligatorio</div><div class="ann-d">5 estrellas. Label que cambia según selección: Muy buena · Buena · Regular · Mala · Muy mala.</div></div></div>
+      <div class="ann"><div class="ann-n">3</div><div><div class="ann-t">Nivel de interés — obligatorio</div><div class="ann-d">4 opciones en grilla 2×2. Solo una seleccionable. La elegida se resalta con color verde.</div></div></div>
+      <div class="ann"><div class="ann-n">4</div><div><div class="ann-t">Comentario — opcional</div><div class="ann-d">Texto libre. Máximo 300 caracteres. No bloquea el envío.</div></div></div>
+      <div class="ann"><div class="ann-n">5</div><div><div class="ann-t">Botón activo solo al completar</div><div class="ann-d">Se habilita cuando rating e interés están seleccionados.</div></div></div>
+      <div class="ann"><div class="ann-n">6</div><div><div class="ann-t">Pantalla de éxito</div><div class="ann-d">Al enviar: ✅ + "¡Gracias por tu opinión!" + botón WhatsApp a Homie + link "Ver más propiedades".</div></div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PANTALLA 2 -->
+  <div class="sec-eyebrow">Pantalla 2 · Backoffice · Admin y KAM</div>
+  <div class="sec-title">Detalle de cita — sección feedback</div>
+  <p class="prose">Aparece debajo de los datos de contacto en el detalle de cada cita. Muestra el resultado recibido o el estado actual si aún no hay respuesta.</p>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-green">Con feedback</span><div class="spec-title">Qué muestra cuando el arrendatario respondió</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Rating del asesor</div><div class="spec-val">⭐⭐⭐⭐⭐ · Muy buena</div></div>
+      <div class="spec-row"><div class="spec-key">Nivel de interés</div><div class="spec-val"><span style="background:var(--green-light);color:var(--green);padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;">🔥 Quiere aplicar</span></div></div>
+      <div class="spec-row"><div class="spec-key">Comentario</div><div class="spec-val" style="font-style:italic;color:var(--ink-3);">"El departamento está muy bien ubicado y el asesor fue muy amable."</div></div>
+      <div class="spec-row"><div class="spec-key">Fecha de respuesta</div><div class="spec-val">14/05/2026 · 14:32</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-dark">Sin feedback</span><div class="spec-title">Estados cuando no hay respuesta</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Pendiente</div><div class="spec-val">El link fue enviado. El arrendatario no ha respondido aún.</div></div>
+      <div class="spec-row"><div class="spec-key">No enviado</div><div class="spec-val">El mensaje de cierre no se envió. El asesor tenía Wapisimo desconectado.</div></div>
+    </div>
+  </div>
+
+  <div class="callout green fade">
+    <div class="ci">🔥</div>
+    <div><div class="ct">Tag HOT en el detalle de la cita</div>
+    <div class="cb">Cuando el interés es "Quiere aplicar", el badge <strong>🔥 HOT</strong> aparece en el header de la cita junto al estado (Confirmada, Concretada, etc.), visible antes de bajar a la sección de feedback.</div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PANTALLA 3 -->
+
+    <div class="mockup-embed fade">
+      <div class="mockup-embed-header">
+        <div class="mockup-embed-label"><span class="mockup-dot"></span>Mockup · Detalle de cita · Backoffice</div>
+        <a class="mockup-open-link" href="https://homie-booking-hub.lovable.app/booking/citas" target="_blank">Abrir en Lovable ↗</a>
+      </div>
+      <iframe src="https://homie-booking-hub.lovable.app/booking/citas" height="620" loading="lazy"></iframe>
+    </div>
+  <div class="sec-eyebrow">Pantalla 3 · Backoffice · Admin y KAM</div>
+  <div class="sec-title">Lista de citas — columnas y filtros</div>
+  <p class="prose">La tabla de citas muestra el estado del feedback y el nivel de interés sin necesidad de entrar al detalle de cada cita.</p>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Columnas adicionales en la tabla</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Feedback</div><div class="spec-val">Estado: Pendiente · Respondido · No enviado</div></div>
+      <div class="spec-row"><div class="spec-key">Interés</div><div class="spec-val">Nivel expresado por el arrendatario. Vacío si no respondió aún.</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Filtros en la barra de la lista</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Feedback</div><div class="spec-val">Todos · Pendiente · Respondido · No enviado</div></div>
+      <div class="spec-row"><div class="spec-key">Interés</div><div class="spec-val">Todos · Quiere aplicar · Necesita pensarlo · Comparando · No interesado</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PANTALLA 4 -->
+
+    <div class="mockup-embed fade">
+      <div class="mockup-embed-header">
+        <div class="mockup-embed-label"><span class="mockup-dot"></span>Mockup · Lista de citas · Backoffice</div>
+        <a class="mockup-open-link" href="https://homie-booking-hub.lovable.app/booking/citas" target="_blank">Abrir en Lovable ↗</a>
+      </div>
+      <iframe src="https://homie-booking-hub.lovable.app/booking/citas" height="560" loading="lazy"></iframe>
+    </div>
+  <div class="sec-eyebrow">Pantalla 4 · Backoffice · Admin y KAM</div>
+  <div class="sec-title">Perfil del asesor — pestaña Calificaciones</div>
+  <p class="prose">Pestaña nueva en el perfil de cada asesor con su historial de evaluaciones y un scoring global.</p>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Card de scoring global</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Scoring global</div><div class="spec-val">Número del 1.0 al 5.0 en grande. Combina el rating promedio (60%) con el porcentaje de arrendatarios que quieren aplicar (40%).</div></div>
+      <div class="spec-row"><div class="spec-key">Rating promedio</div><div class="spec-val">Promedio de todas las estrellas recibidas + total de calificaciones</div></div>
+      <div class="spec-row"><div class="spec-key">Distribución de interés</div><div class="spec-val">Barras horizontales con el % de cada nivel: 🔥 · 👍 · 🔍 · ❌</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Tabla de calificaciones recibidas</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Columnas</div><div class="spec-val">Fecha · Propiedad · Rating (estrellas) · Interés · Comentario · Tag HOT</div></div>
+      <div class="spec-row"><div class="spec-key">Filas HOT</div><div class="spec-val">Borde verde a la izquierda + badge HOT en la última columna cuando el interés es "Quiere aplicar"</div></div>
+      <div class="spec-row"><div class="spec-key">Orden</div><div class="spec-val">Por fecha descendente (más reciente primero)</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Scoring visible en la lista de asesores</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Dónde aparece</div><div class="spec-val">En la card de cada asesor en la lista de Advisors, debajo de los datos de contacto</div></div>
+      <div class="spec-row"><div class="spec-key">Formato</div><div class="spec-val">⭐ 3.8 · 5 calificaciones</div></div>
+    </div>
+  </div>
+
+
+    <div class="mockup-embed fade">
+      <div class="mockup-embed-header">
+        <div class="mockup-embed-label"><span class="mockup-dot"></span>Mockup · Calificaciones del asesor · Backoffice</div>
+        <a class="mockup-open-link" href="https://homie-booking-hub.lovable.app/booking/advisors" target="_blank">Abrir en Lovable ↗</a>
+      </div>
+      <iframe src="https://homie-booking-hub.lovable.app/booking/advisors" height="620" loading="lazy"></iframe>
+    </div>
+  <div class="callout neutral fade">
+    <div class="ci">📐</div>
+    <div><div class="ct">Cómo se calcula el scoring</div>
+    <div class="cb"><strong>(Rating promedio × 60%) + (% "Quiere aplicar" × 5 × 40%)</strong> — resultado entre 1.0 y 5.0.<br>Ejemplo: rating 4.4 · 60% quieren aplicar → 2.64 + 1.20 = <strong>3.8</strong></div></div>
+  </div>
+</div>
+</div>
+
+<!-- SLACK -->
+<div class="section" id="s-slack">
+<div class="wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">Notificación · Slack</div>
+    <h1 class="page-title">Canal <em>#feedback-visitas-cl</em></h1>
+    <p class="page-desc">Cada feedback recibido genera un mensaje en Slack. El objetivo es que el equipo vea en tiempo real cuándo llega un arrendatario interesado y pueda acceder rápidamente a la visita en el backoffice.</p>
+  </div>
+
+  <div class="sec-eyebrow">Variante A · Arrendatario quiere aplicar</div>
+  <div class="sec-title">Mensaje 🔥 HOT</div>
+  <div class="card fade">
+    <div class="card-header" style="background:#611f69;"><div class="card-title" style="color:#fff;">Vista en Slack · #feedback-visitas-cl</div></div>
+    <div class="card-body" style="background:#1a1d21;">
+      <div style="display:flex;gap:10px;">
+        <div style="width:30px;height:30px;border-radius:6px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🏠</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;"><span style="font-weight:700;color:#fff;">Homie Rent</span><span style="color:#868686;font-size:10px;margin-left:8px;">hoy a las 14:32</span></div>
+          <div style="color:#d1d2d3;font-size:12px;margin-top:4px;">🔥 <strong style="color:#fff;">HOT — Nuevo feedback post-visita</strong></div>
+          <div class="slack-bar">
+            <div class="slack-field"><span class="slack-label">Propiedad: </span>Toledo 730, D 1108 — San Miguel</div>
+            <div class="slack-field"><span class="slack-label">Asesor: </span>Leandro M.</div>
+            <div class="slack-field"><span class="slack-label">Arrendatario: </span>Rodrigo Dominici</div>
+            <div class="slack-field"><span class="slack-label">Fecha de visita: </span>14/05/2026 · 14:00</div>
+            <div class="slack-field"><span class="slack-label">Rating del asesor: </span>⭐⭐⭐⭐⭐ (5/5) — Muy buena</div>
+            <div class="slack-field"><span class="slack-label">Nivel de interés: </span><span style="color:#4ade80;font-weight:700;">🔥 Quiere aplicar</span></div>
+            <div class="slack-field"><span class="slack-label">Comentario: </span>"El departamento está muy bien ubicado y el asesor fue muy amable."</div>
+            <div style="margin-top:8px;font-size:12px;color:#d1d2d3;"><span class="slack-label">Ver visita en backoffice → </span><span style="color:#238D7E;">https://backoffice.homierent.com/booking/citas/[ID de la visita]</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-eyebrow" style="margin-top:2rem;">Variante B · Cualquier otro nivel de interés</div>
+  <div class="sec-title">Mensaje estándar</div>
+  <div class="card fade">
+    <div class="card-header" style="background:#611f69;"><div class="card-title" style="color:#fff;">Vista en Slack · #feedback-visitas-cl</div></div>
+    <div class="card-body" style="background:#1a1d21;">
+      <div style="display:flex;gap:10px;">
+        <div style="width:30px;height:30px;border-radius:6px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🏠</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;"><span style="font-weight:700;color:#fff;">Homie Rent</span><span style="color:#868686;font-size:10px;margin-left:8px;">hoy a las 15:10</span></div>
+          <div style="color:#d1d2d3;font-size:12px;margin-top:4px;">📋 <strong style="color:#fff;">Nuevo feedback post-visita</strong></div>
+          <div class="slack-bar">
+            <div class="slack-field"><span class="slack-label">Propiedad: </span>Av. Providencia 1234</div>
+            <div class="slack-field"><span class="slack-label">Asesor: </span>Catalina R.</div>
+            <div class="slack-field"><span class="slack-label">Arrendatario: </span>Josefa Tapia</div>
+            <div class="slack-field"><span class="slack-label">Fecha de visita: </span>14/05/2026 · 11:00</div>
+            <div class="slack-field"><span class="slack-label">Rating del asesor: </span>⭐⭐⭐⭐ (4/5) — Buena</div>
+            <div class="slack-field"><span class="slack-label">Nivel de interés: </span>🔍 Lo está comparando con otras opciones</div>
+            <div class="slack-field"><span class="slack-label">Comentario: </span>"Muy buen departamento pero necesito ver un par más antes de decidir."</div>
+            <div style="margin-top:8px;font-size:12px;color:#d1d2d3;"><span class="slack-label">Ver visita en backoffice → </span><span style="color:#238D7E;">https://backoffice.homierent.com/booking/citas/[ID de la visita]</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="sec-title">Diferencias entre las dos variantes</div>
+  <div class="tbl-wrap fade">
+    <table class="tbl">
+      <thead><tr><th>Campo</th><th>Variante HOT</th><th>Variante estándar</th></tr></thead>
+      <tbody>
+        <tr><td>Encabezado</td><td>🔥 HOT — Nuevo feedback post-visita</td><td>📋 Nuevo feedback post-visita</td></tr>
+        <tr><td>Nivel de interés</td><td>🔥 Quiere aplicar (en verde)</td><td>Emoji + label correspondiente</td></tr>
+        <tr><td>Comentario</td><td colspan="2">Se incluye si hay texto. Si no hay comentario, la línea no aparece.</td></tr>
+        <tr><td>Link al backoffice</td><td colspan="2">Siempre incluido. Lleva directo al detalle de la visita.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap fade">
+    <table class="tbl">
+      <thead><tr><th>Nivel de interés seleccionado</th><th>Ícono</th><th>Texto en el mensaje</th></tr></thead>
+      <tbody>
+        <tr><td>Me encantó, quiero aplicar</td><td>🔥</td><td>Quiere aplicar</td></tr>
+        <tr><td>Me interesó, necesito pensarlo</td><td>👍</td><td>Le interesó, necesita pensarlo</td></tr>
+        <tr><td>Lo estoy comparando</td><td>🔍</td><td>Lo está comparando con otras opciones</td></tr>
+        <tr><td>No era lo que buscaba</td><td>❌</td><td>No era lo que buscaba</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<script>
+const views=['resumen','flujo','pantallas','slack','specs'];
+function show(id){
+  views.forEach(v=>{document.getElementById('s-'+v).classList.toggle('active',v===id)});
+  document.querySelectorAll('.chip').forEach((b,i)=>{b.classList.toggle('active',views[i]===id)});
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('#s-'+id+' .fade').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation=''});
+}
+</script>
+
+<!-- ESPECIFICACIONES -->
+<div class="section" id="s-specs">
+<div class="wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">Especificaciones UX/UI · Para desarrollo</div>
+    <h1 class="page-title">Guía de implementación <em>por pantalla</em></h1>
+    <p class="page-desc">Especificaciones detalladas de comportamiento, copys, estados y validaciones para cada pantalla del feature. Diseñadas para ser usadas directamente con Claude Code.</p>
+  </div>
+
+  <!-- ══ PANTALLA 1 ══ -->
+  <div class="sec-eyebrow">Pantalla 1</div>
+  <div class="sec-title">Página pública de feedback del arrendatario</div>
+  <p class="prose">Ruta: <code style="font-family:var(--mono);font-size:12px;background:var(--bg);padding:2px 7px;border-radius:4px;border:1px solid var(--border);">/visita/feedback/:visitId</code> · Página completamente pública, sin autenticación. Optimizada para mobile (375px).</p>
+
+  <!-- Estructura -->
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Estructura de la página</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Header</div><div class="spec-val">Logo de Homie Rent centrado. Sin navegación, sin botón de volver. Height fijo de 56px. Borde inferior separador.</div></div>
+      <div class="spec-row"><div class="spec-key">Cuerpo</div><div class="spec-val">Padding horizontal 20px. Máximo ancho 480px centrado. Fondo blanco.</div></div>
+      <div class="spec-row"><div class="spec-key">Sección de contexto</div><div class="spec-val">Debajo del header, texto gris pequeño que muestra el nombre de la propiedad y del asesor: "Visita a [Propiedad] con [Asesor]". Font-size 13px, color gris claro, centrado.</div></div>
+      <div class="spec-row"><div class="spec-key">Orden de secciones</div><div class="spec-val">1. Contexto → 2. Rating del asesor → 3. Nivel de interés → 4. Comentario opcional → 5. Botón de envío</div></div>
+    </div>
+  </div>
+
+  <!-- Rating -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-green">Sección 1</span><div class="spec-title">Rating del asesor</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Título</div><div class="spec-val">"¿Cómo fue tu experiencia con [nombre del asesor]?"</div></div>
+      <div class="spec-row"><div class="spec-key">Componente</div><div class="spec-val">5 estrellas en fila, tamaño 36px cada una. Tap/click para seleccionar. Al seleccionar N estrellas, las primeras N se llenan en color #238D7E. Las restantes quedan en gris #E5E7EB.</div></div>
+      <div class="spec-row"><div class="spec-key">Label dinámico</div><div class="spec-val">Debajo de las estrellas, texto que cambia según la selección:<br>5 estrellas → "Muy buena"<br>4 estrellas → "Buena"<br>3 estrellas → "Regular"<br>2 estrellas → "Mala"<br>1 estrella → "Muy mala"<br>Sin selección → sin texto visible</div></div>
+      <div class="spec-row"><div class="spec-key">Estado sin selección</div><div class="spec-val">Las 5 estrellas vacías en gris. Sin label. El botón de envío permanece deshabilitado.</div></div>
+      <div class="spec-row"><div class="spec-key">Interacción</div><div class="spec-val">Al pasar el cursor sobre una estrella (hover en desktop), se preview el color hasta esa estrella sin confirmar. Al hacer click/tap se confirma la selección. Se puede cambiar tocando otra estrella.</div></div>
+      <div class="spec-row"><div class="spec-key">Campo obligatorio</div><div class="spec-val">Sí. El formulario no puede enviarse sin seleccionar al menos 1 estrella.</div></div>
+    </div>
+  </div>
+
+  <!-- Nivel de interés -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-green">Sección 2</span><div class="spec-title">Nivel de interés en la propiedad</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Título</div><div class="spec-val">"¿Qué tanto te interesó el departamento?"</div></div>
+      <div class="spec-row"><div class="spec-key">Opciones</div><div class="spec-val">
+        4 cards en grilla 2×2. Cada card tiene emoji + texto:<br>
+        🔥 "Me encantó, quiero aplicar" → valor: <code>apply</code><br>
+        👍 "Me interesó, necesito pensarlo" → valor: <code>thinking</code><br>
+        🔍 "Lo estoy comparando con otras opciones" → valor: <code>comparing</code><br>
+        ❌ "No era lo que buscaba" → valor: <code>not_interested</code>
+      </div></div>
+      <div class="spec-row"><div class="spec-key">Card sin seleccionar</div><div class="spec-val">Fondo blanco. Borde 1.5px #E5E7EB. Border-radius 10px. Padding 12px. Emoji 20px centrado arriba, texto 12px abajo.</div></div>
+      <div class="spec-row"><div class="spec-key">Card seleccionada</div><div class="spec-val">Fondo #E8F5F3. Borde 2px #238D7E. El texto toma color #238D7E. Solo una card puede estar seleccionada a la vez — seleccionar otra deselecciona la anterior.</div></div>
+      <div class="spec-row"><div class="spec-key">Campo obligatorio</div><div class="spec-val">Sí. El formulario no puede enviarse sin seleccionar una opción.</div></div>
+    </div>
+  </div>
+
+  <!-- Comentario -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-dark">Sección 3</span><div class="spec-title">Comentario opcional</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Label</div><div class="spec-val">"Comentario (opcional)" — font-size 13px, color gris.</div></div>
+      <div class="spec-row"><div class="spec-key">Placeholder</div><div class="spec-val">"¿Algo que quieras contarnos sobre la visita o el departamento?"</div></div>
+      <div class="spec-row"><div class="spec-key">Límite</div><div class="spec-val">300 caracteres máximo. Contador visible en la esquina inferior derecha del campo: "0/300". Se actualiza en tiempo real al escribir. Cuando llega a 300, no permite escribir más.</div></div>
+      <div class="spec-row"><div class="spec-key">Campo obligatorio</div><div class="spec-val">No. No afecta el estado del botón de envío.</div></div>
+    </div>
+  </div>
+
+  <!-- Botón -->
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Botón de envío</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Texto</div><div class="spec-val">"Enviar mi opinión"</div></div>
+      <div class="spec-row"><div class="spec-key">Estado deshabilitado</div><div class="spec-val">Color de fondo gris #E5E7EB. Texto gris #9CA3AF. No clickeable. cursor: not-allowed. Se muestra así hasta que rating Y nivel de interés estén seleccionados.</div></div>
+      <div class="spec-row"><div class="spec-key">Estado habilitado</div><div class="spec-val">Color de fondo #238D7E. Texto blanco. Width 100%. Border-radius 10px. Height 48px. Font-weight 700.</div></div>
+      <div class="spec-row"><div class="spec-key">Estado cargando</div><div class="spec-val">Al hacer click, el botón muestra un spinner y el texto cambia a "Enviando…". Se deshabilita para evitar doble envío.</div></div>
+      <div class="spec-row"><div class="spec-key">Transición al éxito</div><div class="spec-val">Después de recibir respuesta exitosa, fade out del formulario completo (300ms, opacity 0) seguido de fade in de la pantalla de éxito (300ms, opacity 1 + translateY de 12px a 0).</div></div>
+    </div>
+  </div>
+
+  <!-- Pantalla de éxito -->
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Pantalla de éxito — reemplaza el formulario</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Ícono</div><div class="spec-val">✅ en tamaño 56px, centrado. Animación de escala: de 0 a 1 con spring (overshoot leve) en 400ms.</div></div>
+      <div class="spec-row"><div class="spec-key">Título</div><div class="spec-val">"¡Gracias por tu opinión!" — font-size 22px, font-weight 700, centrado.</div></div>
+      <div class="spec-row"><div class="spec-key">Subtítulo</div><div class="spec-val">"Nos ayuda a seguir mejorando el servicio." — font-size 14px, color gris, centrado.</div></div>
+      <div class="spec-row"><div class="spec-key">Botón WhatsApp</div><div class="spec-val">Texto: "Contactar a Homie". Fondo verde WhatsApp #25D366. Ícono de WhatsApp a la izquierda. Abre wa.me/[número] en nueva pestaña. Width 100%.</div></div>
+      <div class="spec-row"><div class="spec-key">Link secundario</div><div class="spec-val">Texto: "Ver más propiedades en Homie Rent →". Color #238D7E. Sin subrayado. Centrado. Abre homierent.com/cl en nueva pestaña.</div></div>
+    </div>
+  </div>
+
+  <!-- Estados de error -->
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Estados de error y edge cases</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Link expirado</div><div class="spec-val">Si el visitId no existe o el link expiró, mostrar página de error centrada: ícono ⚠️ + "Este link ya no está disponible" + "Si quieres contarnos tu experiencia, escríbenos:" + botón WhatsApp.</div></div>
+      <div class="spec-row"><div class="spec-key">Feedback ya enviado</div><div class="spec-val">Si el arrendatario intenta acceder al link habiendo ya enviado el feedback, mostrar directamente la pantalla de éxito con el mensaje "¡Ya recibimos tu opinión! Gracias."</div></div>
+      <div class="spec-row"><div class="spec-key">Error de red al enviar</div><div class="spec-val">Si el envío falla, el botón vuelve al estado habilitado. Mostrar mensaje de error inline debajo del botón: "No pudimos enviar tu opinión. Por favor intenta de nuevo." Color rojo #DC2626. El formulario conserva todos los valores ingresados.</div></div>
+      <div class="spec-row"><div class="spec-key">Sin conexión</div><div class="spec-val">Mismo tratamiento que error de red. No limpiar el formulario.</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ PANTALLA 2 ══ -->
+  <div class="sec-eyebrow">Pantalla 2</div>
+  <div class="sec-title">Detalle de cita — sección "Feedback del arrendatario"</div>
+  <p class="prose">Modificación de la pantalla existente de detalle de cita en el backoffice. Se agrega una nueva sección debajo de "Datos del contacto".</p>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Posición y estructura</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Ubicación</div><div class="spec-val">Debajo de la sección "Datos del contacto". Antes del cierre del panel/modal de detalle.</div></div>
+      <div class="spec-row"><div class="spec-key">Label de sección</div><div class="spec-val">"FEEDBACK DEL ARRENDATARIO" — font-size 11px, font-weight 600, letter-spacing 0.08em, color gris claro #9CA3AF, uppercase. Igual al estilo de los otros labels de sección del detalle (INMUEBLE, ASESOR, etc.).</div></div>
+      <div class="spec-row"><div class="spec-key">Contenedor</div><div class="spec-val">Card con fondo blanco, borde 1px #E5E7EB, border-radius 10px. Padding 14px.</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-green">Estado 1</span><div class="spec-title">Feedback recibido</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Rating</div><div class="spec-val">Estrellas llenas en #238D7E (número según advisorRating) + label en verde: "Muy buena" / "Buena" / "Regular" / "Mala" / "Muy mala". En la misma línea horizontal.</div></div>
+      <div class="spec-row"><div class="spec-key">Nivel de interés</div><div class="spec-val">Badge pill con emoji + texto según el valor recibido. Colores:<br>apply → fondo #E8F5F3, texto #238D7E<br>thinking → fondo #FFFBEB, texto #D97706<br>comparing → fondo #EFF6FF, texto #2563EB<br>not_interested → fondo #FEF2F2, texto #DC2626</div></div>
+      <div class="spec-row"><div class="spec-key">Comentario</div><div class="spec-val">Si existe: texto en itálica entre comillas, color gris oscuro, con borde izquierdo 3px #E5E7EB (estilo blockquote). Si no hay comentario: no mostrar esta fila.</div></div>
+      <div class="spec-row"><div class="spec-key">Fecha</div><div class="spec-val">Texto pequeño al pie: "Respondido el DD/MM/YYYY a las HH:MM" — font-size 11px, color gris claro.</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-dark">Estado 2</span><div class="spec-title">Pendiente de respuesta</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Copy</div><div class="spec-val">"El link fue enviado. Esperando respuesta del arrendatario."</div></div>
+      <div class="spec-row"><div class="spec-key">Visual</div><div class="spec-val">Texto en gris #6B7280, font-size 13px. Sin iconos de estado animados.</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-warn">Estado 3</span><div class="spec-title">No enviado</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Copy</div><div class="spec-val">"El mensaje de cierre no se envió. El asesor tenía Wapisimo desconectado."</div></div>
+      <div class="spec-row"><div class="spec-key">Visual</div><div class="spec-val">Fondo #FFFBEB, borde #FDE68A. Texto #D97706. Ícono ⚠️ al inicio del texto.</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Tag HOT en el header de la cita</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Cuándo aparece</div><div class="spec-val">Solo cuando propertyInterest === "apply". No aparece en ningún otro caso.</div></div>
+      <div class="spec-row"><div class="spec-key">Posición</div><div class="spec-val">En el header del detalle de la cita, a la derecha del badge de estado (Confirmada, Concretada, etc.).</div></div>
+      <div class="spec-row"><div class="spec-key">Visual</div><div class="spec-val">Badge pill: 🔥 + texto "HOT". Fondo #FEF9C3. Texto #92400E. Border 1px #FDE68A. Font-weight 700. Font-size 11px.</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ PANTALLA 3 ══ -->
+  <div class="sec-eyebrow">Pantalla 3</div>
+  <div class="sec-title">Lista de citas — columnas y filtros de feedback</div>
+  <p class="prose">Modificación de la tabla existente de citas. Se agregan dos columnas nuevas y dos filtros nuevos a la barra existente.</p>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Columnas nuevas en la tabla</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Columna "Feedback"</div><div class="spec-val">
+        Header: "Feedback" — mismo estilo que los otros headers de columna.<br>
+        Valores posibles:<br>
+        · "Respondido" — texto verde #238D7E<br>
+        · "Pendiente" — texto gris #6B7280<br>
+        · "No enviado" — texto ámbar #D97706<br>
+        Ancho sugerido: 110px.
+      </div></div>
+      <div class="spec-row"><div class="spec-key">Columna "Interés"</div><div class="spec-val">
+        Header: "Interés".<br>
+        Valores posibles (cuando hay feedback):<br>
+        · 🔥 Quiere aplicar<br>
+        · 👍 Necesita pensarlo<br>
+        · 🔍 Comparando<br>
+        · ❌ No interesado<br>
+        Sin feedback: celda vacía, sin texto.<br>
+        Ancho sugerido: 160px.
+      </div></div>
+      <div class="spec-row"><div class="spec-key">Posición en la tabla</div><div class="spec-val">Columna "Feedback" después de "Estado". Columna "Interés" después de "Feedback".</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Filtros nuevos en la barra</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Filtro "Feedback"</div><div class="spec-val">
+        Dropdown select. Label por defecto: "Feedback: todos".<br>
+        Opciones:<br>
+        · Todos (valor: all)<br>
+        · Respondido (valor: responded)<br>
+        · Pendiente (valor: pending)<br>
+        · No enviado (valor: not_sent)
+      </div></div>
+      <div class="spec-row"><div class="spec-key">Filtro "Interés"</div><div class="spec-val">
+        Dropdown select. Label por defecto: "Interés: todos".<br>
+        Opciones:<br>
+        · Todos (valor: all)<br>
+        · 🔥 Quiere aplicar (valor: apply)<br>
+        · 👍 Necesita pensarlo (valor: thinking)<br>
+        · 🔍 Comparando (valor: comparing)<br>
+        · ❌ No interesado (valor: not_interested)
+      </div></div>
+      <div class="spec-row"><div class="spec-key">Comportamiento</div><div class="spec-val">Los dos filtros funcionan de forma independiente y se pueden combinar entre sí y con los filtros existentes (estado, búsqueda). Al cambiar cualquier filtro, la tabla se actualiza inmediatamente sin recargar la página.</div></div>
+      <div class="spec-row"><div class="spec-key">Sin resultados</div><div class="spec-val">Si la combinación de filtros no devuelve resultados, mostrar estado vacío centrado: ícono 🔍 + "No hay citas que coincidan con los filtros seleccionados." + botón "Limpiar filtros" que resetea todos a "todos".</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ PANTALLA 4 ══ -->
+  <div class="sec-eyebrow">Pantalla 4</div>
+  <div class="sec-title">Perfil del asesor — pestaña Calificaciones</div>
+  <p class="prose">Nueva pestaña en el perfil del asesor. Se agrega junto a las pestañas existentes (Info, Propiedades). Visible para Admin y KAM.</p>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Pestaña nueva</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Label</div><div class="spec-val">"Calificaciones" — mismo estilo que las pestañas existentes "Info" y "Propiedades".</div></div>
+      <div class="spec-row"><div class="spec-key">Sin calificaciones</div><div class="spec-val">Si el asesor no tiene ningún feedback recibido aún, mostrar estado vacío: ícono ⭐ + "Este asesor aún no tiene calificaciones." Sin scoring, sin tabla.</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Card de scoring global</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Scoring</div><div class="spec-val">Número grande (font-size 48px, font-weight 800) en color #238D7E. Label debajo: "Scoring global" en gris pequeño.</div></div>
+      <div class="spec-row"><div class="spec-key">Rating promedio</div><div class="spec-val">Formato: "[número] / 5 ⭐ · [N] calificaciones". font-size 14px. Mismo color que el texto de cuerpo.</div></div>
+      <div class="spec-row"><div class="spec-key">Fórmula del scoring</div><div class="spec-val">(rating_promedio × 0.6) + (porcentaje_apply × 5 × 0.4). Resultado redondeado a 1 decimal. Rango: 1.0 a 5.0.</div></div>
+      <div class="spec-row"><div class="spec-key">Barras de distribución</div><div class="spec-val">
+        4 filas, una por opción de interés. Cada fila: emoji + barra horizontal + porcentaje.<br>
+        Barra: altura 8px, border-radius 99px, fondo gris #E5E7EB, fill #238D7E. Ancho proporcional al porcentaje.<br>
+        El porcentaje se muestra a la derecha de la barra: "XX%", font-size 12px, color gris.
+      </div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Tabla "Calificaciones recibidas"</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Label de sección</div><div class="spec-val">"CALIFICACIONES RECIBIDAS" — uppercase, gris claro, font-size 11px. Igual al estilo de labels de sección del backoffice.</div></div>
+      <div class="spec-row"><div class="spec-key">Columnas</div><div class="spec-val">Fecha · Propiedad · Rating · Interés · Comentario · Tag</div></div>
+      <div class="spec-row"><div class="spec-key">Columna Fecha</div><div class="spec-val">Formato DD/MM. font-size 13px.</div></div>
+      <div class="spec-row"><div class="spec-key">Columna Propiedad</div><div class="spec-val">Nombre corto de la propiedad. Si es muy largo, truncar con ellipsis.</div></div>
+      <div class="spec-row"><div class="spec-key">Columna Rating</div><div class="spec-val">Estrellas llenas en #238D7E según el número. Estrellas vacías en #E5E7EB. Siempre 5 estrellas totales.</div></div>
+      <div class="spec-row"><div class="spec-key">Columna Interés</div><div class="spec-val">Emoji + texto del nivel de interés. font-size 13px.</div></div>
+      <div class="spec-row"><div class="spec-key">Columna Comentario</div><div class="spec-val">Texto en itálica entre comillas si existe. Si no hay comentario: "—" en gris.</div></div>
+      <div class="spec-row"><div class="spec-key">Columna Tag</div><div class="spec-val">Solo para filas HOT: badge circular con 🔥 arriba y texto "HOT" abajo, fondo #FEF9C3, texto #92400E. Para filas no HOT: "—" en gris.</div></div>
+      <div class="spec-row"><div class="spec-key">Filas HOT</div><div class="spec-val">Las filas donde el interés es "apply" tienen borde izquierdo 3px sólido #238D7E.</div></div>
+      <div class="spec-row"><div class="spec-key">Ordenamiento</div><div class="spec-val">Por fecha descendente por defecto (más reciente primero). No se requiere ordenamiento interactivo por columna en esta iteración.</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Scoring en la card del asesor — lista de Advisors</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Posición</div><div class="spec-val">Debajo de los datos de contacto (email, teléfono, propiedades asignadas) en la card del asesor.</div></div>
+      <div class="spec-row"><div class="spec-key">Formato</div><div class="spec-val">⭐ [scoring] · [N] calificaciones. La estrella en color #238D7E. El scoring en font-weight 700. El texto de calificaciones en color gris.</div></div>
+      <div class="spec-row"><div class="spec-key">Sin calificaciones</div><div class="spec-val">No mostrar esta línea si el asesor no tiene calificaciones aún.</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
