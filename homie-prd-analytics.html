@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRD · Booking Analytics · Homie Rent</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:wght@400;500&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#238D7E;--green-mid:#1A6E62;--green-light:#E8F5F3;--green-pale:#F2FAF9;--orange:#ED8735;--orange-light:#FDF3EA;--ink:#111827;--ink-2:#374151;--ink-3:#6B7280;--ink-4:#9CA3AF;--border:#E5E7EB;--bg:#F9FAFB;--surface:#FFFFFF;--warn:#D97706;--warn-light:#FFFBEB;--info:#2563EB;--info-light:#EFF6FF;--danger:#DC2626;--danger-light:#FEF2F2;--sans:'Cabinet Grotesk',sans-serif;--serif:'Fraunces',Georgia,serif;--mono:'DM Mono',monospace;--r:10px;--rl:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:8px}
+.nav-dot{width:22px;height:22px;border-radius:5px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px}
+.nav-title{font-size:13px;font-weight:700;color:var(--ink)}
+.nav-chips{display:flex;gap:4px}
+.chip{padding:4px 12px;border-radius:99px;font-size:12px;font-weight:600;background:transparent;border:1px solid var(--border);color:var(--ink-3);cursor:pointer;transition:all .15s;font-family:var(--sans)}
+.chip:hover{color:var(--ink);border-color:#ccc}
+.chip.active{background:var(--green);border-color:var(--green);color:#fff}
+.nav-meta{font-family:var(--mono);font-size:10px;color:var(--ink-4)}
+.section{display:none;padding:68px 0 60px}
+.section.active{display:block}
+.wrap{max-width:860px;margin:0 auto;padding:0 2rem}
+.page-header{padding:2.5rem 0 2rem;border-bottom:1px solid var(--border);margin-bottom:2rem}
+.page-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.page-title{font-family:var(--serif);font-size:clamp(26px,3.5vw,36px);font-weight:400;line-height:1.15;margin-bottom:8px}
+.page-title em{font-style:italic;color:var(--green)}
+.page-desc{font-size:14px;color:var(--ink-3);line-height:1.7;margin-bottom:1.25rem}
+.meta-row{display:flex;gap:24px;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-key{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4)}
+.meta-val{font-size:12px;font-weight:600;color:var(--ink-2)}
+.sec-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;margin-top:2rem}
+.sec-title{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.prose{font-size:14px;color:var(--ink-2);line-height:1.75;margin-bottom:1.25rem}
+.divider{height:1px;background:var(--border);margin:2rem 0}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600}
+.p-green{background:var(--green-light);color:var(--green)}
+.p-orange{background:var(--orange-light);color:var(--orange)}
+.p-warn{background:var(--warn-light);color:var(--warn)}
+.p-info{background:var(--info-light);color:var(--info)}
+.p-dark{background:var(--bg);color:var(--ink-3);border:1px solid var(--border)}
+.p-done{background:var(--green-light);color:var(--green-mid);border:1px solid rgba(35,141,126,.2)}
+.p-danger{background:var(--danger-light);color:var(--danger)}
+.callout{border-radius:var(--r);padding:13px 15px;margin-bottom:1.25rem;display:flex;gap:10px;font-size:13px}
+.callout.warn{background:var(--warn-light);border:1px solid #FDE68A}
+.callout.green{background:var(--green-light);border:1px solid rgba(35,141,126,.2)}
+.callout.neutral{background:var(--bg);border:1px solid var(--border)}
+.callout.info{background:var(--info-light);border:1px solid #BFDBFE}
+.ci{font-size:14px;flex-shrink:0;margin-top:1px}
+.ct{font-weight:700;margin-bottom:3px;color:var(--ink)}
+.cb{color:var(--ink-2);line-height:1.65}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:12px}
+.card-header{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.card-title{font-size:13px;font-weight:700;color:var(--ink)}
+.card-body{padding:16px}
+.tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;padding:9px 14px;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-4);background:var(--bg);border-bottom:1px solid var(--border)}
+.tbl td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--ink);vertical-align:top;line-height:1.5}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--bg)}
+.spec-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
+.spec-header{padding:11px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.spec-title{font-size:13px;font-weight:700;color:var(--ink)}
+.spec-body{padding:0}
+.spec-row{display:flex;gap:0;border-bottom:1px solid var(--border);font-size:13px}
+.spec-row:last-child{border-bottom:none}
+.spec-key{min-width:190px;padding:10px 14px;color:var(--ink-3);font-weight:500;flex-shrink:0;background:var(--bg);border-right:1px solid var(--border)}
+.spec-val{padding:10px 14px;color:var(--ink-2);line-height:1.6;flex:1}
+
+/* KPI MOCKUP */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+@media(max-width:640px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi-green::before{background:var(--green)}
+.kpi-orange::before{background:var(--orange)}
+.kpi-warn::before{background:var(--warn)}
+.kpi-danger::before{background:var(--danger)}
+.kpi-label{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.kpi-value{font-family:var(--serif);font-size:32px;font-weight:400;color:var(--ink);line-height:1;margin-bottom:4px}
+.kpi-trend{font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px}
+.trend-up{color:#16A34A}
+.trend-down-good{color:#16A34A}
+.trend-down-bad{color:var(--danger)}
+
+/* CHART MOCKUP */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem}
+@media(max-width:600px){.chart-grid{grid-template-columns:1fr}}
+.chart-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.chart-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:12px}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:80px}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.bar{border-radius:4px 4px 0 0;width:100%}
+.bar-label{font-size:9px;color:var(--ink-4);font-family:var(--mono)}
+.donut-legend{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.dl-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dl-label{flex:1;color:var(--ink-2)}
+.dl-pct{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+
+/* FILTERS MOCKUP */
+.filters-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:1.25rem}
+.filter-tabs{display:flex;gap:2px;background:var(--bg);border-radius:7px;padding:3px;border:1px solid var(--border)}
+.ftab{padding:4px 12px;border-radius:5px;font-size:12px;font-weight:600;color:var(--ink-3);cursor:default}
+.ftab.active{background:var(--surface);color:var(--green);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.filter-select-mock{padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--bg);color:var(--ink);display:flex;align-items:center;gap:6px}
+.fsel-arrow{color:var(--ink-3);font-size:10px}
+
+/* ADVISOR TABLE MOCKUP */
+.adv-table{width:100%;border-collapse:collapse;font-size:12px}
+.adv-table th{text-align:left;padding:8px 12px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);background:var(--bg);border-bottom:1px solid var(--border)}
+.adv-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--ink-2);vertical-align:middle}
+.adv-table tr:last-child td{border-bottom:none}
+.adv-av{width:26px;height:26px;border-radius:50%;background:var(--green-light);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);margin-right:6px}
+.rate-badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700}
+.rb-high{background:var(--green-light);color:var(--green)}
+.rb-mid{background:var(--warn-light);color:var(--warn)}
+.rb-low{background:var(--danger-light);color:var(--danger)}
+
+@keyframes fade-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fade-up .35s ease both}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}
+code{font-family:var(--mono);font-size:11px;background:var(--bg);padding:1px 6px;border-radius:4px;border:1px solid var(--border);color:var(--green-mid)}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-logo">
+    <div class="nav-dot">📊</div>
+    <div class="nav-title">Homie Rent · PRD</div>
+  </div>
+  <div class="nav-chips">
+    <button class="chip active" onclick="show('resumen')">Resumen</button>
+    <button class="chip" onclick="show('metricas')">Métricas</button>
+    <button class="chip" onclick="show('pantalla')">Pantalla</button>
+    <button class="chip" onclick="show('specs')">Especificaciones</button>
+  </div>
+  <div class="nav-meta">v1.0 · Mayo 2026</div>
+</div>
+
+<!-- ══ RESUMEN ══ -->
+<div class="section active" id="s-resumen">
+<div class="wrap">
+  <div class="page-header fade">
+    <div class="page-eyebrow">Feature · App de Citas Chile</div>
+    <h1 class="page-title">Booking <em>Analytics</em></h1>
+    <p class="page-desc">Tablero de métricas operacionales del proceso de citas de Homie Rent Chile. Centraliza en un solo lugar la visibilidad del volumen de citas, el desempeño por asesor y la calidad del agendamiento. Accesible desde el módulo Booking del backoffice.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-key">Ubicación</div><div class="meta-val">Backoffice Homie · Módulo Booking</div></div>
+      <div class="meta-item"><div class="meta-key">Ruta</div><div class="meta-val">/booking/analytics</div></div>
+      <div class="meta-item"><div class="meta-key">Acceso</div><div class="meta-val">Admin y KAM únicamente</div></div>
+      <div class="meta-item"><div class="meta-key">Mercado</div><div class="meta-val">Chile</div></div>
+      <div class="meta-item"><div class="meta-key">Estado mockup</div><div class="meta-val">Disponible en Lovable</div></div>
+    </div>
+  </div>
+
+  <div class="sec-eyebrow">Problema que resuelve</div>
+  <div class="sec-title">¿Por qué lo hacemos?</div>
+  <p class="prose">Hoy no hay visibilidad centralizada del proceso de citas. El equipo no puede responder preguntas básicas como cuántas citas se concretaron esta semana, qué asesor tiene más no-shows, o cómo está evolucionando el volumen de agendamientos. Esta información existe en el sistema pero no hay forma de verla de un vistazo.</p>
+
+  <div class="divider"></div>
+
+  <div class="sec-eyebrow">Alcance</div>
+  <div class="sec-title">Qué incluye el tablero</div>
+
+  <div class="tbl-wrap fade d2">
+    <table class="tbl">
+      <thead><tr><th>Sección</th><th>Qué muestra</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Filtros</strong></td><td>Período (Hoy / Semana / Mes) + filtro por asesor</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+        <tr><td><strong>KPIs principales</strong></td><td>4 tarjetas con los números más importantes del período seleccionado</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+        <tr><td><strong>Citas por día</strong></td><td>Gráfico de barras con el volumen diario del período</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+        <tr><td><strong>Distribución de estados</strong></td><td>Gráfico donut con la proporción de cada resultado de cita</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+        <tr><td><strong>Desempeño por asesor</strong></td><td>Tabla con métricas individuales de cada asesor ordenable por columna</td><td><span class="pill p-done">✓ Mockup listo</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn fade d3">
+    <div class="ci">—</div>
+    <div>
+      <div class="ct">Fuera de alcance en esta iteración</div>
+      <div class="cb">Citas agendadas vs meta (sin metas configuradas) · Tasa de conversión cita → arriendo (sin vinculación post-cita) · Funnel comercial completo (leads → aplicaciones → arriendos) · Fuentes de adquisición y UTMs (disponible en Amplitude) · Export de datos a CSV o Excel · Reportes automáticos por email.</div>
+    </div>
+  </div>
+
+  <div class="callout neutral fade d4">
+    <div class="ci">👁</div>
+    <div>
+      <div class="ct">Control de acceso</div>
+      <div class="cb">El tablero es visible únicamente para usuarios con rol <strong>Admin</strong> o <strong>KAM</strong>. Los asesores (rol Booking/Advisor) no tienen acceso. Si un asesor navega directamente a <code>/booking/analytics</code>, ve una pantalla de "Sin acceso" en lugar del tablero.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ MÉTRICAS ══ -->
+<div class="section" id="s-metricas">
+<div class="wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">Definición de métricas</div>
+    <h1 class="page-title">Qué se <em>mide y cómo</em></h1>
+    <p class="page-desc">Definición precisa de cada métrica que aparece en el tablero, cómo se calcula y qué período abarca según el filtro seleccionado.</p>
+  </div>
+
+  <div class="sec-eyebrow">KPIs principales</div>
+  <div class="kpi-grid fade">
+    <div class="kpi-card kpi-green">
+      <div class="kpi-label">Citas agendadas</div>
+      <div class="kpi-value">34</div>
+      <div class="kpi-trend trend-up">↑ 12% vs período anterior</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-label">Citas concluidas</div>
+      <div class="kpi-value">21</div>
+      <div class="kpi-trend trend-up">↑ 8%</div>
+    </div>
+    <div class="kpi-card kpi-warn">
+      <div class="kpi-label">Tasa de no-show</div>
+      <div class="kpi-value">14%</div>
+      <div class="kpi-trend trend-down-good">↓ 3% (mejora)</div>
+    </div>
+    <div class="kpi-card kpi-danger">
+      <div class="kpi-label">Citas canceladas</div>
+      <div class="kpi-value">6</div>
+      <div class="kpi-trend trend-down-good">↓ 18%</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap fade">
+    <table class="tbl">
+      <thead><tr><th>Métrica</th><th>Cómo se calcula</th><th>Nota</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Citas agendadas</strong></td>
+          <td>Total de citas creadas en el período seleccionado, con cualquier estado.</td>
+          <td>Incluye las que luego se cancelaron o no se concretaron.</td>
+        </tr>
+        <tr>
+          <td><strong>Citas concluidas</strong></td>
+          <td>Total de citas con estado "Concretada" en el período.</td>
+          <td>Solo citas donde el asesor marcó el resultado.</td>
+        </tr>
+        <tr>
+          <td><strong>Tasa de no-show</strong></td>
+          <td>Citas sin confirmar canceladas automáticamente a T−1h ÷ total de citas agendadas × 100.</td>
+          <td>El indicador de tendencia es positivo cuando baja (menos no-shows es mejor).</td>
+        </tr>
+        <tr>
+          <td><strong>Citas canceladas</strong></td>
+          <td>Total de citas con cualquier motivo de cancelación: por el arrendatario, por el asesor, o por reserva del inmueble.</td>
+          <td>No incluye las cancelaciones automáticas por falta de confirmación (esas van al no-show).</td>
+        </tr>
+        <tr>
+          <td><strong>Ratio citas / leads</strong></td>
+          <td>Total de citas agendadas ÷ total de leads recibidos en el período × 100.</td>
+          <td>Los leads recibidos provienen del sistema de citas. Métrica clave de eficiencia del funnel.</td>
+        </tr>
+        <tr>
+          <td><strong>Citas por día</strong></td>
+          <td>Número de citas agendadas en cada día del período seleccionado.</td>
+          <td>Desglosado en: Concluidas (apilado verde) + Canceladas (apilado rojo).</td>
+        </tr>
+        <tr>
+          <td><strong>Distribución de estados</strong></td>
+          <td>Porcentaje de cada estado (Concluida / Cancelada / No-show / Reagendada) sobre el total de citas del período.</td>
+          <td>La suma siempre es 100%.</td>
+        </tr>
+        <tr>
+          <td><strong>Tasa de conclusión por asesor</strong></td>
+          <td>Citas concluidas del asesor ÷ citas agendadas del asesor × 100.</td>
+          <td>Se muestra como porcentaje con color según nivel: verde ≥70%, ámbar 40–69%, rojo &lt;40%.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-eyebrow">Períodos y filtros</div>
+  <div class="sec-title">Cómo afectan los filtros a las métricas</div>
+
+  <div class="tbl-wrap fade">
+    <table class="tbl">
+      <thead><tr><th>Filtro de período</th><th>Rango de fechas</th><th>Agrupación en el gráfico de barras</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Hoy</strong></td><td>Desde las 00:00 del día actual hasta el momento actual</td><td>Por hora (00h–23h)</td></tr>
+        <tr><td><strong>Semana</strong></td><td>Lunes a domingo de la semana en curso</td><td>Por día (Lun–Dom)</td></tr>
+        <tr><td><strong>Mes</strong></td><td>Día 1 al día actual del mes en curso</td><td>Por semana (Sem 1, Sem 2, etc.)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap fade">
+    <table class="tbl">
+      <thead><tr><th>Filtro de asesor</th><th>Comportamiento</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Todos los asesores</strong></td><td>KPIs muestran totales globales. Gráficos muestran datos globales. Tabla de desempeño muestra todos los asesores.</td></tr>
+        <tr><td><strong>Asesor específico</strong></td><td>KPIs muestran solo los datos de ese asesor. Gráficos filtrados para ese asesor. La tabla de desempeño se reemplaza por una card de detalle individual del asesor seleccionado.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout neutral fade">
+    <div class="ci">↕</div>
+    <div>
+      <div class="ct">Indicadores de tendencia</div>
+      <div class="cb">Cada KPI muestra la variación porcentual vs el período inmediatamente anterior del mismo tipo. Si el período es "Semana", compara contra la semana pasada. Si es "Mes", compara contra el mes pasado. Si es "Hoy", compara contra ayer. La tasa de no-show es la única métrica donde una flecha hacia abajo (↓) se muestra en verde porque implica mejora.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ PANTALLA ══ -->
+<div class="section" id="s-pantalla">
+<div class="wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">Diseño de la pantalla</div>
+    <h1 class="page-title">Qué ve el <em>Admin y el KAM</em></h1>
+    <p class="page-desc">Estructura visual del tablero con los componentes en su orden de aparición de arriba hacia abajo.</p>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="sec-eyebrow">Componente 1 · Filtros</div>
+  <div class="sec-title">Barra de filtros — sticky bajo el header</div>
+  <p class="prose">La barra de filtros se mantiene visible mientras el usuario hace scroll por el tablero. Dos filtros siempre presentes: período y asesor.</p>
+
+  <div class="filters-bar fade">
+    <div class="filter-tabs">
+      <div class="ftab">Hoy</div>
+      <div class="ftab active">Semana</div>
+      <div class="ftab">Mes</div>
+    </div>
+    <div class="filter-select-mock">👤 Todos los asesores <span class="fsel-arrow">▾</span></div>
+    <div style="margin-left:auto;font-size:11px;color:var(--ink-4);display:flex;align-items:center;gap:5px;">
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse-dot 2s ease-in-out infinite;"></span>
+      Última actualización: hace 5 min
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Comportamiento de los filtros</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Período por defecto</div><div class="spec-val">Semana — al entrar al tablero por primera vez.</div></div>
+      <div class="spec-row"><div class="spec-key">Asesor por defecto</div><div class="spec-val">Todos los asesores.</div></div>
+      <div class="spec-row"><div class="spec-key">Al cambiar filtro</div><div class="spec-val">Todos los componentes del tablero se actualizan simultáneamente. Sin recarga de página. El estado del filtro se mantiene mientras el usuario está en la página.</div></div>
+      <div class="spec-row"><div class="spec-key">Indicador "Última actualización"</div><div class="spec-val">Muestra hace cuánto se actualizaron los datos. Dot verde pulsante a la izquierda. Alineado al extremo derecho de la barra.</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+
+  <!-- GRÁFICOS -->
+  <div class="sec-eyebrow">Componente 4 · Gráficos</div>
+  <div class="sec-title">Dos gráficos en columnas</div>
+
+  <div class="chart-grid fade">
+    <div class="chart-box">
+      <div class="chart-title">Citas por día</div>
+      <div class="bar-chart">
+        <div class="bar-col"><div class="bar" style="height:40%;background:var(--green-light);"></div><div class="bar-label">Lun</div></div>
+        <div class="bar-col"><div class="bar" style="height:70%;background:var(--green-light);"></div><div class="bar-label">Mar</div></div>
+        <div class="bar-col"><div class="bar" style="height:60%;background:var(--green-light);"></div><div class="bar-label">Mié</div></div>
+        <div class="bar-col"><div class="bar" style="height:90%;background:var(--green-light);"></div><div class="bar-label">Jue</div></div>
+        <div class="bar-col"><div class="bar" style="height:50%;background:var(--green-light);"></div><div class="bar-label">Vie</div></div>
+        <div class="bar-col"><div class="bar" style="height:30%;background:var(--green-light);"></div><div class="bar-label">Sáb</div></div>
+        <div class="bar-col"><div class="bar" style="height:5%;background:var(--border);"></div><div class="bar-label">Dom</div></div>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Distribución de estados</div>
+      <div style="width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--green) 0% 62%, #FCA5A5 62% 80%, #FCD34D 80% 92%, #93C5FD 92% 100%);margin:0 auto 8px;"></div>
+      <div class="donut-legend">
+        <div class="dl-row"><div class="dl-dot" style="background:var(--green)"></div><div class="dl-label">Concluidas</div><div class="dl-pct">62%</div></div>
+        <div class="dl-row"><div class="dl-dot" style="background:#FCA5A5"></div><div class="dl-label">Canceladas</div><div class="dl-pct">18%</div></div>
+        <div class="dl-row"><div class="dl-dot" style="background:#FCD34D"></div><div class="dl-label">No-show</div><div class="dl-pct">12%</div></div>
+        <div class="dl-row"><div class="dl-dot" style="background:#93C5FD"></div><div class="dl-label">Reagendadas</div><div class="dl-pct">8%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Gráfico de barras — Citas por día</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Tipo</div><div class="spec-val">Barras apiladas. Dos series: Concluidas (verde #238D7E más oscuro) y Canceladas (rojo suave #FCA5A5). Las barras totales representan el total agendado.</div></div>
+      <div class="spec-row"><div class="spec-key">Eje X</div><div class="spec-val">Los días del período seleccionado. Con filtro "Semana": Lun–Dom. Con "Mes": semanas. Con "Hoy": horas.</div></div>
+      <div class="spec-row"><div class="spec-key">Eje Y</div><div class="spec-val">Número de citas. Escala automática según el máximo del período.</div></div>
+      <div class="spec-row"><div class="spec-key">Tooltip</div><div class="spec-val">Al pasar el cursor sobre una barra: mostrar el día + total agendadas + concluidas + canceladas.</div></div>
+      <div class="spec-row"><div class="spec-key">Sin datos</div><div class="spec-val">Si un día no tiene citas, la barra no aparece o aparece a altura 0 con el label del día visible.</div></div>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Gráfico donut — Distribución de estados</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Tipo</div><div class="spec-val">Donut (anillo). 4 segmentos con sus colores fijos independientemente del porcentaje.</div></div>
+      <div class="spec-row"><div class="spec-key">Colores</div><div class="spec-val">Concluidas: #238D7E · Canceladas: #FCA5A5 · No-show: #FCD34D · Reagendadas: #93C5FD</div></div>
+      <div class="spec-row"><div class="spec-key">Leyenda</div><div class="spec-val">Debajo del donut. Cada fila: dot de color + label + porcentaje a la derecha.</div></div>
+      <div class="spec-row"><div class="spec-key">Tooltip</div><div class="spec-val">Al hacer hover sobre un segmento: label del estado + número absoluto + porcentaje.</div></div>
+      <div class="spec-row"><div class="spec-key">Sin datos</div><div class="spec-val">Si no hay citas en el período, mostrar el donut vacío en gris con el texto "Sin datos para este período" debajo.</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TABLA ASESORES -->
+  <div class="sec-eyebrow">Componente 5 · Tabla de desempeño</div>
+  <div class="sec-title">Desempeño por asesor</div>
+  <p class="prose">Visible cuando el filtro de asesor está en "Todos los asesores". Cuando se selecciona un asesor específico, esta tabla se reemplaza por una card de detalle individual.</p>
+
+  <div class="card fade">
+    <div class="card-header"><div class="card-title">Desempeño por asesor · Semana actual</div></div>
+    <div class="card-body" style="padding:0;">
+      <table class="adv-table">
+        <thead><tr><th>Asesor</th><th>Agendadas</th><th>Concluidas</th><th>Canceladas</th><th>Reagendadas</th><th>No-show</th><th>Tasa conclusión</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="adv-av">LM</span>Leandro M.</td>
+            <td>12</td><td>9</td><td>1</td><td>1</td><td>1</td>
+            <td><span class="rate-badge rb-high">75%</span></td>
+          </tr>
+          <tr>
+            <td><span class="adv-av">VR</span>Valentina R.</td>
+            <td>10</td><td>7</td><td>2</td><td>0</td><td>1</td>
+            <td><span class="rate-badge rb-high">70%</span></td>
+          </tr>
+          <tr>
+            <td><span class="adv-av">SG</span>Sebastián G.</td>
+            <td>8</td><td>5</td><td>2</td><td>1</td><td>0</td>
+            <td><span class="rate-badge rb-mid">63%</span></td>
+          </tr>
+          <tr>
+            <td><span class="adv-av">CR</span>Carolina R.</td>
+            <td>4</td><td>0</td><td>1</td><td>2</td><td>1</td>
+            <td><span class="rate-badge rb-low">0%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="spec-box fade">
+    <div class="spec-header"><div class="spec-title">Comportamiento de la tabla</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Orden por defecto</div><div class="spec-val">Por "Agendadas" descendente (más citas arriba).</div></div>
+      <div class="spec-row"><div class="spec-key">Ordenamiento interactivo</div><div class="spec-val">Click en el header de cualquier columna numérica cambia el orden. Primer click: descendente. Segundo click: ascendente. Ícono de flecha en el header activo.</div></div>
+      <div class="spec-row"><div class="spec-key">Columna Asesor</div><div class="spec-val">Avatar circular con iniciales + nombre. Mismo estilo que en la lista de Advisors.</div></div>
+      <div class="spec-row"><div class="spec-key">Columna Tasa conclusión</div><div class="spec-val">Badge pill con color según valor: ≥70% verde · 40–69% ámbar · &lt;40% rojo.</div></div>
+      <div class="spec-row"><div class="spec-key">Card de asesor individual</div><div class="spec-val">Cuando se selecciona un asesor en el filtro, la tabla desaparece y aparece una card horizontal con sus 6 métricas individuales en columnas + mini gráfico de barras de su semana.</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ ESPECIFICACIONES ══ -->
+<div class="section" id="s-specs">
+<div class="wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">Especificaciones UX/UI · Para desarrollo</div>
+    <h1 class="page-title">Guía de implementación <em>detallada</em></h1>
+    <p class="page-desc">Especificaciones de comportamiento, copys, estados y validaciones para cada componente del tablero. Diseñadas para ser usadas directamente con Claude Code.</p>
+  </div>
+
+  <!-- ACCESO Y ROLES -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-info">Acceso</span><div class="spec-title">Control de roles</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Roles con acceso</div><div class="spec-val"><code>admin</code> y <code>kam</code> — ven el tablero completo.</div></div>
+      <div class="spec-row"><div class="spec-key">Roles sin acceso</div><div class="spec-val"><code>advisor</code> / <code>booking</code> — ven una pantalla de "Sin acceso" con el mensaje: "No tienes acceso a esta sección." Sin detalles adicionales.</div></div>
+      <div class="spec-row"><div class="spec-key">Navegación</div><div class="spec-val">El ítem "Analytics" en el sidebar de Booking solo es visible para Admin y KAM. No aparece en el menú de los asesores.</div></div>
+    </div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-green">Filtros</span><div class="spec-title">Barra de filtros — comportamiento completo</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Posición</div><div class="spec-val">Sticky debajo del header del backoffice. z-index mayor que el contenido pero menor que los modales. Fondo blanco con backdrop-blur para que el contenido de abajo se vea difuminado al hacer scroll.</div></div>
+      <div class="spec-row"><div class="spec-key">Período · tabs</div><div class="spec-val">3 tabs: "Hoy", "Semana" (activo por defecto), "Mes". Tab activo: fondo blanco, texto verde #238D7E, sombra sutil. Tab inactivo: sin fondo, texto gris.</div></div>
+      <div class="spec-row"><div class="spec-key">Asesor · select</div><div class="spec-val">Dropdown con opción por defecto "Todos los asesores" + una opción por cada asesor activo en el sistema. Los asesores se listan por nombre alfabético. Al seleccionar uno, el label del dropdown muestra su nombre.</div></div>
+      <div class="spec-row"><div class="spec-key">Estado de carga</div><div class="spec-val">Al cambiar cualquier filtro, todos los componentes del tablero muestran un skeleton loader (rectángulos grises animados) mientras se actualizan los datos. Duración máxima del loader: hasta recibir respuesta.</div></div>
+      <div class="spec-row"><div class="spec-key">Persistencia</div><div class="spec-val">Los filtros seleccionados se mantienen mientras el usuario está en la página. Al salir y volver, se resetean a los valores por defecto (Semana + Todos).</div></div>
+      <div class="spec-row"><div class="spec-key">Indicador actualización</div><div class="spec-val">Texto "Última actualización: hace X min" alineado a la derecha. Dot circular verde (#238D7E) pulsante a su izquierda. El tiempo se actualiza cada minuto sin recargar los datos.</div></div>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-green">KPIs</span><div class="spec-title">Tarjetas de métricas — estados y copys</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Layout</div><div class="spec-val">Grid de 4 columnas en desktop. 2 columnas en tablet. 1 columna en mobile. Gap 12px entre tarjetas.</div></div>
+      <div class="spec-row"><div class="spec-key">Línea de color</div><div class="spec-val">2px en la parte superior de cada card: Agendadas y Concluidas → #238D7E · No-show → #D97706 · Canceladas → #DC2626.</div></div>
+      <div class="spec-row"><div class="spec-key">Label</div><div class="spec-val">Uppercase, font-size 10px, letter-spacing 0.07em, color gris #6B7280.</div></div>
+      <div class="spec-row"><div class="spec-key">Número</div><div class="spec-val">Font-size 32px, font-weight 800, color #111827. La tasa de no-show incluye el símbolo % junto al número.</div></div>
+      <div class="spec-row"><div class="spec-key">Tendencia · subiendo</div><div class="spec-val">↑ X% vs [período anterior] — verde #16A34A para agendadas y concluidas. Rojo #DC2626 para no-show y canceladas.</div></div>
+      <div class="spec-row"><div class="spec-key">Tendencia · bajando</div><div class="spec-val">↓ X% vs [período anterior] — rojo para agendadas y concluidas. Verde para no-show y canceladas.</div></div>
+      <div class="spec-row"><div class="spec-key">Tendencia · sin cambio</div><div class="spec-val">→ Sin cambio — gris, sin flecha.</div></div>
+      <div class="spec-row"><div class="spec-key">Sin datos</div><div class="spec-val">Mostrar "—" en lugar del número. Ocultar la línea de tendencia.</div></div>
+      <div class="spec-row"><div class="spec-key">Skeleton loader</div><div class="spec-val">Rectángulo gris animado donde iría el número + otro más pequeño donde iría la tendencia.</div></div>
+    </div>
+  </div>
+
+  <!-- GRÁFICOS -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-info">Gráficos</span><div class="spec-title">Librería y comportamiento</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Librería</div><div class="spec-val">Recharts (ya instalada en el proyecto). No instalar dependencias nuevas.</div></div>
+      <div class="spec-row"><div class="spec-key">Responsive</div><div class="spec-val">Ambos gráficos usan <code>ResponsiveContainer</code> con width="100%" para adaptarse al ancho del contenedor.</div></div>
+      <div class="spec-row"><div class="spec-key">Barras · colores</div><div class="spec-val">Serie Concluidas: #1A6E62 (verde más oscuro). Serie Canceladas: #FCA5A5 (rojo suave). Las barras apiladas suman el total agendado.</div></div>
+      <div class="spec-row"><div class="spec-key">Barras · tooltip</div><div class="spec-val">Formato: "[Día] · Total: N · Concluidas: N · Canceladas: N". Fondo blanco, borde gris, font-size 12px.</div></div>
+      <div class="spec-row"><div class="spec-key">Donut · radio interior</div><div class="spec-val">innerRadius 55, outerRadius 80. El espacio interior puede mostrar el total de citas centrado.</div></div>
+      <div class="spec-row"><div class="spec-key">Donut · tooltip</div><div class="spec-val">Formato: "[Estado] · N citas (XX%)". Mismo estilo que el tooltip de barras.</div></div>
+      <div class="spec-row"><div class="spec-key">Animación</div><div class="spec-val">Animación de entrada al cargar o cambiar filtro: 600ms, easing ease-out. Usar las animaciones por defecto de Recharts.</div></div>
+    </div>
+  </div>
+
+  <!-- TABLA ASESORES -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-green">Tabla</span><div class="spec-title">Desempeño por asesor — especificación completa</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Visibilidad</div><div class="spec-val">Solo visible cuando el filtro de asesor es "Todos los asesores". Se oculta al seleccionar un asesor individual.</div></div>
+      <div class="spec-row"><div class="spec-key">Columnas</div><div class="spec-val">Asesor · Agendadas · Concluidas · Canceladas · Reagendadas · No-show · Tasa conclusión</div></div>
+      <div class="spec-row"><div class="spec-key">Columna Asesor</div><div class="spec-val">Avatar circular 26px con iniciales (máx 2 letras) en fondo verde pale + nombre completo. No clickeable en esta iteración.</div></div>
+      <div class="spec-row"><div class="spec-key">Columnas numéricas</div><div class="spec-val">Centradas. Font-size 13px. Sin decimales.</div></div>
+      <div class="spec-row"><div class="spec-key">Tasa conclusión</div><div class="spec-val">Badge pill: ≥70% fondo #E8F5F3 texto #238D7E · 40–69% fondo #FFFBEB texto #D97706 · &lt;40% fondo #FEF2F2 texto #DC2626. Muestra el porcentaje con símbolo %.</div></div>
+      <div class="spec-row"><div class="spec-key">Ordenamiento</div><div class="spec-val">Default: Agendadas descendente. Headers clickeables: icono <code>↕</code> en reposo, <code>↑</code> ascendente, <code>↓</code> descendente. Solo columnas numéricas son ordenables.</div></div>
+      <div class="spec-row"><div class="spec-key">Hover en fila</div><div class="spec-val">Fondo #F9FAFB al pasar el cursor.</div></div>
+      <div class="spec-row"><div class="spec-key">Sin asesores</div><div class="spec-val">Si no hay datos, mostrar estado vacío: "No hay datos de asesores para este período."</div></div>
+    </div>
+  </div>
+
+  <!-- CARD INDIVIDUAL -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-green">Card individual</span><div class="spec-title">Vista de asesor seleccionado</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Cuándo aparece</div><div class="spec-val">Cuando el filtro de asesor tiene un asesor específico seleccionado. Reemplaza la tabla de todos los asesores.</div></div>
+      <div class="spec-row"><div class="spec-key">Contenido</div><div class="spec-val">Avatar grande + nombre + 6 métricas en columnas horizontales (mismas que la tabla) + mini gráfico de barras de sus citas por día en el período seleccionado.</div></div>
+      <div class="spec-row"><div class="spec-key">Mini gráfico</div><div class="spec-val">Altura 80px. Mismo tipo que el gráfico principal pero más compacto. Solo la serie de totales (sin apilado). Labels del eje X en font-size 10px.</div></div>
+    </div>
+  </div>
+
+
+  <!-- ESTADOS GLOBALES -->
+  <div class="spec-box fade">
+    <div class="spec-header"><span class="pill p-dark">Estados globales</span><div class="spec-title">Carga, error y vacío</div></div>
+    <div class="spec-body">
+      <div class="spec-row"><div class="spec-key">Carga inicial</div><div class="spec-val">Al entrar a la página por primera vez, todos los componentes muestran skeleton loaders simultáneamente. No se muestra ningún dato real hasta que todos estén listos.</div></div>
+      <div class="spec-row"><div class="spec-key">Carga al filtrar</div><div class="spec-val">Al cambiar filtro, los componentes afectados muestran skeleton sobre el contenido anterior (no desaparece el layout).</div></div>
+      <div class="spec-row"><div class="spec-key">Error de carga</div><div class="spec-val">Si falla la carga de datos, mostrar en el lugar de cada componente: ícono ⚠️ + "No pudimos cargar los datos." + botón "Reintentar" en texto verde.</div></div>
+      <div class="spec-row"><div class="spec-key">Período sin datos</div><div class="spec-val">Si el período seleccionado no tiene ninguna cita (ej: "Hoy" y es muy temprano), mostrar los KPIs en "—", los gráficos vacíos con su mensaje correspondiente y la tabla vacía.</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const views=['resumen','metricas','pantalla','specs'];
+function show(id){
+  views.forEach(v=>{document.getElementById('s-'+v).classList.toggle('active',v===id)});
+  document.querySelectorAll('.chip').forEach((b,i)=>{b.classList.toggle('active',views[i]===id)});
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('#s-'+id+' .fade').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation=''});
+}
+</script>
+</body>
+</html>
