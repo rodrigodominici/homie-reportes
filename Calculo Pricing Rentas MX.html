@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herramienta de Pricing Homie — Documentación Técnica</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+:root{
+  --bg:#faf8f3;
+  --surface:#ffffff;
+  --surface2:#f0ece0;
+  --border:#ddd9d0;
+  --border2:#c8c3b8;
+  --ink:#1a1814;
+  --ink2:#4a4640;
+  --ink3:#7a756e;
+  --red:#c0392b;
+  --orange:#f6b248;
+  --green:#2a8b7e;
+  --blue:#4655ae;
+  --purple:#4655ae;
+  --teal:#2a8b7e;
+  --red-bg:#fdf0ee;
+  --orange-bg:#fef9ee;
+  --green-bg:#eaf5f3;
+  --blue-bg:#eef0fa;
+  --purple-bg:#eef0fa;
+  --teal-bg:#eaf5f3;
+  --red-border:#f0c0ba;
+  --orange-border:#f0d090;
+  --green-border:#a8d8d2;
+  --blue-border:#c0c8e8;
+  --purple-border:#c0c8e8;
+  --teal-border:#a8d8d2;
+  --r:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'Sora',sans-serif;font-size:14px;line-height:1.65;}
+/* ── HEADER ── */
+.header{background:#4655ae;color:#fff;padding:28px 48px 24px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;border-bottom:3px solid #f6b248;}
+.header-left h1{font-size:20px;font-weight:600;letter-spacing:-.02em;margin-bottom:4px;}
+.header-left .sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;}
+.header-right{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;}
+.badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.04em;white-space:nowrap;}
+.badge-light{background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.18);}
+.badge-orange{background:#f6b248;color:#1a1814;}
+/* ── TABS ── */
+.tabs{background:var(--ink);display:flex;gap:0;padding:0 48px;overflow-x:auto;border-bottom:1px solid rgba(255,255,255,.08);}
+.tab{padding:11px 22px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:rgba(255,255,255,.75);}
+.tab.active{color:#f6b248;border-bottom-color:#f6b248;}
+/* ── LAYOUT ── */
+.page{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 108px);}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:calc(100vh - 108px);overflow-y:auto;}
+.sidebar-section{padding:8px 20px 4px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:8px;}
+.sidebar-link{display:block;padding:6px 20px;font-size:12px;color:var(--ink2);cursor:pointer;transition:all .12s;border-left:2px solid transparent;text-decoration:none;}
+.sidebar-link:hover{color:var(--ink);background:var(--surface2);border-left-color:var(--border2);}
+.sidebar-link.active{color:#4655ae;background:#eef0fa;border-left-color:#4655ae;font-weight:500;}
+.main{padding:40px 48px;}
+.panel{display:none;animation:fadeIn .18s ease;}
+.panel.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+/* ── TYPOGRAPHY ── */
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#4655ae;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.eyebrow::after{content:'';flex:1;height:1px;background:var(--border);}
+h2{font-size:24px;font-weight:700;letter-spacing:-.03em;color:var(--ink);margin-bottom:8px;line-height:1.2;}
+h3{font-size:14px;font-weight:600;color:var(--ink);margin:32px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+h4{font-size:13px;font-weight:600;color:var(--ink);margin:20px 0 8px;}
+p{color:var(--ink2);line-height:1.75;margin-bottom:12px;font-size:13.5px;}
+strong{color:var(--ink);font-weight:600;}
+code{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--teal);background:var(--teal-bg);padding:1px 5px;border-radius:3px;border:1px solid var(--teal-border);}
+/* ── CODE BLOCK ── */
+.codeblock{background:var(--ink);border-radius:var(--r);overflow:hidden;margin:14px 0;}
+.codeblock-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06);}
+.codeblock-lang{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);}
+.codeblock pre{padding:16px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;overflow-x:auto;color:#e2d9c8;}
+.codeblock pre .kw{color:#e8a55a;}
+.codeblock pre .str{color:#95d08a;}
+.codeblock pre .num{color:#79b8ff;}
+.codeblock pre .cmt{color:#6a7a6a;font-style:italic;}
+.codeblock pre .fn{color:#d8a0f0;}
+.codeblock pre .var{color:#89c4e1;}
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto;margin:14px 0;border-radius:var(--r);border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;}
+th{background:var(--surface2);padding:9px 14px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--border);}
+td{padding:9px 14px;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:top;color:var(--ink2);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--surface2);}
+/* ── ALERTS ── */
+.alert{border-radius:var(--r);padding:14px 18px;display:flex;gap:14px;margin:16px 0;font-size:13px;}
+.alert-icon{font-size:16px;flex-shrink:0;line-height:1.4;}
+.alert b{display:block;margin-bottom:3px;}
+.alert-info{background:var(--blue-bg);border:1px solid var(--blue-border);}
+.alert-info .alert-icon,.alert-info b{color:var(--blue);}
+.alert-info{color:#334;} .alert-info p{color:#334;margin:0;}
+.alert-warn{background:var(--orange-bg);border:1px solid var(--orange-border);}
+.alert-warn .alert-icon,.alert-warn b{color:var(--orange);}
+.alert-warn{color:#433;} .alert-warn p{color:#433;margin:0;}
+.alert-good{background:var(--green-bg);border:1px solid var(--green-border);}
+.alert-good .alert-icon,.alert-good b{color:var(--green);}
+.alert-good{color:#234;} .alert-good p{color:#234;margin:0;}
+.alert-bad{background:var(--red-bg);border:1px solid var(--red-border);}
+.alert-bad .alert-icon,.alert-bad b{color:var(--red);}
+.alert-bad{color:#433;} .alert-bad p{color:#433;margin:0;}
+/* ── CHIPS ── */
+.chip{display:inline-flex;align-items:center;padding:2px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;margin:1px;}
+.c-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.c-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);}
+.c-orange{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border);}
+.c-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+.c-purple{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border);}
+.c-teal{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-border);}
+.c-gray{background:var(--surface2);color:var(--ink3);border:1px solid var(--border);}
+/* ── CARD ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;margin-bottom:14px;}
+.card-title{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0;}
+@media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr;} .page{grid-template-columns:1fr;} .sidebar{display:none;}}
+/* ── FORMULA ── */
+.formula{background:var(--purple-bg);border-left:3px solid var(--purple);border-radius:0 var(--r) var(--r) 0;padding:12px 18px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--purple);margin:12px 0;line-height:1.7;}
+/* ── STEP LIST ── */
+.steps{display:flex;flex-direction:column;gap:0;margin:16px 0;}
+.step{display:grid;grid-template-columns:44px 1fr;gap:0;position:relative;}
+.step::before{content:'';position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--border);}
+.step:last-child::before{display:none;}
+.step-dot{width:42px;height:42px;border-radius:50%;background:var(--surface);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#4655ae;position:relative;z-index:1;flex-shrink:0;}
+.step-body{padding:8px 0 28px 20px;}
+.step-body h4{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;margin-top:4px;}
+/* ── CASCADE VISUALS ── */
+.cascade{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px;}
+.cascade-hdr{padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.cascade-hdr.blue{background:var(--blue-bg);} .cascade-hdr.blue .ch-label{color:var(--blue);}
+.cascade-hdr.coral{background:var(--red-bg);} .cascade-hdr.coral .ch-label{color:var(--red);}
+.cascade-hdr.amber{background:var(--orange-bg);} .cascade-hdr.amber .ch-label{color:var(--orange);}
+.cascade-hdr.green{background:var(--green-bg);} .cascade-hdr.green .ch-label{color:var(--green);}
+.ch-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.cascade-step{padding:9px 16px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;transition:background .12s;}
+.cascade-step:last-child{border-bottom:none;}
+.cascade-step:hover{background:var(--surface2);}
+.cs-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--ink3);padding-top:1px;}
+.cs-title{font-size:13px;font-weight:500;color:var(--ink);}
+.cs-detail{font-size:11.5px;color:var(--ink3);margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.cs-chips{margin-top:5px;display:flex;flex-wrap:wrap;gap:3px;}
+/* ── RESOLUTION CHAIN ── */
+.res-chain{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:12px 0;}
+.res-box{background:var(--surface);border:1px solid var(--border2);border-radius:5px;padding:7px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--ink2);}
+.res-box.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.res-box.warn{background:var(--orange-bg);border-color:var(--orange-border);color:var(--orange);}
+.res-box.fail{background:var(--red-bg);border-color:var(--red-border);color:var(--red);}
+.res-arrow{color:var(--ink3);padding:0 8px;font-size:16px;}
+/* ── HYPOTHESIS ── */
+.hypo{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;margin-bottom:12px;display:grid;grid-template-columns:40px 1fr;gap:14px;}
+.hypo-n{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--border2);padding-top:2px;}
+.hypo-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.hypo-body{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:10px;}
+.hypo-meta{display:flex;gap:6px;flex-wrap:wrap;}
+/* ── TIMELINE/FLOW ── */
+.flow-box{border:1px solid var(--border);background:var(--surface);border-radius:var(--r);padding:12px 18px;text-align:center;}
+.flow-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;}
+.flow-title{font-size:13px;font-weight:600;color:var(--ink);}
+.flow-sub{font-size:11.5px;color:var(--ink3);margin-top:3px;}
+.flow-arr{display:flex;align-items:center;justify-content:center;padding:4px 0;}
+.flow-arr::after{content:'↓';color:var(--ink3);font-size:18px;}
+/* ── IMPROVE CARDS ── */
+.improve{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin-bottom:14px;border-left:4px solid #2a8b7e;}
+.improve-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.improve-body{font-size:13px;color:var(--ink2);line-height:1.75;margin-bottom:12px;}
+.improve-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+/* ── STAT ── */
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;text-align:center;}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--ink);}
+.stat-lbl{font-size:11px;color:var(--ink3);margin-top:3px;}
+/* scroll */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+a{color:var(--teal);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Herramienta de Pricing Homie</h1>
+    <div class="sub">Documentación técnica interna · v1.0 · Confidencial</div>
+  </div>
+  <div class="header-right">
+    <span class="badge badge-light">3,995 líneas Python</span>
+    <span class="badge badge-light">4 fuentes de datos</span>
+    <span class="badge badge-light">23 niveles de fallback</span>
+    <span class="badge badge-orange">Estado: Producción</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('overview',this)">Resumen ejecutivo</button>
+  <button class="tab" onclick="show('main',this)">Flujo main()</button>
+  <button class="tab" onclick="show('sql',this)">Cascada SQL</button>
+  <button class="tab" onclick="show('homie',this)">Cascada Homie</button>
+  <button class="tab" onclick="show('i24',this)">Cascada i24</button>
+  <button class="tab" onclick="show('colony',this)">Resolución de colonias</button>
+  <button class="tab" onclick="show('norm',this)">Normalización edificio</button>
+  <button class="tab" onclick="show('math',this)">Cálculos y fórmulas</button>
+  <button class="tab" onclick="show('hypo',this)">Diagnóstico y mejoras</button>
+</div>
+
+<div class="page">
+<nav class="sidebar" id="sidebar"></nav>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: RESUMEN EJECUTIVO
+══════════════════════════════════════════════════════ -->
+<div id="panel-overview" class="panel active">
+
+<div class="eyebrow">Visión general</div>
+<h2>¿Qué hace esta herramienta y cómo?</h2>
+<p>La herramienta es un <strong>motor de valoración automatizada de rentas</strong> para el mercado de CDMX. Dada una propiedad descrita por su código postal, coordenadas, m², recámaras y baños, consulta simultáneamente <strong>4 fuentes de datos independientes</strong>, limpia y ajusta los precios históricos por inflación, y escribe el precio sugerido directamente en Google Sheets.</p>
+<p>Técnicamente es un pipeline de datos Python que corre en local. No es un servicio web ni una API — se ejecuta manualmente cuando hay filas nuevas en la hoja de cálculo.</p>
+
+<div class="grid3" style="margin:20px 0;">
+  <div class="stat"><div class="stat-val">4</div><div class="stat-lbl">Fuentes de datos</div></div>
+  <div class="stat"><div class="stat-val">23</div><div class="stat-lbl">Niveles de fallback</div></div>
+  <div class="stat"><div class="stat-val">10</div><div class="stat-lbl">Columnas de output</div></div>
+</div>
+
+
+<h3>Arquitectura general — Waterfall de datos</h3>
+<p>El siguiente diagrama muestra el flujo completo de datos desde la entrada en Google Sheets hasta la escritura del resultado final.</p>
+<div style="overflow-x:auto;margin:20px 0;">
+<svg viewBox="0 0 700 580" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#c8c3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#4655ae" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <!-- GOOGLE SHEETS INPUT -->
+  <rect x="200" y="10" width="300" height="48" rx="8" fill="#eef0fa" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="350" y="28" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600" fill="#4655ae" letter-spacing="1">ENTRADA</text>
+  <text x="350" y="44" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="600" fill="#1a1814">Google Sheets — Columna O (CSV)</text>
+  <!-- arrow -->
+  <line x1="350" y1="58" x2="350" y2="80" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- PARSE -->
+  <rect x="210" y="80" width="280" height="40" rx="8" fill="#faf8f3" stroke="#ddd9d0" stroke-width="1.5"/>
+  <text x="350" y="96" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#1a1814">Parseo y validación (4 formatos)</text>
+  <text x="350" y="112" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#7a756e">CP · lat/lon · recs · m² · baños · parking · colonia · edificio_id</text>
+  <!-- arrow -->
+  <line x1="350" y1="120" x2="350" y2="142" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- PRE-CARGA -->
+  <rect x="175" y="142" width="350" height="40" rx="8" fill="#eef0fa" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="350" y="158" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#4655ae">Pre-carga global en memoria (lazy, single-shot)</text>
+  <text x="350" y="174" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#7a756e">_GLOBAL_SQL_DF · _GLOBAL_HOMIE_DF · _GLOBAL_CLUSTERS_DF</text>
+  <!-- arrows down to 4 sources -->
+  <line x1="350" y1="182" x2="350" y2="200" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="350" y1="200" x2="88" y2="200" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="350" y1="200" x2="262" y2="200" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="350" y1="200" x2="438" y2="200" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="350" y1="200" x2="612" y2="200" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="88" y1="200" x2="88" y2="218" stroke="#4655ae" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <line x1="262" y1="200" x2="262" y2="218" stroke="#c53030" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="438" y1="200" x2="438" y2="218" stroke="#d4680a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="612" y1="200" x2="612" y2="218" stroke="#2a8b7e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- 4 SOURCE BOXES -->
+  <rect x="22" y="218" width="132" height="72" rx="8" fill="#eef0fa" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="88" y="236" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#4655ae">SQL / REDSHIFT</text>
+  <text x="88" y="252" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1a1814">7 niveles</text>
+  <text x="88" y="266" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">Scraping histórico</text>
+  <text x="88" y="280" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">+inflación ajustada</text>
+  <rect x="196" y="218" width="132" height="72" rx="8" fill="#fdf0ee" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="262" y="236" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#c0392b">HOMIE HISTÓRICO</text>
+  <text x="262" y="252" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1a1814">8 niveles</text>
+  <text x="262" y="266" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">Contratos cerrados</text>
+  <text x="262" y="280" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">Precio real de cierre</text>
+  <rect x="372" y="218" width="132" height="72" rx="8" fill="#fef9ee" stroke="#d4680a" stroke-width="1.5"/>
+  <text x="438" y="236" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#d4680a">i24 / SELENIUM</text>
+  <text x="438" y="252" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1a1814">6 niveles</text>
+  <text x="438" y="266" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">Listings activos hoy</text>
+  <text x="438" y="280" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">Precio de oferta</text>
+  <rect x="546" y="218" width="132" height="72" rx="8" fill="#eaf5f3" stroke="#2a8b7e" stroke-width="1.5"/>
+  <text x="612" y="236" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#2a8b7e">CALCULADORA ML</text>
+  <text x="612" y="252" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1a1814">API Homie v5</text>
+  <text x="612" y="266" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">Modelo ML</text>
+  <text x="612" y="280" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">Con amenidades</text>
+  <!-- arrows converge -->
+  <line x1="88" y1="290" x2="88" y2="340" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="262" y1="290" x2="262" y2="340" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="438" y1="290" x2="438" y2="340" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="612" y1="290" x2="612" y2="340" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="88" y1="340" x2="612" y2="340" stroke="#c8c3b8" stroke-width="1.5"/>
+  <line x1="350" y1="340" x2="350" y2="358" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- RESULT -->
+  <rect x="130" y="358" width="440" height="40" rx="8" fill="#faf8f3" stroke="#ddd9d0" stroke-width="1.5"/>
+  <text x="350" y="374" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#1a1814">Resultado por fila (dict)</text>
+  <text x="350" y="390" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#7a756e">mediana · muestra · nivel (por cada fuente)</text>
+  <!-- arrow -->
+  <line x1="350" y1="398" x2="350" y2="418" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- NORMALIZATION -->
+  <rect x="130" y="418" width="440" height="40" rx="8" fill="#eef0fa" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="350" y="434" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#4655ae">Normalización por edificio</text>
+  <text x="350" y="450" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#7a756e">Precio/m² ancla · primas Homie 48% · SQL 11% · i24 0%</text>
+  <!-- arrow -->
+  <line x1="350" y1="458" x2="350" y2="478" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- OUTPUT -->
+  <rect x="200" y="478" width="300" height="48" rx="8" fill="#eaf5f3" stroke="#2a8b7e" stroke-width="1.5"/>
+  <text x="350" y="496" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="600" fill="#2a8b7e" letter-spacing="1">OUTPUT</text>
+  <text x="350" y="514" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="600" fill="#1a1814">Google Sheets — 10 columnas (col. X–AG)</text>
+</svg>
+</div>
+<h3>Las 4 fuentes de datos</h3>
+<div class="grid2">
+  <div class="card">
+    <div class="card-title"><span class="chip c-blue">SQL / Redshift</span></div>
+    <p><strong>Qué contiene:</strong> Histórico de web scraping de portales de renta de CDMX, almacenado en Redshift (Panoply). Últimos 40 meses.<br><strong>Qué mide:</strong> Precio de anuncio al momento del scraping.<br><strong>Fortaleza:</strong> Volumen de datos alto.<br><strong>Debilidad:</strong> No confirma que el inmueble se rentó realmente.</p>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="chip c-red">Homie histórico</span></div>
+    <p><strong>Qué contiene:</strong> Contratos de renta reales gestionados por Homie (status: started, finished, finished_early).<br><strong>Qué mide:</strong> Precio de renta cerrado y pagado.<br><strong>Fortaleza:</strong> Es el único dato de <em>precio real de cierre</em>.<br><strong>Debilidad:</strong> Sesgo geográfico — solo colonias donde Homie opera.</p>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="chip c-orange">i24 / Scraper</span></div>
+    <p><strong>Qué contiene:</strong> Listings activos en Inmuebles24.com en tiempo real (Selenium).<br><strong>Qué mide:</strong> Precio de oferta actual.<br><strong>Fortaleza:</strong> Refleja el mercado del día.<br><strong>Debilidad:</strong> Precio de oferta ≠ precio de cierre. El dueño puede estar pidiendo 15% arriba del mercado.</p>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="chip c-green">Calculadora Homie</span></div>
+    <p><strong>Qué contiene:</strong> Modelo ML propio de Homie (endpoint REST v5).<br><strong>Qué mide:</strong> Predicción de precio basada en features del inmueble + amenidades.<br><strong>Fortaleza:</strong> Único modelo que considera gym, elevador, seguridad, antigüedad.<br><strong>Debilidad:</strong> Black box — sin documentación de features ni confidence interval.</p>
+  </div>
+</div>
+
+<h3>Principio de la cascada</h3>
+<p>Cada fuente tiene múltiples niveles. Los niveles van de <strong>mayor a menor especificidad</strong>: el primer nivel busca la colonia exacta + recámaras exactas + m² en rango. Si no hay datos, el siguiente nivel relaja uno o varios filtros. El proceso para en el primer nivel que produce al menos 1 resultado.</p>
+
+
+<div style="overflow-x:auto;margin:16px 0;">
+<svg viewBox="0 0 620 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px;display:block;margin:0 auto;">
+  <defs>
+    <marker id="arb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#4655ae" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+    <marker id="arg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#2a8b7e" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+  </defs>
+  <!-- Level boxes -->
+  <rect x="10" y="60" width="90" height="120" rx="6" fill="#eef0fa" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="55" y="80" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#4655ae">P1</text>
+  <text x="55" y="96" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a1814">Colonia exacta</text>
+  <text x="55" y="110" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a1814">+ Recs exactas</text>
+  <text x="55" y="124" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a1814">+ m² ±15%</text>
+  <text x="55" y="138" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#2a8b7e">12 meses</text>
+  <text x="55" y="160" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a756e">Más preciso</text>
+  <rect x="120" y="60" width="90" height="120" rx="6" fill="#faf8f3" stroke="#ddd9d0" stroke-width="1.5"/>
+  <text x="165" y="80" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#7a756e">P2</text>
+  <text x="165" y="96" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a1814">Colonia exacta</text>
+  <text x="165" y="110" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a1814">+ Recs exactas</text>
+  <text x="165" y="124" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0392b">Sin m²</text>
+  <text x="165" y="138" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#2a8b7e">12 meses</text>
+  <rect x="230" y="60" width="90" height="120" rx="6" fill="#faf8f3" stroke="#ddd9d0" stroke-width="1.5"/>
+  <text x="275" y="80" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#7a756e">P3</text>
+  <text x="275" y="96" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a1814">Colonia exacta</text>
+  <text x="275" y="110" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a1814">+ Recs exactas</text>
+  <text x="275" y="124" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0392b">Sin m²</text>
+  <text x="275" y="138" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#d4680a">36 meses</text>
+  <rect x="340" y="60" width="90" height="120" rx="6" fill="#faf8f3" stroke="#ddd9d0" stroke-width="1.5"/>
+  <text x="385" y="80" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#7a756e">P4–P6</text>
+  <text x="385" y="96" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0392b">Colonia vecina</text>
+  <text x="385" y="110" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a1814">(CSV clúster)</text>
+  <text x="385" y="124" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0392b">Sin m²</text>
+  <text x="385" y="138" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#d4680a">12–36 meses</text>
+  <rect x="450" y="60" width="90" height="120" rx="6" fill="#fef9ee" stroke="#d4680a" stroke-width="1.5"/>
+  <text x="495" y="80" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#d4680a">P7+</text>
+  <text x="495" y="96" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0392b">Ajuste N+1</text>
+  <text x="495" y="110" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0392b">Matemático</text>
+  <text x="495" y="124" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0392b">Prima aplicada</text>
+  <text x="495" y="138" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#d4680a">36–100 meses</text>
+  <!-- arrows -->
+  <line x1="100" y1="120" x2="120" y2="120" stroke="#4655ae" stroke-width="1.5" marker-end="url(#arb)"/>
+  <line x1="210" y1="120" x2="230" y2="120" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#arb)"/>
+  <line x1="320" y1="120" x2="340" y2="120" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#arb)"/>
+  <line x1="430" y1="120" x2="450" y2="120" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#arb)"/>
+  <!-- stop star at P1 -->
+  <circle cx="55" cy="196" r="10" fill="#eaf5f3" stroke="#2a8b7e" stroke-width="1.5"/>
+  <text x="55" y="200" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2a8b7e">✓</text>
+  <text x="55" y="218" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#2a8b7e">STOP si n≥1</text>
+  <!-- precision arrow -->
+  <line x1="10" y1="30" x2="600" y2="30" stroke="#c8c3b8" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="10" y="22" font-family="sans-serif" font-size="9" fill="#2a8b7e">← Mayor precisión</text>
+  <text x="480" y="22" font-family="sans-serif" font-size="9" fill="#c0392b">Mayor incertidumbre →</text>
+</svg>
+</div>
+<div class="alert alert-good">
+  <div class="alert-icon">✓</div>
+  <div><b>Diseño correcto: P1 con n=1 es mejor que P6 con n=20</b>
+  <p>Si el primer nivel devuelve una sola observación, esa observación es el match más preciso posible: misma colonia, mismas recámaras, m² en rango, últimos 12 meses. Un fallback P6 con 20 observaciones mezcla colonias adyacentes con mercados distintos, ventanas temporales amplias y recámaras diferentes ajustadas matemáticamente. Menor ruido > mayor volumen.</p></div>
+</div>
+
+<h3>Estructura del output en Google Sheets</h3>
+<div class="table-wrap">
+<table>
+<tr><th>Columna (desde col. 24)</th><th>Nombre</th><th>Descripción</th></tr>
+<tr><td>+0</td><td><code>Mediana_SQL_Cascada</code></td><td>Mediana de precio_inflacion del nivel alcanzado en cascada SQL</td></tr>
+<tr><td>+1</td><td><code>Muestra_SQL_Cascada</code></td><td>N de registros usados para calcular la mediana</td></tr>
+<tr><td>+2</td><td><code>Nivel_SQL_Cascada</code></td><td>Nivel donde se detuvo la cascada (P1–P7). Si es P5+, la confianza es baja.</td></tr>
+<tr><td>+3</td><td><code>Mediana_Homie_Cascada</code></td><td>Mediana de precio_inflacion del nivel alcanzado en cascada Homie</td></tr>
+<tr><td>+4</td><td><code>Muestra_Homie_Cascada</code></td><td>N de registros Homie</td></tr>
+<tr><td>+5</td><td><code>Nivel_Homie_Cascada</code></td><td>Nivel P1–P8. P6+ indica expansión geográfica al clúster</td></tr>
+<tr><td>+6</td><td><code>Mediana_i24</code></td><td>Mediana de precio_ajustado de listings activos. Sin ajuste inflación.</td></tr>
+<tr><td>+7</td><td><code>Muestra_i24</code></td><td>N de listings scrapeados</td></tr>
+<tr><td>+8</td><td><code>Nivel_i24</code></td><td>Nivel P1–P6 del scraper</td></tr>
+<tr><td>+9</td><td><code>Calculadora_Homie</code></td><td>Predicción ML directa. Campo <code>original_prediction</code> de la API.</td></tr>
+</table>
+</div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: FLUJO MAIN()
+══════════════════════════════════════════════════════ -->
+<div id="panel-main" class="panel">
+
+<div class="eyebrow">Orquestación</div>
+<h2>Flujo completo de main()</h2>
+<p>La función <code>main()</code> es el <strong>director de orquesta</strong> del sistema. Define el orden en que se ejecutan todos los pasos, gestiona el estado compartido entre funciones y coordina la lectura de inputs con la escritura de outputs. Ejecuta en secuencia 7 bloques bien definidos. Cada bloque tiene su propio manejo de errores: si falla, imprime el error y retorna limpiamente — sin excepciones sin manejar que rompan la ejecución.</p>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-dot">0</div>
+    <div class="step-body">
+      <h4>Autenticación con Google Sheets</h4>
+      <p>Carga las credenciales desde un archivo JSON de service account (<code>credenciales2.json</code>). Si la conexión falla, la función retorna inmediatamente — no hay reintentos. La hoja objetivo es la pestaña <strong>"csv"</strong> de la hoja con ID <code>10c9lWUZDlO...</code>.</p>
+      <div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Python</span></div><pre>CREDS_PATH = <span class="str">"/Users/danielacorona/.../credenciales2.json"</span>
+SHEET_ID   = <span class="str">"10c9lWUZDlOKI-hbXFEM9DAukDg_QKHeum_jXeQ8-8M0"</span>
+PESTAÑA    = <span class="str">"csv"</span>
+COL_INPUT  = <span class="num">15</span>  <span class="cmt"># Columna O — contiene los datos separados por coma</span>
+COL_OUTPUT_START = <span class="num">24</span>  <span class="cmt"># Columna X — primer output</span></pre></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-dot">1</div>
+    <div class="step-body">
+      <h4>Pre-carga global de datos (el paso más lento y el más importante)</h4>
+      <p>Antes de procesar cualquier fila, el sistema lanza <strong>dos queries masivas a Redshift</strong> y guarda los resultados completos en variables globales de módulo (<code>_GLOBAL_SQL_DF</code> y <code>_GLOBAL_HOMIE_DF</code>). La razón de este diseño es crítica para el rendimiento: <strong>en lugar de hacer una query a Redshift por cada fila × por cada nivel de la cascada</strong> (lo que para 10 filas con 7 niveles SQL serían 70 roundtrips lentos), se hace <strong>una sola query grande</strong> que trae todo el historial con filtros fijos, y después todos los filtros variables (colonia, recámaras, m², fechas) se aplican en Python sobre el DataFrame ya en RAM. Esta carga es <strong>lazy y single-shot</strong>: si las variables ya están en memoria de una ejecución anterior del proceso, se reutilizan en 0ms.</p>
+      <div class="alert alert-info" style="margin:10px 0;">
+        <div class="alert-icon">ℹ</div>
+        <div><b>Tiempo estimado de esta etapa</b>
+        <p>SQL query maestra: ~8–20 segundos (depende de latencia a db.panoply.io). Homie query maestra: ~5–15 segundos. Total primera ejecución: ~15–35 segundos. Si el DataFrame ya está en memoria: 0ms.</p></div>
+      </div>
+      <div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">SQL — query maestra SQL (filtros fijos)</span></div><pre><span class="cmt">-- Solo aplica filtros FIJOS. Los filtros variables (colonia, recs, area, fecha)
+-- se aplican después en Python sobre el DataFrame ya cargado.</span>
+<span class="kw">SELECT</span> date_in, url, COALESCE(price_with_maintenance, price) <span class="kw">AS</span> precio_final,
+       neighborhood, city, covered_area, rooms, parking, colonia,  <span class="cmt">-- colonia = CASE WHEN regex</span>
+       latitude, longitude
+<span class="kw">FROM</span> webscraping.postgres_rents
+<span class="kw">WHERE</span> estado = <span class="str">'CDMX'</span>
+  <span class="kw">AND</span> precio_final > <span class="num">2000</span>
+  <span class="kw">AND</span> precio_final <= <span class="num">180000</span>
+  <span class="kw">AND</span> DATEDIFF(month, date_in, CURRENT_DATE) <= <span class="num">40</span>
+<span class="cmt">-- Después en Python: precio_inflacion = precio_final × (1 + 0.003 × meses)</span></pre></div>
+      <div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">SQL — query maestra Homie (filtros fijos)</span></div><pre><span class="cmt">-- Solo rentas activas o cerradas (no canceladas sin contrato)</span>
+<span class="kw">WHERE</span> rents._status <span class="kw">IN</span> (<span class="str">'started'</span>, <span class="str">'finished'</span>, <span class="str">'finished_early'</span>)
+<span class="cmt">-- ROW_NUMBER() OVER (PARTITION BY id_inmueble ORDER BY precio_renta DESC)
+-- Toma solo la renta de precio más alto por inmueble (la más reciente relevante)</span></pre></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-dot">2</div>
+    <div class="step-body">
+      <h4>Detección de filas nuevas</h4>
+      <p>Lee la columna O completa (inputs) y la columna X (primer output). Compara cuántos valores tiene la columna de output. Las filas de input que no tienen output correspondiente son "nuevas" y se procesan.</p>
+      <div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Lógica de detección</span></div><pre><span class="cmt"># Lee columna ancla (col 24) para saber hasta dónde hay output</span>
+output_anchor = ws.col_values(<span class="num">24</span>)
+filas_con_output = <span class="fn">len</span>([v <span class="kw">for</span> v <span class="kw">in</span> output_anchor[<span class="num">1</span>:] <span class="kw">if</span> v.strip() != <span class="str">""</span>])
+
+<span class="cmt"># La primera fila nueva es la siguiente a la última con output</span>
+fila_inicio = filas_con_output + <span class="num">2</span>  <span class="cmt"># +2 porque row 1 = encabezado</span>
+
+inputs_to_process = all_inputs[fila_inicio-<span class="num">1</span>:]  <span class="cmt"># desde fila_inicio hasta el final</span></pre></div>
+      <div class="alert alert-warn" style="margin:10px 0;">
+        <div class="alert-icon">⚠</div>
+        <div><b>Comportamiento ante filas con errores</b>
+        <p>Si una fila intermedia falló y quedó vacía en la columna de output, el sistema la marcará como "nueva" y la reprocesará. No hay flag de "procesado con error" — una fila vacía en output siempre se vuelve a intentar.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-dot">3</div>
+    <div class="step-body">
+      <h4>Parseo del input CSV de cada fila</h4>
+      <p>Cada fila en columna O es un string CSV con 9–11 valores separados por coma. El sistema detecta automáticamente el formato según el número de campos y si el campo en posición 8 es un booleano.</p>
+      <div class="table-wrap"><table>
+        <tr><th>Formato</th><th>Campos</th><th>Estructura</th></tr>
+        <tr><td>1</td><td>9</td><td>CP, lat, lon, recs, antigüedad, m², baños, parking, colonia</td></tr>
+        <tr><td>2</td><td>10</td><td>CP, lat, lon, recs, antigüedad, m², baños, parking, <strong>has_terrace (bool)</strong>, colonia</td></tr>
+        <tr><td>3</td><td>10</td><td>CP, lat, lon, recs, antigüedad, m², baños, parking, colonia, <strong>edificio_id</strong></td></tr>
+        <tr><td>4</td><td>11</td><td>CP, lat, lon, recs, antigüedad, m², baños, parking, has_terrace, colonia, edificio_id</td></tr>
+      </table></div>
+      <div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Detección de formato</span></div><pre><span class="cmt"># ¿El campo 8 es un booleano? Determina si hay has_terrace o no</span>
+idx8_upper = valores[<span class="num">8</span>].strip().upper()
+is_bool = idx8_upper <span class="kw">in</span> [<span class="str">'TRUE'</span>,<span class="str">'FALSE'</span>,<span class="str">'1'</span>,<span class="str">'0'</span>,<span class="str">'YES'</span>,<span class="str">'NO'</span>,<span class="str">'SI'</span>,<span class="str">'SÍ'</span>]
+
+<span class="kw">if</span> is_bool:
+    has_terrace = idx8_upper <span class="kw">in</span> [<span class="str">'TRUE'</span>,<span class="str">'1'</span>,<span class="str">'YES'</span>,<span class="str">'SI'</span>,<span class="str">'SÍ'</span>]
+    colonia_input = valores[<span class="num">9</span>]   <span class="cmt"># Formato 2</span>
+<span class="kw">else</span>:
+    colonia_input = valores[<span class="num">8</span>]   <span class="cmt"># Formato 3</span>
+    edificio_id = valores[<span class="num">9</span>]</pre></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-dot">4</div>
+    <div class="step-body">
+      <h4>Ejecución de las 4 fuentes (secuencial, no paralela)</h4>
+      <p>Las 4 fuentes se ejecutan una tras otra, no en paralelo. Antes de lanzar las cascadas, setea la colonia del input en la variable global <code>_CURRENT_COLONIA_INPUT</code> para que las funciones de resolución de CP la puedan usar como sugerencia.</p>
+      <div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Ejecución secuencial</span></div><pre><span class="cmt"># 1. Setear contexto de colonia para funciones de resolución de CP</span>
+_CURRENT_COLONIA_INPUT = colonia_input   <span class="cmt"># ⚠ Variable global mutable</span>
+
+<span class="cmt"># 2. Cascada SQL (7 niveles, Redshift scraping)</span>
+(mediana_sql, muestra_sql, nivel_sql) = _process_cascade(SQL_CASCADE, cp, recs, area)
+
+<span class="cmt"># 3. Cascada Homie (8 niveles, rentas cerradas)</span>
+(mediana_homie, muestra_homie, nivel_homie) = _process_cascade(HOMIE_CASCADE, cp, recs, area)
+
+<span class="cmt"># 4. Scraper i24 (6 niveles, Selenium + Inmuebles24)</span>
+(mediana_i24, muestra_i24, nivel_i24) = _scraper_processor(cp, recs, area)
+
+<span class="cmt"># 5. Calculadora Homie (API ML, sin fallback)</span>
+result = calculadora_homie(lat, lon, antiquity, area, recs, bathrooms, parking, has_terrace)
+calculadora_prediccion = result.get(<span class="str">"original_prediction"</span>)
+
+<span class="cmt"># 6. Limpiar contexto</span>
+_CURRENT_COLONIA_INPUT = <span class="kw">None</span></pre></div>
+      <div class="alert alert-info" style="margin:10px 0;">
+        <div class="alert-icon">ℹ</div>
+        <div><b>Tiempo estimado por fila</b>
+        <p>Cascada SQL (filtros en pandas): 0.1–2s. Cascada Homie (filtros en pandas): 0.1–2s. Scraper i24 (Selenium, carga real del browser): 15–45s por nivel activo. Calculadora Homie (API REST): 1–3s. <strong>Total por fila: 20–55 segundos.</strong> Para 10 filas: ~4–9 minutos.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-dot">5</div>
+    <div class="step-body">
+      <h4>Acumulación de resultados y normalización por edificio</h4>
+      <p>Los resultados de todas las filas se acumulan en una lista de dicts (<code>resultados_por_fila</code>). <strong>Solo después de procesar todas las filas del batch</strong> se ejecuta la normalización por edificio — esto es necesario porque la normalización necesita ver todas las unidades del mismo edificio juntas para calcular el grupo mayoritario de recámaras y el precio/m² de referencia. Esto significa que <strong>si el script se interrumpe a mitad del batch</strong> (ej: por un timeout de Selenium o un error de red), los resultados de las filas ya procesadas no quedan escritos en Sheets hasta que termine el batch completo y pase por la normalización. No hay un checkpoint intermedio.</p>
+      <div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Flujo post-procesamiento</span></div><pre>resultados_por_fila = []
+
+<span class="kw">for</span> fila <span class="kw">in</span> inputs_to_process:
+    resultado = { <span class="str">'mediana_sql'</span>: ..., <span class="str">'edificio_id'</span>: ... }
+    resultados_por_fila.append(resultado)
+
+<span class="cmt"># Solo cuando TODAS las filas están procesadas:</span>
+resultados_finales = normalizar_por_edificio(resultados_por_fila)
+
+<span class="cmt"># Ordena por row_num para mantener el orden original</span>
+resultados_finales.sort(key=<span class="kw">lambda</span> x: x[<span class="str">'row_num'</span>])</pre></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-dot">6</div>
+    <div class="step-body">
+      <h4>Escritura en Google Sheets (fila por fila)</h4>
+      <p>Itera los resultados normalizados y escribe 10 celdas por fila usando <code>ws.update()</code> con <code>value_input_option='USER_ENTERED'</code>. Los valores <code>None</code> se convierten a <code>''</code> para no romper la hoja.</p>
+      <div class="alert alert-warn" style="margin:10px 0;">
+        <div class="alert-icon">⚠</div>
+        <div><b>Rate limiting de Google Sheets API</b>
+        <p>La API de Sheets tiene un límite de ~60 escrituras por minuto. Si el batch tiene más de ~60 filas, la escritura secuencial puede empezar a recibir errores 429. No hay backoff automático implementado.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /steps -->
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: CASCADA SQL
+══════════════════════════════════════════════════════ -->
+<div id="panel-sql" class="panel">
+
+<div class="eyebrow">Fuente 1 de 4</div>
+<h2>Cascada SQL — Redshift / Panoply</h2>
+<p>Usa el histórico de web scraping almacenado en Redshift. El DataFrame global (<code>_GLOBAL_SQL_DF</code>) se carga una vez con filtros fijos. Todos los filtros variables se aplican en memoria con pandas, lo que hace cada nivel extremadamente rápido (~100ms).</p>
+
+<div class="cascade">
+  <div class="cascade-hdr blue"><span class="ch-label">SQL — 7 niveles</span><span class="chip c-blue">fuente: redshift scraping</span></div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P1 ★</div>
+    <div>
+      <div class="cs-title">Match perfecto — colonia exacta + recámaras + m² + 12 meses</div>
+      <div class="cs-detail">sql_first_step_cp_library()</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → librería</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-green">m²: ±max(15%, 5m²)</span>
+        <span class="chip c-green">tiempo: últimos 12 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P2</div>
+    <div>
+      <div class="cs-title">Relaja m² — misma colonia y recámaras, sin filtro de tamaño</div>
+      <div class="cs-detail">sql_recs_only_12m_cp_library()</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → librería</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro [0 – 1,000,000]</span>
+        <span class="chip c-green">tiempo: últimos 12 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P3</div>
+    <div>
+      <div class="cs-title">Amplía ventana — misma colonia y recámaras, 3 años</div>
+      <div class="cs-detail">sql_recs_only_36m_cp_library()</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → librería</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+        <span class="chip c-orange">tiempo: últimos 36 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P4</div>
+    <div>
+      <div class="cs-title">Expande a clúster — itera colonias vecinas rankeadas, con m²</div>
+      <div class="cs-detail">sql_first_step_csv_cluster() — itera el clúster hasta encontrar n≥1</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CP → CSV clusters (itera)</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-green">m²: ±max(15%, 5m²)</span>
+        <span class="chip c-green">tiempo: últimos 12 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P5</div>
+    <div>
+      <div class="cs-title">Clúster sin m² — colonias vecinas, sin filtro de tamaño</div>
+      <div class="cs-detail">sql_recs_only_12m_csv_cluster()</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CP → CSV clusters (itera)</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+        <span class="chip c-green">tiempo: últimos 12 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P6</div>
+    <div>
+      <div class="cs-title">Clúster ampliado — colonias vecinas, 3 años</div>
+      <div class="cs-detail">sql_recs_only_36m_csv_cluster()</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CP → CSV clusters (itera)</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+        <span class="chip c-orange">tiempo: últimos 36 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step" style="background:var(--orange-bg);">
+    <div class="cs-num">P7</div>
+    <div>
+      <div class="cs-title">Ajuste matemático — busca N+1 recámaras y re-escala con prima 11%</div>
+      <div class="cs-detail">sql_per_bed_plus1_adjusted() — último recurso, cambia el universo de búsqueda</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → librería</span>
+        <span class="chip c-orange">recs: N+1 (ajustado)</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+        <span class="chip c-orange">tiempo: últimos 36 meses</span>
+        <span class="chip c-red">prima: +11%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<h3>Diagrama de flujo — Lógica de la cascada SQL</h3>
+<div style="overflow-x:auto;margin:16px 0;">
+<svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+  <defs>
+    <marker id="sa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#c8c3b8" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+    <marker id="sg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#2a8b7e" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+  </defs>
+  <!-- START -->
+  <rect x="240" y="10" width="200" height="36" rx="18" fill="#4655ae" stroke="none"/>
+  <text x="340" y="33" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="white">INPUT: CP · recs · m²</text>
+  <line x1="340" y1="46" x2="340" y2="62" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#sa)"/>
+  <!-- P1 -->
+  <rect x="200" y="62" width="280" height="36" rx="6" fill="#eef0fa" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="340" y="78" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#4655ae">P1 — colonia(CP→lib) + recs + m²±15% + 12m</text>
+  <text x="340" y="92" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">sql_first_step_cp_library()</text>
+  <!-- decision -->
+  <polygon points="340,108 380,128 340,148 300,128" fill="white" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="340" y="132" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#4655ae">n ≥ 1?</text>
+  <line x1="340" y1="98" x2="340" y2="108" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#sa)"/>
+  <!-- YES path -->
+  <line x1="380" y1="128" x2="530" y2="128" stroke="#2a8b7e" stroke-width="1.5" marker-end="url(#sg)"/>
+  <text x="452" y="122" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2a8b7e">SÍ</text>
+  <rect x="530" y="110" width="130" height="36" rx="18" fill="#eaf5f3" stroke="#2a8b7e" stroke-width="1.5"/>
+  <text x="595" y="132" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#2a8b7e">RETORNA mediana</text>
+  <!-- NO path to P2 -->
+  <line x1="340" y1="148" x2="340" y2="168" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#sa)"/>
+  <text x="355" y="162" font-family="sans-serif" font-size="9" fill="#c0392b">NO</text>
+  <!-- P2 -->
+  <rect x="200" y="168" width="280" height="36" rx="6" fill="#faf8f3" stroke="#ddd9d0" stroke-width="1.5"/>
+  <text x="340" y="184" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#7a756e">P2 — colonia(CP→lib) + recs + 12m</text>
+  <text x="340" y="198" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">sql_recs_only_12m_cp_library()</text>
+  <line x1="340" y1="204" x2="340" y2="220" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#sa)"/>
+  <!-- P3 -->
+  <rect x="200" y="220" width="280" height="36" rx="6" fill="#faf8f3" stroke="#ddd9d0" stroke-width="1.5"/>
+  <text x="340" y="236" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#7a756e">P3 — colonia(CP→lib) + recs + 36m</text>
+  <text x="340" y="250" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">sql_recs_only_36m_cp_library()</text>
+  <line x1="340" y1="256" x2="340" y2="272" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#sa)"/>
+  <!-- P4-P6 -->
+  <rect x="200" y="272" width="280" height="40" rx="6" fill="#faf8f3" stroke="#ddd9d0" stroke-width="1.5"/>
+  <text x="340" y="288" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#7a756e">P4–P6 — colonia(CSV clúster)</text>
+  <text x="340" y="302" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a756e">Itera colonias vecinas · m² opcional · 12–36m</text>
+  <line x1="340" y1="312" x2="340" y2="328" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#sa)"/>
+  <!-- P7 -->
+  <rect x="200" y="328" width="280" height="40" rx="6" fill="#fef9ee" stroke="#d4680a" stroke-width="1.5"/>
+  <text x="340" y="344" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#d4680a">P7 — Ajuste N+1 recs × prima 11%</text>
+  <text x="340" y="358" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#d4680a">sql_per_bed_plus1_adjusted() — último recurso</text>
+  <line x1="340" y1="368" x2="340" y2="384" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#sa)"/>
+  <!-- BEST ATTEMPT -->
+  <rect x="200" y="384" width="280" height="30" rx="15" fill="#fdf0ee" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="340" y="403" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#c0392b">Retorna mejor intento (puede ser None)</text>
+  <!-- Note at P2 decision: each also has n≥1 check -->
+  <text x="490" y="190" font-family="sans-serif" font-size="8" fill="#7a756e">Cada nivel también</text>
+  <text x="490" y="202" font-family="sans-serif" font-size="8" fill="#7a756e">retorna si n≥1</text>
+  <line x1="480" y1="192" x2="480" y2="165" stroke="#c8c3b8" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="480" y1="165" x2="540" y2="128" stroke="#c8c3b8" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#sa)"/>
+</svg>
+</div>
+<h3>El filtro de m² en detalle</h3>
+<p>El rango de m² aplicado en P1 y P4 usa un margen dinámico que se adapta al tamaño del inmueble:</p>
+<div class="formula">margen = max( área_m2 × 0.15,  5.0 )<br>rango_filtro = [ área_m2 − margen,  área_m2 + margen ]</div>
+<div class="table-wrap"><table>
+<tr><th>Área input</th><th>15% del área</th><th>Mínimo fijo</th><th>Margen efectivo</th><th>Rango aplicado</th></tr>
+<tr><td>20 m²</td><td>3.0 m²</td><td>5.0 m²</td><td><strong>5.0 m²</strong></td><td>[15, 25]</td></tr>
+<tr><td>35 m²</td><td>5.25 m²</td><td>5.0 m²</td><td><strong>5.25 m²</strong></td><td>[30, 40]</td></tr>
+<tr><td>60 m²</td><td>9.0 m²</td><td>5.0 m²</td><td><strong>9.0 m²</strong></td><td>[51, 69]</td></tr>
+<tr><td>90 m²</td><td>13.5 m²</td><td>5.0 m²</td><td><strong>13.5 m²</strong></td><td>[77, 104]</td></tr>
+<tr><td>120 m²</td><td>18.0 m²</td><td>5.0 m²</td><td><strong>18.0 m²</strong></td><td>[102, 138]</td></tr>
+</table></div>
+
+<h3>P7 — Lógica del ajuste N+1</h3>
+<p>Este nivel asume que no hay datos para N recámaras pero sí para N+1, y re-escala matemáticamente. El proceso completo:</p>
+<div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Python — sql_per_bed_plus1_adjusted()</span></div><pre><span class="cmt"># Paso 1: Buscar con N+1 recámaras (ej: si se quieren 2, busca con 3)</span>
+recs_plus1 = recs + <span class="num">1</span>
+df = consulta_sql(colonia, recs_plus1, <span class="num">0</span>, <span class="num">1_000_000</span>, historico_meses=<span class="num">36</span>)
+
+<span class="cmt"># Paso 2: Calcular precio por recámara de la mediana</span>
+median_price = mediana(df[<span class="str">'precio_inflacion'</span>])
+price_per_bed = median_price / recs_plus1   <span class="cmt"># precio/rec del grupo N+1</span>
+
+<span class="cmt"># Paso 3: Re-escalar a N recámaras + prima del 11%</span>
+adjusted_price = price_per_bed * recs        <span class="cmt"># precio estimado para N recs</span>
+final_price = adjusted_price * (<span class="num">1.0</span> + <span class="num">0.11</span>)  <span class="cmt"># prima: studios valen más/m²</span>
+
+<span class="cmt"># Ejemplo numérico:
+# Input: busco 2 recs en Condesa, no hay datos
+# P7 encuentra: 3-recs mediana = $24,000
+# price_per_bed = 24,000 / 3 = $8,000/rec
+# adjusted = 8,000 × 2 = $16,000
+# final = 16,000 × 1.11 = $17,760</span></pre></div>
+
+<div class="alert alert-info">
+  <div class="alert-icon">❓</div>
+  <div><b>Pregunta abierta: ¿por qué una prima del 11% en SQL?</b>
+  <p>El origen de esta prima no está documentado en el código. La hipótesis más probable es que fue calibrada empíricamente en algún momento comparando medianas de N vs N+1 recámaras para colonias con datos suficientes, y se hardcodeó como constante. Sin embargo, la prima real del mercado puede variar por colonia, por rango de precio y por tipo de inmueble — una prima del 11% puede ser correcta en Condesa pero incorrecta en Vallejo. <strong>Acción futura recomendada:</strong> calcular esta prima estadísticamente desde el histórico de Homie agrupando por recámaras y calculando el ratio de medianas de precio/m².</p></div>
+</div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: CASCADA HOMIE
+══════════════════════════════════════════════════════ -->
+<div id="panel-homie" class="panel">
+
+<div class="eyebrow">Fuente 2 de 4</div>
+<h2>Cascada Homie — Contratos reales de renta</h2>
+<p>Es la fuente de mayor calidad porque usa <strong>precios de cierre reales</strong>, no precios de anuncio. La query maestra de Homie aplica una deduplicación por inmueble vía <code>ROW_NUMBER() OVER (PARTITION BY id_inmueble)</code>: si un mismo inmueble tuvo varias rentas, se toma la de precio más alto. El DataFrame resultante contiene una fila por inmueble único.</p>
+
+<div class="alert alert-warn">
+  <div class="alert-icon">⚠</div>
+  <div><b>Normalización especial de colonias en Homie</b>
+  <p>La columna <code>colonia</code> en Homie viene en MAYÚSCULAS y sin acentos porque la query de Redshift aplica <code>UPPER(TRANSLATE(neighborhood, 'áéíóúÁÉÍÓÚñÑ', 'aeiouAEIOUnN'))</code>. Esto requiere que cualquier colonia que se busque sea pre-procesada con <code>_limpiar_colonia_homie()</code> antes de comparar.</p></div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr coral"><span class="ch-label">Homie — 8 niveles</span><span class="chip c-red">fuente: contratos cerrados</span></div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P1 ★</div>
+    <div>
+      <div class="cs-title">Match perfecto — CSV cluster + recs + m² + 12 meses</div>
+      <div class="cs-detail">homie_first_step_csv_cluster() — nota: usa CSV, no librería de CP como SQL-P1</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CP → CSV clusters (primer match)</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-green">m²: ±max(15%, 5m²)</span>
+        <span class="chip c-green">tiempo: últimos 12 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P2</div>
+    <div>
+      <div class="cs-title">Match con librería CP — recs + m² + 12 meses</div>
+      <div class="cs-detail">homie_first_step_cp_library()</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → librería</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-green">m²: ±max(15%, 5m²)</span>
+        <span class="chip c-green">tiempo: últimos 12 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step" style="background:var(--orange-bg);">
+    <div class="cs-num">P3</div>
+    <div>
+      <div class="cs-title">Ajuste matemático — busca N+1, re-escala con prima 48%</div>
+      <div class="cs-detail">homie_per_bed_plus1_adjusted() — prima más agresiva que SQL (48% vs 11%)</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → librería</span>
+        <span class="chip c-orange">recs: N+1 (ajustado)</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+        <span class="chip c-orange">tiempo: últimos 36 meses</span>
+        <span class="chip c-red">prima: +48%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P4</div>
+    <div>
+      <div class="cs-title">CSV sin m² — CSV cluster, solo recámaras, 12 meses</div>
+      <div class="cs-detail">homie_recs_only_12m_csv_cluster()</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CP → CSV clusters</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+        <span class="chip c-green">tiempo: últimos 12 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P5</div>
+    <div>
+      <div class="cs-title">Librería sin m² — CP → librería, solo recámaras, 12 meses</div>
+      <div class="cs-detail">homie_recs_only_12m_cp_library()</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → librería</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+        <span class="chip c-green">tiempo: últimos 12 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P6</div>
+    <div>
+      <div class="cs-title">Expansión regional — itera TODO el clúster, 36 meses, para en ≥10 registros</div>
+      <div class="cs-detail">homie_expansion_regional_match_36m() — stopper en 10 registros, no en 1</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CSV clusters (itera todas)</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro [0–99,999]</span>
+        <span class="chip c-orange">tiempo: últimos 36 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P7</div>
+    <div>
+      <div class="cs-title">Histórico profundo — CSV primer match, 100 meses (~8.3 años)</div>
+      <div class="cs-detail">homie_recs_only_100m_csv_cluster()</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CP → CSV clusters</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+        <span class="chip c-red">tiempo: últimos 100 meses</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P8</div>
+    <div>
+      <div class="cs-title">Histórico profundo — librería CP, 100 meses</div>
+      <div class="cs-detail">homie_recs_only_100m_cp_library() — último recurso absoluto</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → librería</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+        <span class="chip c-red">tiempo: últimos 100 meses</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="alert alert-warn">
+  <div class="alert-icon">⚠</div>
+  <div><b>Diferencia crítica: Homie P1 usa CSV de clúster, SQL P1 usa la librería de CP</b>
+  <p>Para entender por qué esto importa, hay que ver cómo cada fuente resuelve la colonia:</p>
+  <p><strong>SQL P1</strong> hace esto: toma el CP del input → consulta la librería <code>postalcodes_mexico</code> → obtiene el nombre oficial de la colonia (ej: "Hipódromo Condesa") → busca en el DataFrame SQL con ese nombre.</p>
+  <p><strong>Homie P1</strong> hace esto: toma el CP del input → busca en el CSV de clústeres la colonia que ese CP tiene rankeada como #1 por volumen de anuncios → usa ese nombre (ej: puede ser "Condesa" porque tiene más anuncios históricos que "Hipódromo Condesa") → busca en el DataFrame Homie.</p>
+  <p>El resultado práctico: para la misma propiedad con el mismo CP, SQL puede estar buscando en el vecindario "Hipódromo Condesa" mientras que Homie busca en "Condesa". Son mercados adyacentes pero distintos. Si la mediana de SQL es $18,000 y la de Homie es $21,000, esa diferencia puede no reflejar una diferencia real de precio sino simplemente que cada fuente consultó una colonia diferente. Este es un punto de inconsistencia que puede confundir el diagnóstico cuando se comparan las 4 fuentes entre sí.</p></div>
+</div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: CASCADA i24
+══════════════════════════════════════════════════════ -->
+<div id="panel-i24" class="panel">
+
+<div class="eyebrow">Fuente 3 de 4</div>
+<h2>Cascada i24 — Web scraping en tiempo real</h2>
+<p>A diferencia de SQL y Homie (datos históricos pre-cargados), i24 realiza un scraping <strong>en tiempo real</strong> de Inmuebles24.com usando Selenium con <code>undetected-chromedriver</code>. Esto lo hace el más lento (15–45 segundos por nivel) pero el más cercano al precio de mercado del día.</p>
+
+<div class="alert alert-info">
+  <div class="alert-icon">ℹ</div>
+  <div><b>Diferencia semántica fundamental</b>
+  <p>SQL y Homie miden <strong>precios de renta cerrados</strong> (lo que alguien pagó). i24 mide <strong>precios de oferta activos</strong> (lo que alguien pide hoy). El precio de oferta está típicamente 10–20% por encima del precio de cierre. Las medianas de i24 y SQL/Homie no son directamente comparables sin aplicar un factor de descuento.</p><p style="margin-top:8px;"><strong>📋 Next step recomendado:</strong> hacer un análisis cuantitativo de la diferencia promedio entre los precios i24 y los precios de cierre Homie para la misma colonia/tipo de inmueble/recámaras. Con ese dato, aplicar un factor de descuento calibrado empíricamente (ej: ×0.90 si el descuento promedio es del 10%) a todas las medianas de i24 antes de escribirlas en Sheets.</p></div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr amber"><span class="ch-label">i24 — 6 niveles (Selenium)</span><span class="chip c-orange">fuente: listings activos</span></div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P1 ★</div>
+    <div>
+      <div class="cs-title">Colonia detectada + recámaras + m² ±15%</div>
+      <div class="cs-detail">Selenium busca colonia en Inmuebles24, construye URL con filtros de recs y m²</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → Selenium búsqueda</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-green">m²: ±15% en URL param</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P2</div>
+    <div>
+      <div class="cs-title">Colonia detectada + solo recámaras</div>
+      <div class="cs-detail">Misma URL base, quita filtro de m²</div>
+      <div class="cs-chips">
+        <span class="chip c-green">colonia: CP → Selenium</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P3</div>
+    <div>
+      <div class="cs-title">Colonia original del CSV + recs + m² ±15%</div>
+      <div class="cs-detail">Usa url_base del CSV de clusters (pre-calculada) en lugar de buscarla en Selenium</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CSV clusters</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-green">m²: ±15%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P4</div>
+    <div>
+      <div class="cs-title">Colonia original del CSV + solo recámaras</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CSV clusters</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P5</div>
+    <div>
+      <div class="cs-title">Expansión al clúster — itera colonias rankeadas, con m²</div>
+      <div class="cs-detail">Por cada colonia del clúster: intenta con m² y sin m² antes de pasar a la siguiente</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CSV clusters (itera)</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-green">m²: ±15%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cascade-step">
+    <div class="cs-num">P6</div>
+    <div>
+      <div class="cs-title">Expansión al clúster — continúa iteración sin m²</div>
+      <div class="cs-chips">
+        <span class="chip c-blue">colonia: CSV clusters (itera)</span>
+        <span class="chip c-green">recs: = N</span>
+        <span class="chip c-orange">m²: sin filtro</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3>Flujo interno del scraper — paso a paso</h3>
+<div class="steps">
+  <div class="step">
+    <div class="step-dot" style="font-size:11px;">init</div>
+    <div class="step-body">
+      <h4>Inicialización de ChromeDriver</h4>
+      <p>Detecta la versión de Chrome instalada localmente. Intenta 3 modos en secuencia: (1) versión detectada del sistema, (2) versión extraída del mensaje de error del intento 1, (3) autodetección. Si los 3 fallan, retorna DataFrame vacío — ningún nivel del scraper puede ejecutar.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-dot" style="font-size:11px;">url</div>
+    <div class="step-body">
+      <h4>Obtener URL base de la colonia (obtener_url_base_scraper)</h4>
+      <p>Navega a <code>inmuebles24.com/departamentos-en-renta.html</code>, acepta cookies si aparece el banner (timeout 5s), escribe <em>"colonia + delegación"</em> en el buscador, espera 1.5 segundos y hace clic en la primera sugerencia de "Ubicaciones". La URL resultante (ej: <code>/departamentos-en-renta-en-condesa-cuauhtemoc.html</code>) es la URL base de la colonia.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-dot" style="font-size:11px;">filter</div>
+    <div class="step-body">
+      <h4>Construir URL filtrada (construir_url_filtrada_scraper)</h4>
+      <p>Añade parámetros de query a la URL base: recámaras y rango de m². El margen de m² aquí es <strong>±15% fijo</strong> (no usa la fórmula max(15%, 5m²) de SQL/Homie).</p>
+      <div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">URL resultante (ejemplo)</span></div><pre>https://www.inmuebles24.com/departamentos-en-renta-en-condesa.html
+  ?operation=2&recamaras=2&sup_min=51&sup_max=69   <span class="cmt"># para 60m², ±15%</span></pre></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-dot" style="font-size:11px;">data</div>
+    <div class="step-body">
+      <h4>Extracción y deduplicación por URL</h4>
+      <p>Scrapa el DOM de la página de resultados de Inmuebles24. Extrae el precio de cada tarjeta de anuncio y la URL única del listing. La <strong>deduplicación</strong> se hace en memoria via un set <code>urls_vistas</code>: si la misma URL de anuncio ya fue procesada en este run (puede aparecer en múltiples páginas o en múltiples llamadas del scraper), se ignora. Esto evita que el mismo anuncio cuente doble en la muestra. El precio extraído se almacena en la columna <code>precio_ajustado</code>. Diferencia importante: <strong>i24 no aplica ajuste de inflación</strong> — el precio es nominal del momento del scraping. Esto contrasta con SQL y Homie, donde <code>precio_inflacion</code> es el precio ajustado a pesos de hoy. Comparar la mediana de i24 directamente con la de SQL/Homie sin considerar este detalle puede introducir sesgos adicionales además del ya conocido sesgo de precio-oferta-vs-cierre.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: RESOLUCIÓN DE COLONIAS
+══════════════════════════════════════════════════════ -->
+<div id="panel-colony" class="panel">
+
+<div class="eyebrow">Componente transversal</div>
+<h2>Resolución de colonias</h2>
+<p>Este es el componente más complejo y con más puntos de falla del sistema. Su función es transformar un <strong>código postal</strong> (y opcionalmente un nombre de colonia en texto libre) en un <strong>nombre de colonia canónico</strong> que pueda usarse para filtrar los DataFrames de SQL y Homie.</p>
+<p>El sistema tiene <strong>3 capas distintas</strong> de normalización, cada una con su propia lógica de fuzzy matching. Las 3 capas operan en serie — la salida de una alimenta a la siguiente.</p>
+
+<h3>Capa 1 — Conversión CP → Colonia (postalcodes_mexico)</h3>
+<div style="overflow-x:auto;margin:16px 0;">
+<svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+  <defs>
+    <marker id="ca" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#c8c3b8" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+    <marker id="cg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#2a8b7e" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+    <marker id="cr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+  </defs>
+  <!-- CP INPUT -->
+  <rect x="240" y="10" width="200" height="32" rx="16" fill="#4655ae"/>
+  <text x="340" y="31" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="white">CP + colonia_input (opcional)</text>
+  <line x1="340" y1="42" x2="340" y2="58" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#ca)"/>
+  <!-- LIBERIA -->
+  <rect x="200" y="58" width="280" height="32" rx="6" fill="#eef0fa" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="340" y="78" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#4655ae">postalcodes_mexico.places(cp)</text>
+  <!-- DIAMOND -->
+  <polygon points="340,100 390,122 340,144 290,122" fill="white" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="340" y="118" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#4655ae">¿1 colonia</text>
+  <text x="340" y="130" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#4655ae">o varias?</text>
+  <line x1="340" y1="90" x2="340" y2="100" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#ca)"/>
+  <!-- 1 colonia path -->
+  <line x1="290" y1="122" x2="130" y2="122" stroke="#2a8b7e" stroke-width="1.5" marker-end="url(#cg)"/>
+  <text x="210" y="114" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#2a8b7e">1 sola</text>
+  <rect x="20" y="108" width="110" height="28" rx="14" fill="#eaf5f3" stroke="#2a8b7e" stroke-width="1.5"/>
+  <text x="75" y="126" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="600" fill="#2a8b7e">Usa directo ✓</text>
+  <!-- varias path -->
+  <line x1="340" y1="144" x2="340" y2="165" stroke="#c8c3b8" stroke-width="1.5" marker-end="url(#ca)"/>
+  <text x="355" y="158" font-family="sans-serif" font-size="8" fill="#7a756e">Varias</text>
+  <!-- diamond 2 -->
+  <polygon points="340,165 390,187 340,210 290,187" fill="white" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="340" y="183" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#4655ae">¿hay</text>
+  <text x="340" y="195" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#4655ae">colonia_input?</text>
+  <!-- YES: Jaccard -->
+  <line x1="390" y1="187" x2="530" y2="187" stroke="#2a8b7e" stroke-width="1.5" marker-end="url(#cg)"/>
+  <text x="460" y="180" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#2a8b7e">SÍ</text>
+  <rect x="530" y="170" width="130" height="34" rx="6" fill="#eef0fa" stroke="#4655ae" stroke-width="1.5"/>
+  <text x="595" y="185" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="600" fill="#4655ae">Jaccard fuzzy</text>
+  <text x="595" y="198" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a756e">elige mejor match</text>
+  <!-- NO: fail -->
+  <line x1="340" y1="210" x2="340" y2="230" stroke="#c0392b" stroke-width="1.5" marker-end="url(#cr)"/>
+  <text x="355" y="224" font-family="sans-serif" font-size="8" fill="#c0392b">NO</text>
+  <rect x="240" y="230" width="200" height="28" rx="14" fill="#fdf0ee" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="340" y="248" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0392b">Retorna None — cascada falla P1–P3</text>
+  <!-- CAPA 2 label -->
+  <text x="595" y="230" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#7a756e">→ CAPA 2</text>
+  <text x="595" y="242" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#7a756e">_limpiar_colonia_homie()</text>
+  <text x="595" y="254" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#7a756e">→ CAPA 3</text>
+  <text x="595" y="266" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#7a756e">REGEX SQL Redshift</text>
+</svg>
+</div>
+
+<p>La función <code>_resolve_colonia_from_cp_lib(cp)</code> usa la librería <code>postalcodes_mexico</code> para convertir un CP en uno o varios nombres de colonia. Un CP de 5 dígitos puede corresponder a múltiples colonias (ej: el CP 06600 puede cubrir "Juárez", "Hipódromo" y "Roma Norte").</p>
+
+<div class="table-wrap"><table>
+<tr><th>Escenario</th><th>Qué sucede</th><th>Resultado</th></tr>
+<tr><td>CP retorna 1 colonia</td><td>Se usa directamente sin matching</td><td><span class="chip c-green">Determinístico</span></td></tr>
+<tr><td>CP retorna N colonias + hay colonia_input</td><td>Se llama a <code>_find_best_match_colonia()</code> con Jaccard sobre bolsa de palabras</td><td><span class="chip c-blue">Fuzzy match</span></td></tr>
+<tr><td>CP retorna N colonias + NO hay colonia_input</td><td>Retorna <code>None</code> — ambigüedad sin resolver</td><td><span class="chip c-red">Fallo silencioso</span></td></tr>
+<tr><td>CP no encontrado en librería + hay colonia_input</td><td>Usa colonia_input directamente y busca delegación en CSV</td><td><span class="chip c-orange">Fallback a input</span></td></tr>
+<tr><td>CP no encontrado + NO hay colonia_input</td><td>Retorna <code>None</code></td><td><span class="chip c-red">Fallo total</span></td></tr>
+<tr><td>CP hardcodeado (06080, 06200)</td><td>Retorna valor hardcodeado directamente, saltea librería</td><td><span class="chip c-teal">Excepción manual</span></td></tr>
+</table></div>
+
+<h4>El algoritmo de Jaccard para fuzzy matching de colonias</h4>
+<p>Cuando hay ambigüedad (varios candidatos para un CP), el sistema elige el candidato más parecido al nombre que el usuario escribió. El algoritmo funciona así:</p>
+<div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Python — _find_best_match_colonia()</span></div><pre><span class="cmt"># Paso 1: Normalizar el input del usuario
+# "Hipódromo Condesa" → "HIPODROMO CONDESA" → {"HIPODROMO", "CONDESA"}</span>
+colonia_input_words = <span class="fn">set</span>(_normalizar_local(colonia_input).upper().split())
+
+<span class="cmt"># Para cada candidato del CP (ej: ["Juárez", "Hipódromo", "Roma Norte"]):</span>
+<span class="kw">for</span> candidato <span class="kw">in</span> candidatos:
+    colonia_words = <span class="fn">set</span>(_normalizar_local(candidato).upper().split())
+
+    <span class="cmt"># Jaccard: palabras en común / palabras únicas totales
+    # Ejemplo: {"HIPODROMO","CONDESA"} vs {"HIPODROMO"} = 1/2 = 0.5</span>
+    palabras_comunes = colonia_input_words.intersection(colonia_words)
+    palabras_totales = colonia_input_words.union(colonia_words)
+    score = <span class="fn">len</span>(palabras_comunes) / <span class="fn">len</span>(palabras_totales)
+
+    <span class="cmt"># Bonus si el input está contenido dentro del candidato
+    # {"HIPODROMO"}.issubset({"HIPODROMO","CONDESA"}) → True → score += 0.3</span>
+    <span class="kw">if</span> colonia_input_words.issubset(colonia_words): score += <span class="num">0.3</span>
+
+    <span class="cmt"># Caso perfecto: match exacto normalizado</span>
+    <span class="kw">if</span> colonia_norm == colonia_input_norm: score = <span class="num">1.0</span></pre></div>
+
+<div class="alert alert-warn">
+  <div class="alert-icon">⚠</div>
+  <div><b>Problema conocido: sensibilidad a acentos en Jaccard</b>
+  <p>La función <code>_normalizar_local()</code> sí quita acentos. Pero si el input llega con acentos y el candidato no los tiene (o viceversa), el score puede ser bajo por tokens que no matchean. Ejemplo: "Nápoles" vs "NAPOLES" — si el normalizar no se aplica consistentemente en todos los caminos, estos se ven como palabras distintas. La función <em>sí</em> aplica <code>unicodedata.normalize</code>, pero la inconsistencia puede aparecer en los caminos de fallback que usan <code>_normalizar_local</code> distinto a <code>normalizar</code>.</p></div>
+</div>
+
+<h3>Capa 2 — Normalización especial para Homie (_limpiar_colonia_homie)</h3>
+<p>La colonia resuelta en Capa 1 pasa por un segundo proceso antes de buscar en el DataFrame de Homie. Esto es necesario porque el campo <code>colonia</code> en Homie fue normalizado en SQL de forma específica: MAYÚSCULAS + sin acentos + sin prefijos.</p>
+
+<div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">_limpiar_colonia_homie() — transformaciones aplicadas</span></div><pre><span class="cmt"># 1. MAYÚSCULAS + quitar acentos (unicodedata NFKD → ASCII)</span>
+<span class="str">"Col. Condesa"</span> → <span class="str">"COL. CONDESA"</span> → <span class="str">"COL. CONDESA"</span>
+
+<span class="cmt"># 2. Quitar prefijos comunes</span>
+prefijos = [<span class="str">'COLONIA '</span>, <span class="str">'COL. '</span>, <span class="str">'COL '</span>, <span class="str">'BARRIO '</span>, <span class="str">'FRACC. '</span>,
+            <span class="str">'FRACCIONAMIENTO '</span>, <span class="str">'UNIDAD '</span>, <span class="str">'U.H. '</span>, <span class="str">'UH '</span>,
+            <span class="str">'AMP. '</span>, <span class="str">'AMPLIACION '</span>, <span class="str">'EX. '</span>, <span class="str">'EX-'</span>]
+<span class="str">"COL. CONDESA"</span> → <span class="str">"CONDESA"</span>
+
+<span class="cmt"># 3. Normalizar abreviaciones de sección</span>
+<span class="str">"NARVARTE 1A. SECC."</span> → <span class="str">"NARVARTE 1A SECCION"</span>
+<span class="str">"PORTALES II SECCION"</span> → <span class="str">"PORTALES 2A SECCION"</span>
+
+<span class="cmt"># 4. Quitar puntuación al final y normalizar espacios múltiples</span>
+<span class="str">"NONOALCO:"</span> → <span class="str">"NONOALCO"</span></pre></div>
+
+<p>Después de limpiar, el sistema intenta matching en dos pasos: <strong>1) coincidencia exacta</strong> del string limpio → si no hay resultados → <strong>2) substring matching</strong> (<code>str.contains()</code>). El contains puede traer falsos positivos: buscar "CONDESA" puede capturar tanto "CONDESA" como "HIPÓDROMO CONDESA".</p>
+
+<h3>Capa 3 — Normalización en SQL (REGEX en Redshift)</h3>
+<p>La query maestra de SQL pre-normaliza el campo <code>neighborhood</code> crudo del scraping usando una cascada de ~300 <code>CASE WHEN REGEXP_COUNT()</code>. Esta normalización es determinística y corre una sola vez en Redshift cuando se carga el DataFrame global.</p>
+
+<div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">SQL — fragmento de la normalización de colonias</span></div><pre><span class="kw">CASE</span>
+  <span class="cmt">-- Captura variantes: "Condesa", "condesa", "CONDESA", "Col. Condesa", etc.</span>
+  <span class="kw">WHEN</span> estado=<span class="str">'CDMX'</span> <span class="kw">AND</span> REGEXP_COUNT(TRIM(neighborhood),<span class="str">'(C|c)onde(s|z)a|CONDESA'</span>)>0
+    <span class="kw">THEN</span> <span class="str">'Condesa'</span>
+  <span class="cmt">-- Distingue Hipódromo de Hipódromo Condesa (solo "hipódromo" sin condesa)</span>
+  <span class="kw">WHEN</span> estado=<span class="str">'CDMX'</span> <span class="kw">AND</span> REGEXP_COUNT(TRIM(neighborhood),<span class="str">'(H|h)ip(ó|o)dromo|HIPODROMO'</span>)>0
+    <span class="kw">THEN</span> <span class="str">'Hipódromo'</span>
+  <span class="cmt">-- Roma Norte vs Roma Sur vs Roma (genérico)</span>
+  <span class="kw">WHEN</span> ... REGEXP_COUNT(neighborhood,<span class="str">'ROMA'</span>)>0 <span class="kw">AND</span> REGEXP_COUNT(neighborhood,<span class="str">'NORTE|NTE'</span>)>0
+    <span class="kw">THEN</span> <span class="str">'Roma Norte'</span>
+  <span class="cmt">-- ... ~300 colonias más ...</span>
+  <span class="kw">ELSE</span> neighborhood  <span class="cmt">-- ← texto crudo si no coincide ningún patrón</span>
+<span class="kw">END</span> <span class="kw">AS</span> colonia</pre></div>
+
+<div class="alert alert-bad">
+  <div class="alert-icon">⛔</div>
+  <div><b>Fallo silencioso: colonias sin cobertura en el CASE WHEN</b>
+  <p>Cualquier colonia que no esté en los ~300 patrones hardcodeados cae al <code>ELSE neighborhood end</code> y queda con el texto crudo del scraping (ej: "Col. Ped. del Pedregal", "LOMAS DE CHAPULTEPEC V SECC"). Cuando Python intenta buscar esa cadena sucia en el DataFrame, probablemente no encuentra nada y la cascada falla desde P1. No hay ningún log que indique "colonia X no está en el catálogo SQL". Esto es invisible en producción.</p></div>
+</div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: NORMALIZACIÓN POR EDIFICIO
+══════════════════════════════════════════════════════ -->
+<div id="panel-norm" class="panel">
+
+<div class="eyebrow">Post-procesamiento</div>
+<h2>Normalización por edificio</h2>
+<p>Cuando se procesan múltiples unidades del mismo edificio (mismo <code>edificio_id</code>), los precios calculados de forma independiente por la cascada pueden ser inconsistentes entre sí — una unidad de 2 recs puede salir más cara que una de 3 recs del mismo edificio. La normalización resuelve esto usando el precio/m² del tipo de unidad más común como referencia interna.</p>
+
+<h3>Paso 1 — Identificar el grupo mayoritario de recámaras</h3>
+<p>Para cada edificio, cuenta cuántas unidades tienen cada número de recámaras. El grupo más frecuente se convierte en el "ancla de precios".</p>
+<div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Ejemplo</span></div><pre><span class="cmt"># Edificio "Sepia Condesa" con 11 unidades:</span>
+grupos = {<span class="num">2</span>: <span class="num">7</span>, <span class="num">1</span>: <span class="num">3</span>, <span class="num">3</span>: <span class="num">1</span>}  <span class="cmt"># recs: count</span>
+grupo_mayoritario = <span class="num">2</span>  <span class="cmt"># ← 7 unidades de 2 recs son el ancla</span>
+unidades_ref = [<span class="cmt">las 7 unidades de 2 recs</span>]</pre></div>
+
+<h3>Paso 1B — Subtipo por baños</h3>
+<p>Dentro del grupo mayoritario, también identifica el número de baños más frecuente. Si todas las unidades del grupo mayoritario tienen 2 baños, las que tienen 1 baño quedan fuera del cálculo de referencia.</p>
+
+<h3>Paso 2 — Calcular precio/m² base</h3>
+<p>Usando solo las unidades del grupo mayoritario (con prioridad Homie > SQL > i24), calcula la mediana del ratio precio/m²:</p>
+<div class="formula">precio_m2_base = median( mediana_fuente_i / area_i )  para cada unidad i del grupo mayoritario<br><br>precio_por_recamara_base = precio_m2_base / grupo_mayoritario_recs</div>
+
+<h3>Paso 3 — Re-escalar todas las unidades</h3>
+<p>Cada unidad del edificio recibe un precio normalizado calculado desde el ancla de referencia. Las primas se aplican cuando una unidad tiene <strong>menos recámaras que el grupo mayoritario</strong>:</p>
+<div class="table-wrap"><table>
+<tr><th>Caso</th><th>Fórmula precio/m²</th><th>Prima Homie</th><th>Prima SQL</th><th>Prima i24</th><th>Precio final</th></tr>
+<tr><td>= mayoritario (N recs)</td><td><code>precio_m2_base</code></td><td>0%</td><td>0%</td><td>0%</td><td><code>precio_m2_base × area</code></td></tr>
+<tr><td>&gt; mayoritario (N+k recs)</td><td><code>precio_por_rec_base × num_recs</code></td><td>0%</td><td>0%</td><td>0%</td><td>proporcional al área</td></tr>
+<tr><td>&lt; mayoritario (N−k recs)</td><td><code>precio_por_rec_base × num_recs</code></td><td><strong>×1.48</strong></td><td><strong>×1.11</strong></td><td>×1.00</td><td>con prima aplicada</td></tr>
+</table></div>
+
+<h4>Ejemplo numérico completo</h4>
+<div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Normalización — Edificio con 2 unidades</span></div><pre><span class="cmt"># DATOS: Edificio "A", grupo mayoritario = 2 recs</span>
+<span class="cmt"># Unidad 101: 2 recs, 60m², mediana_homie = $18,000</span>
+<span class="cmt"># Unidad 202: 1 rec, 40m², mediana_homie = $20,000 (parece alta)</span>
+
+<span class="cmt"># PASO 2: precio/m² base desde unidad 101 (grupo mayoritario)</span>
+precio_m2_base = <span class="num">18000</span> / <span class="num">60</span> = <span class="num">300</span>  <span class="cmt"># $300/m²</span>
+precio_por_rec_base = <span class="num">300</span> / <span class="num">2</span> = <span class="num">150</span>  <span class="cmt"># $150 por recámara</span>
+
+<span class="cmt"># PASO 3: re-escalar unidad 202 (1 rec, menos que mayoritario)</span>
+precio_m2_ajustado = <span class="num">150</span> × <span class="num">1</span> = <span class="num">150</span>  <span class="cmt"># proporcional a 1 rec</span>
+precio_m2_con_prima = <span class="num">150</span> × <span class="num">1.48</span> = <span class="num">222</span>  <span class="cmt"># prima Homie del 48%</span>
+mediana_homie_normalizada = <span class="num">222</span> × <span class="num">40</span> = <span class="num">$8,880</span>  <span class="cmt"># ← reemplaza $20,000</span>
+
+<span class="cmt"># El resultado: unidad 202 pasa de $20,000 a $8,880
+# La normalización "ancló" el studio al precio/m² del edificio</span></pre></div>
+
+<div class="alert alert-bad">
+  <div class="alert-icon">⛔</div>
+  <div><b>Las primas 0.48 y 0.11 están hardcodeadas sin respaldo estadístico visible</b>
+  <p>Estas constantes son probablemente el principal factor de desviación del modelo en edificios con mezcla de tipos de unidad. Si el mercado real tiene una prima distinta (o si varía por colonia, por antigüedad del edificio, o por rango de precio), todas las estimaciones de units en minoría quedan sistemáticamente sesgadas. Son candidatas a ser las primeras variables a calibrar empíricamente.</p></div>
+</div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: CÁLCULOS Y FÓRMULAS
+══════════════════════════════════════════════════════ -->
+<div id="panel-math" class="panel">
+
+<div class="eyebrow">Matemáticas del modelo</div>
+<h2>Todas las fórmulas y cálculos explicados</h2>
+
+<h3>1. Ajuste por inflación</h3>
+<p>Todos los precios históricos se ajustan a pesos del día de hoy usando una tasa mensual fija del 0.3% (≈ 3.6% anual). La tasa se aplica de forma compuesta simple (no interés compuesto verdadero).</p>
+<div class="formula">precio_inflacion = precio_final × (1 + 0.003 × meses_transcurridos)<br><br>meses_transcurridos = (año_hoy - año_date_in) × 12 + (mes_hoy - mes_date_in)</div>
+<div class="table-wrap"><table>
+<tr><th>Precio original</th><th>Hace (meses)</th><th>Factor</th><th>Precio ajustado</th><th>Diferencia</th></tr>
+<tr><td>$12,000</td><td>12</td><td>×1.036</td><td>$12,432</td><td>+$432</td></tr>
+<tr><td>$15,000</td><td>24</td><td>×1.072</td><td>$16,080</td><td>+$1,080</td></tr>
+<tr><td>$20,000</td><td>36</td><td>×1.108</td><td>$22,160</td><td>+$2,160</td></tr>
+<tr><td>$25,000</td><td>40</td><td>×1.120</td><td>$28,000</td><td>+$3,000</td></tr>
+</table></div>
+<div class="alert alert-warn" style="margin-top:8px;">
+  <div class="alert-icon">⚠</div>
+  <div><b>Problema con la tasa fija del 0.3% mensual</b>
+  <p>La inflación real del mercado de rentas en CDMX ha sido altamente variable: ~3–4% anual en 2019–2021, ~8–12% anual en 2022–2023. Una tasa fija del 3.6% anual <strong>subajusta precios de 2022–2023</strong> (cuando la inflación real fue 2–3× mayor) y <strong>sobreajusta precios de periodos más estables</strong>. El resultado neto es que precios históricos del periodo inflacionario siguen apareciendo más baratos de lo que deberían, haciendo que la mediana calculada sea menor que el precio real de mercado actual.</p></div>
+</div>
+
+<h3>2. Filtro de outliers en la query SQL</h3>
+<p>La query maestra aplica estos filtros de rango de precio:</p>
+<div class="formula">precio_final &gt; 2,000 MXN  (elimina datos basura / pruebas)<br>precio_final ≤ 180,000 MXN  (elimina propiedades de lujo extremo)</div>
+<p>Hay también una constante <code>MAX_RENT_PRICE = 200,000</code> definida en el código Python, pero <strong>no se usa activamente como filtro en ningún paso del flujo</strong>. El único filtro activo es el de la query SQL (≤ 180,000).</p>
+
+<h3>3. Fórmula del margen de m²</h3>
+<div class="formula">margen = max( área_m2 × 0.15,  5.0 )<br>rango = [ floor(área_m2 − margen),  floor(área_m2 + margen) ]</div>
+<p>El mínimo de 5m² garantiza que incluso inmuebles muy pequeños (20–33m²) tengan un rango de búsqueda mínimamente útil. Sin este mínimo, un depto de 20m² buscaría en [17, 23] — solo 6m² de banda.</p>
+
+<h3>4. Ajuste N+1 recámaras (SQL P7)</h3>
+<div class="formula">price_per_bed = median(precio_inflacion_N+1) / (N+1)<br>adjusted_price = price_per_bed × N<br>final_price = adjusted_price × 1.11  ← prima del 11%</div>
+
+<h3>5. Ajuste N+1 recámaras (Homie P3)</h3>
+<div class="formula">price_per_bed = median(precio_inflacion_N+1) / (N+1)<br>adjusted_price = price_per_bed × N<br>final_price = adjusted_price × 1.48  ← prima del 48%</div>
+<p>La diferencia de primas entre SQL (11%) y Homie (48%) sugiere que provienen de calibraciones distintas o momentos distintos. No hay evidencia en el código de cómo se calcularon.</p>
+
+<h3>6. Deduplicación en _df_processor</h3>
+<div class="codeblock"><div class="codeblock-header"><span class="codeblock-lang">Python — _df_processor()</span></div><pre>df_dedup = df.drop_duplicates()  <span class="cmt"># ⚠ sin subset → compara TODAS las columnas</span>
+muestra = <span class="fn">len</span>(df_dedup)
+mediana = df_dedup[<span class="str">'precio_inflacion'</span>].median()  <span class="cmt"># ← siempre esta columna</span></pre></div>
+<div class="alert alert-bad">
+  <div class="alert-icon">⛔</div>
+  <div><b>Bug conocido: drop_duplicates() sin subset de ID</b>
+  <p>El propio código tiene un comentario marcado como <code># ¡¡CRÍTICO!!</code>. Al comparar todas las columnas, dos rentas del mismo inmueble con el mismo precio se colapsan correctamente. Pero dos rentas del mismo inmueble con precios distintos (ej: renovación con incremento) cuentan como 2 observaciones separadas, inflando la muestra y sesgando la mediana. La corrección sería <code>df.drop_duplicates(subset=['url'])</code> o el equivalente con el ID de anuncio.</p></div>
+</div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: DIAGNÓSTICO Y MEJORAS
+══════════════════════════════════════════════════════ -->
+<div id="panel-hypo" class="panel">
+
+<div class="eyebrow">Diagnóstico técnico</div>
+<h2>Por qué el modelo se desvía — hipótesis y mejoras</h2>
+<p>Las siguientes hipótesis están ordenadas de <strong>mayor a menor impacto estimado</strong> en la precisión del modelo, con estimados de tiempo de implementación para cada una.</p>
+
+<div class="hypo">
+  <div class="hypo-n">H1</div>
+  <div>
+    <div class="hypo-title">Primas hardcodeadas (0.48 y 0.11) sin calibración empírica</div>
+    <div class="hypo-body">Las primas aplicadas en la normalización por edificio son el punto de mayor riesgo del modelo. Si el mercado real de CDMX tiene una prima diferente entre studios (1 rec) y departamentos estándar (2 recs), <em>cada edificio procesado con mix de unidades queda con precios sistemáticamente desviados</em>. No hay log que indique cuántas filas son afectadas por esta normalización.</div>
+    <div class="hypo-meta">
+      <span class="chip c-red">impacto: muy alto</span>
+      <span class="chip c-orange">afecta: edificios con mix</span>
+      <span class="chip c-green">solución: calcular prima desde datos Homie agrupando por recs</span>
+      <span class="chip c-blue">esfuerzo estimado: 2–4 horas</span>
+    </div>
+  </div>
+</div>
+
+<div class="hypo">
+  <div class="hypo-n">H2</div>
+  <div>
+    <div class="hypo-title">Sin discriminación de tipo de propiedad — casas, deptos y cuartos mezclados</div>
+    <div class="hypo-body">La query SQL no filtra por <code>property_type</code>. Un cuarto de azotea de 25m² con 1 recámara entra en la misma muestra que un departamento de 50m² con 1 recámara. Esto jala la mediana hacia abajo en colonias donde hay muchas rentas de cuartos baratos. En colonias de mercado premium (Polanco, Lomas), puede no importar. En colonias mixtas (Roma Norte, Doctores) puede sesgarlo significativamente.</div>
+    <div class="hypo-meta">
+      <span class="chip c-red">impacto: alto</span>
+      <span class="chip c-orange">afecta: colonias con mercado mixto</span>
+      <span class="chip c-green">solución: agregar filtro property_type='apartment' en query</span>
+      <span class="chip c-blue">esfuerzo estimado: 1–2 horas</span>
+    </div>
+  </div>
+</div>
+
+<div class="hypo">
+  <div class="hypo-n">H3</div>
+  <div>
+    <div class="hypo-title">Tasa de inflación fija (3.6%/año) vs inflación real del mercado</div>
+    <div class="hypo-body">La tasa de 0.3% mensual es una constante sin calibración dinámica. El mercado de rentas de CDMX tuvo inflación de 8–12% anual en 2022–2023 y ha estado en 5–7% anual en 2024–2025. Precios scrapeados en 2022 están siendo subajustados por un factor de hasta 2×. La mediana resultante es menor que el precio real de hoy, haciendo que el modelo sugiera precios por debajo del mercado.</div>
+    <div class="hypo-meta">
+      <span class="chip c-red">impacto: alto en datos >18 meses</span>
+      <span class="chip c-orange">afecta: todos los niveles con ventana >12 meses</span>
+      <span class="chip c-green">solución: reemplazar tasa fija con índice INPC de rentas por periodo</span>
+      <span class="chip c-blue">esfuerzo estimado: 1 día</span>
+    </div>
+  </div>
+</div>
+
+<div class="hypo">
+  <div class="hypo-n">H4</div>
+  <div>
+    <div class="hypo-title">Precios de oferta vs precios de cierre — i24 sesga hacia arriba</div>
+    <div class="hypo-body">i24 mide lo que el dueño pide, no lo que el inquilino paga. La literatura de mercado inmobiliario indica que el descuento de negociación típico en CDMX es del 8–15%. La mediana de i24 puede estar sistemáticamente 10% arriba del precio de cierre real, haciendo que combinada con SQL/Homie infle el precio sugerido final.</div>
+    <div class="hypo-meta">
+      <span class="chip c-orange">impacto: medio-alto</span>
+      <span class="chip c-orange">afecta: todos los outputs de i24</span>
+      <span class="chip c-green">solución: aplicar factor de descuento configurable (ej: × 0.90) a medianas i24</span>
+      <span class="chip c-blue">esfuerzo estimado: 30 minutos</span>
+    </div>
+  </div>
+</div>
+
+<div class="hypo">
+  <div class="hypo-n">H5</div>
+  <div>
+    <div class="hypo-title">Mezcla de tamaños en fallbacks sin filtro de m² (P2, P3, P5, P6)</div>
+    <div class="hypo-body">Cuando la cascada relaja el filtro de m², un depto de 40m² y uno de 120m² con las mismas recámaras quedan en la misma muestra. La mediana del precio absoluto de ese pool no representa ninguno de los dos. Para un depto de 40m², la mediana con deptos de 120m² estará inflada. La solución correcta no es añadir precio/m² como feature de output sino usarlo internamente como mejor estimador y luego multiplicar por el área del input.</div>
+    <div class="hypo-meta">
+      <span class="chip c-orange">impacto: medio</span>
+      <span class="chip c-orange">afecta: niveles P2, P3, P5, P6, P7, P8</span>
+      <span class="chip c-green">solución: en niveles sin filtro de m², calcular mediana(precio/m²) × area_input</span>
+      <span class="chip c-blue">esfuerzo estimado: 3–5 horas</span>
+    </div>
+  </div>
+</div>
+
+<div class="hypo">
+  <div class="hypo-n">H6</div>
+  <div>
+    <div class="hypo-title">Listings inactivos contaminan la muestra SQL (precio de anuncio, no de cierre)</div>
+    <div class="hypo-body">La query SQL filtra por <code>date_in</code> (cuando el anuncio fue scrapeado), no por si el inmueble se rentó. Un anuncio publicado a $25,000 que lleva 10 meses activo sin rentarse está sobrevalorado y sigue en la muestra. Estos "listings inactivos" sesgan la mediana hacia arriba.</div>
+    <div class="hypo-meta">
+      <span class="chip c-orange">impacto: medio</span>
+      <span class="chip c-blue">esfuerzo estimado: requiere datos de cierre en webscraping — difícil</span>
+    </div>
+  </div>
+</div>
+
+<div class="hypo">
+  <div class="hypo-n">H7</div>
+  <div>
+    <div class="hypo-title">Sin amenidades en SQL e i24 — edificios premium y viejos con el mismo precio</div>
+    <div class="hypo-body">La Calculadora Homie pondera gym, elevador, seguridad, terraza, jardín y piscina. SQL e i24 no capturan amenidades. Dos departamentos idénticos en colonia, recámaras y m², uno con gym+elevador+seguridad y otro en un edificio de los 70s sin elevador, producen la misma mediana en SQL/Homie aunque en el mercado real la diferencia puede ser del 15–25%.</div>
+    <div class="hypo-meta">
+      <span class="chip c-blue">impacto: medio en proyectos nuevos</span>
+      <span class="chip c-orange">afecta: pricing de edificios premium</span>
+      <span class="chip c-blue">esfuerzo estimado: requiere enriquecer scraping — 1–2 semanas</span>
+    </div>
+  </div>
+</div>
+
+<h3 style="margin-top:36px;">Mejoras de arquitectura recomendadas</h3>
+
+<div class="improve">
+  <div class="improve-title">1. Scoring de confianza por fila</div>
+  <div class="improve-body">Actualmente el output no indica si el precio vino de P1 (match perfecto) o P7 (fallback extremo). Agregar un campo <code>confianza_sql</code> calculado como función de (nivel alcanzado + muestra) permitiría en Sheets marcar en rojo los precios de baja confianza y tomar decisiones informadas. Fórmula sugerida: <code>confianza = max(0, 1 - (nivel - 1) × 0.12) × min(muestra / 5, 1)</code></div>
+  <div class="improve-row">
+    <span class="chip c-green">impacto: alto en operaciones</span>
+    <span class="chip c-blue">esfuerzo: 2–3 horas</span>
+    <span class="chip c-teal">tipo: feature de observabilidad</span>
+  </div>
+</div>
+
+<div class="improve">
+  <div class="improve-title">2. Modelo ML supervisado como fuente adicional (xgboost/lightgbm)</div>
+  <div class="improve-body">Con los datos históricos de Homie (contratos cerrados con precios reales), se puede entrenar un modelo de regresión supervisada que use como features: colonia (one-hot o embedding), recámaras, m², baños, antigüedad, parking, y coordenadas (lat/lon con clustering geográfico). Un modelo así aprendería el precio de mercado sin necesidad de cascadas — daría una predicción en ~1ms vs los 20–55 segundos actuales. La Calculadora Homie v5 es exactamente esto, pero es externa y cierra la box. Un modelo propio sería interpretable y entrenable con los datos de la empresa.<br><strong>Stack sugerido:</strong> Python + LightGBM + MLflow para tracking de experimentos. Entrenamiento mensual con datos nuevos de Homie. Evaluación con MAE y MAPE separados por colonia.</div>
+  <div class="improve-row">
+    <span class="chip c-green">impacto: muy alto en velocidad y precisión</span>
+    <span class="chip c-orange">esfuerzo: 2–4 semanas para MVP</span>
+    <span class="chip c-teal">tipo: reemplazo arquitectural</span>
+  </div>
+</div>
+
+<div class="improve">
+  <div class="improve-title">3. Procesamiento paralelo de fuentes (de 55s a ~15s por fila)</div>
+  <div class="improve-body">Actualmente las 4 fuentes se ejecutan en serie. Las cascadas SQL y Homie son pandas en memoria (< 2s cada una) y podrían ejecutarse en paralelo con <code>ThreadPoolExecutor</code>. El scraper i24 (Selenium, ~30s) podría ejecutarse en un thread separado. La Calculadora Homie (API, ~2s) también es independiente. El cuello de botella real es i24 — en paralelo con SQL/Homie, el tiempo total por fila bajaría de ~55s a ~35s.<br><strong>Blocker actual:</strong> la variable global <code>_CURRENT_COLONIA_INPUT</code> crearía race conditions. Antes de paralelizar hay que inyectarla como parámetro.</div>
+  <div class="improve-row">
+    <span class="chip c-blue">impacto: ~35% reducción en tiempo total</span>
+    <span class="chip c-orange">esfuerzo: 1 día (requiere refactor de variable global)</span>
+    <span class="chip c-teal">tipo: optimización de performance</span>
+  </div>
+</div>
+
+<div class="improve">
+  <div class="improve-title">4. Weighting temporal — datos recientes pesan más</div>
+  <div class="improve-body">En lugar de una mediana simple que pesa igual todos los registros, implementar una mediana ponderada donde registros más recientes tienen mayor peso. Un decay exponencial simple: <code>peso = exp(-0.05 × meses_desde_date_in)</code> daría peso 1.0 a datos de este mes y 0.22 a datos de hace 30 meses. Esto mejoraría la precisión en mercados con tendencia alcista y haría el modelo más reactivo a cambios de mercado recientes.</div>
+  <div class="improve-row">
+    <span class="chip c-blue">impacto: medio en datos con ventana >12m</span>
+    <span class="chip c-blue">esfuerzo: 3–4 horas</span>
+    <span class="chip c-teal">tipo: mejora estadística</span>
+  </div>
+</div>
+
+<div class="improve">
+  <div class="improve-title">5. Migración del scraper a API oficial / datos alternativos</div>
+  <div class="improve-body">El scraper con Selenium es frágil: depende de la versión exacta de Chrome, puede romperse con actualizaciones del DOM de Inmuebles24, y es el paso más lento del pipeline. Alternativas más robustas: (a) Usar la API de Inmuebles24 si es accesible, (b) Contratar un proveedor de datos de MLS como Vivanuncios o Propiedades.com con API, (c) Reemplazar con datos del SIC (Sistema de Información Catastral de CDMX) para precios oficiales registrados.</div>
+  <div class="improve-row">
+    <span class="chip c-green">impacto: muy alto en estabilidad</span>
+    <span class="chip c-orange">esfuerzo: 1–3 semanas según fuente</span>
+    <span class="chip c-teal">tipo: mejora de infraestructura</span>
+  </div>
+</div>
+
+<div class="improve">
+  <div class="improve-title">6. Monitoreo de drift y alertas automáticas</div>
+  <div class="improve-body">No hay ningún sistema que detecte cuando el modelo empieza a divergir del mercado real. Propuesta: una vez al mes, tomar un sample de inmuebles donde el precio sugerido ya se conoce (contratos cerrados en Homie del mes siguiente) y calcular el MAPE (Mean Absolute Percentage Error) real del modelo. Si el MAPE sube más del 15%, disparar una alerta por Slack/email. Esto convierte la herramienta en un sistema auto-evaluado.</div>
+  <div class="improve-row">
+    <span class="chip c-green">impacto: crítico para confianza a largo plazo</span>
+    <span class="chip c-orange">esfuerzo: 1 semana</span>
+    <span class="chip c-teal">tipo: observabilidad y MLOps</span>
+  </div>
+</div>
+
+<h3>Resumen de deuda técnica</h3>
+<div class="table-wrap"><table>
+<tr><th>Ítem</th><th>Severidad</th><th>Impacto si no se resuelve</th><th>Fix</th></tr>
+<tr><td><code>drop_duplicates()</code> sin subset</td><td><span class="chip c-red">crítica</span></td><td>Muestra inflada, mediana distorsionada</td><td><code>subset=['url']</code></td></tr>
+<tr><td>Variable global <code>_CURRENT_COLONIA_INPUT</code></td><td><span class="chip c-orange">alta</span></td><td>Race condition al paralelizar</td><td>Inyectar como parámetro</td></tr>
+<tr><td>Código muerto post-return en <code>homie_recs_only_100m</code></td><td><span class="chip c-blue">media</span></td><td>Confusión en mantenimiento</td><td>Eliminar líneas 1531–1548</td></tr>
+<tr><td>Credenciales hardcodeadas en código</td><td><span class="chip c-red">crítica (seguridad)</span></td><td>Exposición si el código se comparte</td><td>Mover a variables de entorno <code>.env</code></td></tr>
+<tr><td>Sin rate limiting en escritura a Sheets</td><td><span class="chip c-orange">alta para batches grandes</span></td><td>Errores 429 en >60 filas</td><td>Añadir <code>time.sleep(1)</code> cada 50 escrituras</td></tr>
+<tr><td>Sin reintentos en conexión a Redshift</td><td><span class="chip c-blue">media</span></td><td>Fallo total por error transitorio de red</td><td>Añadir <code>retry</code> con backoff exponencial</td></tr>
+</table></div>
+
+<h3>Análisis de puntos ciegos (cajas negras)</h3>
+<p>Son las partes del sistema donde la lógica es opaca, los errores son silenciosos, o las decisiones no tienen respaldo documental. Estas áreas son las de mayor riesgo cuando algo falla en producción porque no hay señales visibles de que algo está mal.</p>
+
+<div class="alert alert-bad" style="margin-bottom:14px;">
+  <div class="alert-icon">⛔</div>
+  <div><b>drop_duplicates() sin subset de ID — marcado como CRÍTICO en el propio código</b>
+  <p>En <code>_df_processor</code>, la deduplicación se hace con <code>df.drop_duplicates()</code> sin especificar <code>subset=['url']</code> ni ningún identificador único. Esto compara todas las columnas a la vez. El resultado: dos rentas del mismo inmueble con el mismo precio se colapsan correctamente en una sola fila — hasta ahí bien. Pero si un mismo inmueble tuvo dos contratos con precios distintos (por ejemplo, una renovación con incremento de $18,000 a $21,000), ambas filas sobreviven y cuentan como dos observaciones independientes en la muestra, inflando el n y sesgando la mediana. El propio código tiene un comentario <code># ¡¡CRÍTICO!!</code> en esta línea. La corrección es directa: <code>df.drop_duplicates(subset=['url'])</code> o el equivalente con el ID de anuncio.</p></div>
+</div>
+
+<div class="alert alert-bad" style="margin-bottom:14px;">
+  <div class="alert-icon">⛔</div>
+  <div><b>Calculadora Homie v5 — black box sin documentación accesible</b>
+  <p>El endpoint REST <code>suggestedprice-v5</code> es un modelo ML externo. No hay documentación en el código de qué features usa internamente, cuál es el rango de entrenamiento, cómo maneja propiedades fuera de distribución (colonias con pocos datos, inmuebles muy grandes o muy pequeños), ni qué significa exactamente el campo <code>original_prediction</code> vs otros campos que el endpoint también devuelve. Se usa el valor crudo sin ninguna validación de rango ni confidence interval. Si el modelo de Homie se actualiza o depreca en producción, la herramienta falla silenciosamente devolviendo <code>None</code> en esa columna.</p></div>
+</div>
+
+<div class="alert alert-warn" style="margin-bottom:14px;">
+  <div class="alert-icon">⚠</div>
+  <div><b>Query REGEX de colonias en SQL — cobertura sin monitoreo</b>
+  <p>La query maestra de Redshift tiene ~300 cláusulas <code>CASE WHEN REGEXP_COUNT(neighborhood, '...')</code> que convierten el texto crudo del scraping a nombres canónicos de colonia. Todo lo que no coincide con ningún patrón cae al <code>ELSE neighborhood END</code> y queda con el texto sucio original (ej: "Col. Ped. del Pedregal", "LOMAS DE CHAPULTEPEC V SECC", "Depto en Renta"). Cuando Python intenta buscar esa cadena sucia en el DataFrame, no encuentra nada y la cascada falla desde P1 sin ningún log ni alerta. No hay ninguna métrica de "% de registros que cayeron al ELSE", ni ningún reporte de "colonias sin cobertura". Esto es completamente invisible en producción — puedes tener una colonia entera sin datos aparentes cuando en realidad los datos existen pero con otro nombre.</p></div>
+</div>
+
+<div class="alert alert-warn" style="margin-bottom:14px;">
+  <div class="alert-icon">⚠</div>
+  <div><b>_CURRENT_COLONIA_INPUT — variable global mutable como canal de comunicación</b>
+  <p>La colonia del input se pasa entre funciones a través de una variable global de módulo, no como argumento explícito. Esto crea un acoplamiento oculto: cualquier función que necesite la colonia del input actual la lee de esta variable global en lugar de recibirla como parámetro. En la ejecución actual (secuencial, una fila a la vez) esto funciona. Pero es el tipo de patrón que explota en cuanto se intente paralelizar el procesamiento con <code>ThreadPoolExecutor</code> o similar, porque dos threads podrían estar escribiendo y leyendo la variable al mismo tiempo con valores de filas distintas — un race condition garantizado. También dificulta el testing unitario de las funciones de resolución de colonia.</p></div>
+</div>
+
+<div class="alert alert-warn" style="margin-bottom:14px;">
+  <div class="alert-icon">⚠</div>
+  <div><b>Primas hardcodeadas (0.48 y 0.11) — origen desconocido</b>
+  <p>Las primas aplicadas en la normalización por edificio cuando una unidad tiene menos recámaras que el grupo mayoritario (Homie ×1.48, SQL ×1.11) están definidas como constantes en el código sin ningún comentario que explique cómo se calcularon, en qué fecha, con qué datos, o para qué rango de colonias son válidas. La hipótesis más probable es que fueron calibradas empíricamente en algún momento y se hardcodearon. El riesgo: si el mercado real tiene una prima diferente (o si la prima varía por colonia, tipo de inmueble o rango de precio), todos los edificios con mix de tipos de unidad quedan con precios sistemáticamente sesgados en la misma dirección, sin ninguna señal de que esto está ocurriendo.</p></div>
+</div>
+
+<div class="alert alert-warn" style="margin-bottom:14px;">
+  <div class="alert-icon">⚠</div>
+  <div><b>MAX_RENT_PRICE = 200,000 — constante declarada pero nunca usada</b>
+  <p>Existe una constante <code>MAX_RENT_PRICE = 200,000</code> definida en el módulo Python, pero una búsqueda en el código confirma que no se aplica como filtro activo en ningún paso del flujo de procesamiento. El único límite superior de precio efectivo es el de la query SQL maestra (<code>precio_final &lt;= 180,000</code>). La presencia de esta constante sin uso puede generar confusión: alguien que lea el código puede asumir que existe un filtro de $200,000 cuando en realidad no opera.</p></div>
+</div>
+
+<div class="alert alert-warn">
+  <div class="alert-icon">⚠</div>
+  <div><b>Código muerto post-return en homie_recs_only_100m_cp_library</b>
+  <p>En la función <code>homie_recs_only_100m_cp_library</code>, alrededor de las líneas 1531–1548, hay un bloque de código con asignaciones de colonia y cálculos de área que se encuentra después de un <code>return</code>. Este código nunca se ejecuta — es un remanente de una refactorización incompleta. No afecta el funcionamiento del sistema, pero genera ruido cognitivo para cualquiera que lea o mantenga el código, y puede llevar a errores si alguien intenta modificar esa función asumiendo que ese bloque sí se ejecuta.</p></div>
+</div>
+
+</div>
+
+</div><!-- /main -->
+</div><!-- /page -->
+
+<script>
+const panels = ['overview','main','sql','homie','i24','colony','norm','math','hypo'];
+const panelTitles = {
+  overview: ['Propósito del sistema','Las 4 fuentes','Principio de cascada','Output en Sheets'],
+  main: ['Paso 0: Google Sheets','Paso 1: Pre-carga global','Paso 2: Detección de filas','Paso 3: Parseo CSV','Paso 4: 4 fuentes','Paso 5: Normalización','Paso 6: Escritura'],
+  sql: ['7 niveles de fallback','Filtro de m²','P7: Ajuste N+1'],
+  homie: ['8 niveles de fallback','Normalización colonias Homie','Diferencia vs SQL'],
+  i24: ['6 niveles Selenium','Flujo interno del scraper','Precio oferta vs cierre'],
+  colony: ['Capa 1: CP → librería','Algoritmo Jaccard','Capa 2: limpieza Homie','Capa 3: REGEX SQL'],
+  norm: ['Paso 1: grupo mayoritario','Paso 2: precio/m² base','Paso 3: re-escalar','Ejemplo numérico'],
+  math: ['Ajuste inflación','Filtro outliers','Fórmula m²','Ajuste N+1','Deduplicación'],
+  hypo: ['H1–H7: Hipótesis','Mejoras arquitecturales','Deuda técnica','Puntos ciegos']
+};
+
+function show(name, btn) {
+  panels.forEach(p => {
+    document.getElementById('panel-' + p).classList.remove('active');
+  });
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+  buildSidebar(name);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function buildSidebar(active) {
+  const sb = document.getElementById('sidebar');
+  const links = panelTitles[active] || [];
+  let html = '<div class="sidebar-section">En esta sección</div>';
+  links.forEach((title, i) => {
+    html += `<a class="sidebar-link" href="#">${title}</a>`;
+  });
+  sb.innerHTML = html;
+  document.querySelectorAll('.sidebar-link').forEach((link, i) => {
+    if(i===0) link.classList.add('active');
+    link.onclick = (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+      link.classList.add('active');
+      const h3s = document.querySelector('.panel.active').querySelectorAll('h3');
+      if(h3s[i]) h3s[i].scrollIntoView({behavior:'smooth', block:'start'});
+    };
+  });
+}
+
+buildSidebar('overview');
+</script>
+</body>
+</html>
