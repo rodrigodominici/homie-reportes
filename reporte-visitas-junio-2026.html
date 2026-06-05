@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte Visitas — Junio 2026 | Homie</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --verde: #238D7E;
+      --verde-dark: #1C7165;
+      --azul: #525EA2;
+      --naranja: #ED8735;
+      --amarillo: #F6B248;
+      --rosa: #F6B9B8;
+      --texto: #161628;
+      --gris: #736464;
+      --fondo: #F4F7FE;
+      --surface: #FFFDF6;
+      --borde: #DEDCD7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── PORTADA ── */
+    .portada {
+      background: var(--verde);
+      color: #fff;
+      padding: 72px 80px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .portada::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .portada::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: 40%;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .logo-text {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      opacity: 0.95;
+      margin-bottom: 60px;
+    }
+    .portada h1 {
+      font-size: 56px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .portada .subtitulo {
+      font-size: 20px;
+      font-weight: 400;
+      opacity: 0.8;
+      margin-bottom: 48px;
+    }
+    .portada .meta {
+      display: flex;
+      gap: 32px;
+      font-size: 13px;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* ── CONTENIDO ── */
+    .contenido {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+
+    /* ── KPI STRIP ── */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .kpi-card {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 20px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .kpi-card .numero {
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .kpi-card .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--gris);
+      font-weight: 500;
+    }
+    .kpi-card.verde .numero { color: var(--verde); }
+    .kpi-card.rojo .numero { color: #D94F4F; }
+    .kpi-card.naranja .numero { color: var(--naranja); }
+    .kpi-card.azul .numero { color: var(--azul); }
+    .kpi-card.gris .numero { color: var(--gris); }
+
+    /* ── SECCIÓN ── */
+    .seccion {
+      margin-bottom: 48px;
+    }
+    .seccion-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .seccion-num {
+      background: var(--verde);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .seccion h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    /* ── CARDS GRID ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--gris);
+      margin-bottom: 16px;
+    }
+
+    /* ── TABLA KAM ── */
+    .tabla-kam {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .tabla-kam th {
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--gris);
+      border-bottom: 2px solid var(--borde);
+      font-weight: 600;
+    }
+    .tabla-kam td {
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--borde);
+      vertical-align: middle;
+    }
+    .tabla-kam tr:last-child td { border-bottom: none; }
+    .tabla-kam tr:hover td { background: var(--fondo); }
+    .kam-name { font-weight: 600; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-verde { background: #E6F5F3; color: var(--verde); }
+    .badge-rojo   { background: #FDECEA; color: #D94F4F; }
+    .badge-gris   { background: #F0EEEB; color: var(--gris); }
+    .badge-naranja { background: #FEF3E8; color: var(--naranja); }
+
+    /* ── BARRA PROGRESO ── */
+    .barra-wrap { margin-bottom: 14px; }
+    .barra-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .barra-label span:first-child { font-weight: 500; }
+    .barra-label span:last-child { color: var(--gris); font-size: 12px; }
+    .barra-bg {
+      background: var(--fondo);
+      border-radius: 6px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .barra-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.3s ease;
+    }
+
+    /* ── ACCIONABLES ── */
+    .accionables-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .accionable {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 20px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--verde);
+    }
+    .accionable.urgente { border-left-color: #D94F4F; }
+    .accionable.medio { border-left-color: var(--naranja); }
+    .accionable-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .urgencia-chip {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .urgencia-chip.alta { background: #FDECEA; color: #D94F4F; }
+    .urgencia-chip.media { background: #FEF3E8; color: var(--naranja); }
+    .accionable h4 {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .accionable p {
+      font-size: 13px;
+      color: var(--gris);
+      line-height: 1.5;
+    }
+
+    /* ── LEADS TABLE ── */
+    .leads-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .leads-table th {
+      text-align: left;
+      padding: 8px 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--gris);
+      border-bottom: 2px solid var(--borde);
+      font-weight: 600;
+    }
+    .leads-table td {
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--borde);
+    }
+    .leads-table tr:last-child td { border-bottom: none; }
+    .leads-table tr:hover td { background: var(--fondo); }
+
+    /* ── PROPIEDADES ── */
+    .prop-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--borde);
+      font-size: 13px;
+    }
+    .prop-row:last-child { border-bottom: none; }
+    .prop-id { font-size: 11px; color: var(--gris); font-weight: 600; }
+    .prop-name { font-weight: 500; color: var(--texto); }
+    .prop-badge-100 {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: #FDECEA;
+      color: #D94F4F;
+    }
+
+    /* ── DISTRIBUCIÓN HORARIA ── */
+    .hora-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+    .hora-label { width: 50px; font-weight: 600; color: var(--gris); font-size: 12px; }
+    .hora-barra-wrap { flex: 1; }
+    .hora-barra-bg { background: var(--fondo); border-radius: 6px; height: 10px; overflow: hidden; }
+    .hora-barra-fill { height: 100%; border-radius: 6px; background: var(--verde); }
+    .hora-n { width: 36px; text-align: right; font-weight: 600; }
+    .hora-done { font-size: 11px; color: var(--verde); font-weight: 600; width: 44px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--texto);
+      color: #fff;
+      text-align: center;
+      padding: 40px 40px;
+      font-size: 13px;
+      opacity: 0.95;
+    }
+    .footer .footer-logo { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--verde); }
+    .footer p { opacity: 0.5; }
+
+    /* ── SEPARADOR ── */
+    .sep { border: none; border-top: 1px solid var(--borde); margin: 40px 0; }
+
+    /* ── ALERTA BLOCK ── */
+    .alerta {
+      background: #FEF3E8;
+      border: 1px solid #F6B248;
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: #7A4A10;
+      margin-bottom: 16px;
+    }
+    .alerta strong { font-weight: 700; }
+
+    .insight-block {
+      background: #E6F5F3;
+      border: 1px solid #A8D9D3;
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: var(--verde-dark);
+      margin-top: 16px;
+    }
+    .insight-block strong { font-weight: 700; }
+
+    @media print {
+      body { background: #fff; }
+      .portada { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="portada">
+  <div class="logo-text">homie</div>
+  <h1>Reporte de Visitas<br>Junio 2026</h1>
+  <p class="subtitulo">Análisis integral — HOMIERENT Chile</p>
+  <div class="meta">
+    <span>Base: appoint_hub</span>
+    <span>Período: 01–05 Jun 2026</span>
+    <span>238 citas netas analizadas</span>
+    <span>Generado: 5 Jun 2026</span>
+  </div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="contenido">
+
+  <!-- KPIs -->
+  <div class="kpi-strip" style="margin-top: 48px;">
+    <div class="kpi-card verde">
+      <div class="numero">238</div>
+      <div class="label">Citas totales</div>
+    </div>
+    <div class="kpi-card verde">
+      <div class="numero">16</div>
+      <div class="label">Completadas (DONE)</div>
+    </div>
+    <div class="kpi-card rojo">
+      <div class="numero">92</div>
+      <div class="label">Canceladas</div>
+    </div>
+    <div class="kpi-card naranja">
+      <div class="numero">8</div>
+      <div class="label">No Show</div>
+    </div>
+    <div class="kpi-card azul">
+      <div class="numero">6.7%</div>
+      <div class="label">Tasa de conversión</div>
+    </div>
+  </div>
+
+  <div class="alerta">
+    <strong>Lectura rápida:</strong> De cada 15 citas agendadas en junio, solo 1 termina en visita efectiva. El 38.7% se cancela antes de ocurrir, y el 51% sigue pendiente de completarse.
+  </div>
+
+  <!-- FUNNEL -->
+  <div class="seccion">
+    <div class="seccion-header">
+      <div class="seccion-num">1</div>
+      <h2>Funnel de conversión</h2>
+    </div>
+    <div class="card">
+      <div class="barra-wrap">
+        <div class="barra-label"><span>Pendientes / Confirmadas</span><span>122 citas · 51.3%</span></div>
+        <div class="barra-bg"><div class="barra-fill" style="width:51.3%; background: var(--azul);"></div></div>
+      </div>
+      <div class="barra-wrap">
+        <div class="barra-label"><span>Canceladas</span><span>92 citas · 38.7%</span></div>
+        <div class="barra-bg"><div class="barra-fill" style="width:38.7%; background: #D94F4F;"></div></div>
+      </div>
+      <div class="barra-wrap">
+        <div class="barra-label"><span>Completadas (DONE)</span><span>16 citas · 6.7%</span></div>
+        <div class="barra-bg"><div class="barra-fill" style="width:6.7%; background: var(--verde);"></div></div>
+      </div>
+      <div class="barra-wrap">
+        <div class="barra-label"><span>No Show</span><span>8 citas · 3.4%</span></div>
+        <div class="barra-bg"><div class="barra-fill" style="width:3.4%; background: var(--naranja);"></div></div>
+      </div>
+
+      <div class="insight-block">
+        <strong>Insight:</strong> La mayoría de las citas están en pipeline activo (pendientes). La tasa de cancelación del 38.7% es la principal pérdida — no los no-shows.
+      </div>
+    </div>
+  </div>
+
+  <!-- KAM PERFORMANCE -->
+  <div class="seccion">
+    <div class="seccion-header">
+      <div class="seccion-num">2</div>
+      <h2>Performance por KAM</h2>
+    </div>
+    <div class="card">
+      <table class="tabla-kam">
+        <thead>
+          <tr>
+            <th>KAM</th>
+            <th style="text-align:center">Total</th>
+            <th style="text-align:center">DONE</th>
+            <th style="text-align:center">Canceladas</th>
+            <th style="text-align:center">No Show</th>
+            <th style="text-align:center">Pendientes</th>
+            <th style="text-align:center">Tasa DONE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="kam-name">María José Ruiz Peña</span></td>
+            <td style="text-align:center">27</td>
+            <td style="text-align:center"><strong style="color:var(--verde)">6</strong></td>
+            <td style="text-align:center">3</td>
+            <td style="text-align:center">3</td>
+            <td style="text-align:center">14</td>
+            <td style="text-align:center"><span class="badge badge-verde">50%</span></td>
+          </tr>
+          <tr>
+            <td><span class="kam-name">Lizver Rauseo</span></td>
+            <td style="text-align:center">31</td>
+            <td style="text-align:center"><strong style="color:var(--verde)">3</strong></td>
+            <td style="text-align:center">10</td>
+            <td style="text-align:center">0</td>
+            <td style="text-align:center">15</td>
+            <td style="text-align:center"><span class="badge badge-verde">23%</span></td>
+          </tr>
+          <tr>
+            <td><span class="kam-name">Alejandra Rodriguez</span></td>
+            <td style="text-align:center">28</td>
+            <td style="text-align:center"><strong style="color:var(--verde)">1</strong></td>
+            <td style="text-align:center">5</td>
+            <td style="text-align:center">0</td>
+            <td style="text-align:center">22</td>
+            <td style="text-align:center"><span class="badge badge-naranja">17%</span></td>
+          </tr>
+          <tr>
+            <td><span class="kam-name">Victor Gonzalez</span></td>
+            <td style="text-align:center">28</td>
+            <td style="text-align:center"><strong style="color:var(--gris)">1</strong></td>
+            <td style="text-align:center">8</td>
+            <td style="text-align:center">4</td>
+            <td style="text-align:center">12</td>
+            <td style="text-align:center"><span class="badge badge-gris">8%</span></td>
+          </tr>
+          <tr>
+            <td><span class="kam-name">Helfer Quispe</span></td>
+            <td style="text-align:center">29</td>
+            <td style="text-align:center"><strong style="color:var(--gris)">2</strong></td>
+            <td style="text-align:center">20</td>
+            <td style="text-align:center">0</td>
+            <td style="text-align:center">7</td>
+            <td style="text-align:center"><span class="badge badge-gris">9%</span></td>
+          </tr>
+          <tr>
+            <td><span class="kam-name">Mathias Buckel</span></td>
+            <td style="text-align:center">52</td>
+            <td style="text-align:center"><strong style="color:var(--gris)">2</strong></td>
+            <td style="text-align:center">31</td>
+            <td style="text-align:center">1</td>
+            <td style="text-align:center">18</td>
+            <td style="text-align:center"><span class="badge badge-gris">6%</span></td>
+          </tr>
+          <tr style="background:#FDECEA08">
+            <td><span class="kam-name" style="color:#D94F4F">Gricel Garcia</span></td>
+            <td style="text-align:center">42</td>
+            <td style="text-align:center"><strong style="color:#D94F4F">0</strong></td>
+            <td style="text-align:center">12</td>
+            <td style="text-align:center">0</td>
+            <td style="text-align:center">30</td>
+            <td style="text-align:center"><span class="badge badge-rojo">0%</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="insight-block">
+        <strong>Brecha crítica:</strong> María José convierte al 50% mientras Gricel tiene 0 visitas completadas en 42 citas. Mathias tiene el mayor volumen (52) pero 60% cancelación. Replicar el proceso de María José es la acción de mayor impacto.
+      </div>
+    </div>
+  </div>
+
+  <!-- CANCELACIONES + PROPIEDADES ZOMBIE -->
+  <div class="grid-2">
+    <div class="seccion">
+      <div class="seccion-header">
+        <div class="seccion-num">3</div>
+        <h2>Motivos de cancelación</h2>
+      </div>
+      <div class="card">
+        <div class="barra-wrap">
+          <div class="barra-label"><span>Propiedad no disponible</span><span>21 · SISTEMA</span></div>
+          <div class="barra-bg"><div class="barra-fill" style="width:57%; background:#D94F4F;"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>Sin respuesta del lead</span><span>6 · SISTEMA</span></div>
+          <div class="barra-bg"><div class="barra-fill" style="width:16%; background:var(--naranja);"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>No cumple requisitos</span><span>4 · BOOKING</span></div>
+          <div class="barra-bg"><div class="barra-fill" style="width:11%; background:var(--azul);"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>Booking no puede asistir</span><span>3 · BOOKING</span></div>
+          <div class="barra-bg"><div class="barra-fill" style="width:8%; background:var(--azul);"></div></div>
+        </div>
+        <div class="barra-wrap">
+          <div class="barra-label"><span>Cancelado por lead</span><span>3 · LEAD</span></div>
+          <div class="barra-bg"><div class="barra-fill" style="width:8%; background:var(--gris);"></div></div>
+        </div>
+        <div class="insight-block" style="margin-top:12px;">
+          <strong>73%</strong> de las cancelaciones son automáticas por el sistema. El problema principal es operacional, no de demanda.
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion">
+      <div class="seccion-header">
+        <div class="seccion-num">4</div>
+        <h2>Propiedades "zombie"</h2>
+      </div>
+      <div class="card">
+        <p style="font-size:13px; color:var(--gris); margin-bottom:16px;">Propiedades con múltiples citas y <strong style="color:#D94F4F">0% de conversión</strong> — siguen recibiendo nuevas citas.</p>
+
+        <div class="prop-row">
+          <div><div class="prop-id">RE0003547</div><div class="prop-name">Yungay 3144 801</div></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;color:var(--gris)">9 citas</span><span class="prop-badge-100">100% CANC</span></div>
+        </div>
+        <div class="prop-row">
+          <div><div class="prop-id">RE000376</div><div class="prop-name">Martínez de Rozas 3550 528</div></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;color:var(--gris)">6 citas</span><span class="prop-badge-100">100% CANC</span></div>
+        </div>
+        <div class="prop-row">
+          <div><div class="prop-id">RE000557</div><div class="prop-name">General Gana 1063 1907</div></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;color:var(--gris)">5 citas</span><span class="prop-badge-100">100% CANC</span></div>
+        </div>
+        <div class="prop-row">
+          <div><div class="prop-id">RE000817</div><div class="prop-name">Portales, Santiago 2847 419</div></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;color:var(--gris)">4 citas</span><span class="prop-badge-100">100% CANC</span></div>
+        </div>
+        <div class="prop-row">
+          <div><div class="prop-id">RE0004450</div><div class="prop-name">Santa Elisa 541 604</div></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;color:var(--gris)">3 citas</span><span class="prop-badge-100">100% CANC</span></div>
+        </div>
+        <div class="prop-row">
+          <div><div class="prop-id">RE000539</div><div class="prop-name">Sargento Aldea 1156 907</div></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;color:var(--gris)">3 citas</span><span class="prop-badge-100">100% CANC</span></div>
+        </div>
+        <div class="insight-block" style="margin-top:12px;">
+          <strong>8 propiedades</strong> acumulan 36 cancelaciones. Bloquearlas evitaría ~39% de las cancelaciones del mes.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADS A RECUPERAR -->
+  <div class="seccion">
+    <div class="seccion-header">
+      <div class="seccion-num">5</div>
+      <h2>Leads con alta intención — recuperables</h2>
+    </div>
+    <div class="card">
+      <p style="font-size:13px; color:var(--gris); margin-bottom:16px;">Leads con 3 o más citas en junio que aún no han concretado visita. Alta probabilidad de cierre con un contacto directo.</p>
+      <table class="leads-table">
+        <thead>
+          <tr>
+            <th>Lead</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th style="text-align:center">Citas</th>
+            <th>Estados</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Constanza Gomez</strong></td>
+            <td style="color:var(--gris)">constanza.valle.g…@gmail.com</td>
+            <td>+56997361006</td>
+            <td style="text-align:center"><span class="badge badge-rojo">7</span></td>
+            <td style="color:var(--gris); font-size:12px">6 PENDING · 1 CANC · 7 propiedades distintas</td>
+            <td><span class="badge badge-verde">Llamar HOY</span></td>
+          </tr>
+          <tr>
+            <td><strong>Mateo Mejías</strong></td>
+            <td style="color:var(--gris)">mamejiash@gmail.com</td>
+            <td>+56989461978</td>
+            <td style="text-align:center"><span class="badge badge-rojo">5</span></td>
+            <td style="color:var(--gris); font-size:12px">3 CANC · 1 CONF · 1 PEND</td>
+            <td><span class="badge badge-verde">Llamar HOY</span></td>
+          </tr>
+          <tr>
+            <td><strong>Valentina Molina</strong></td>
+            <td style="color:var(--gris)">valentina.molinacatalan@gmail.com</td>
+            <td>+56942569585</td>
+            <td style="text-align:center"><span class="badge badge-naranja">4</span></td>
+            <td style="color:var(--gris); font-size:12px">2 CANC · 2 PEND</td>
+            <td><span class="badge badge-naranja">Esta semana</span></td>
+          </tr>
+          <tr>
+            <td><strong>Liliana del Valle</strong></td>
+            <td style="color:var(--gris)">vargaslilianadelvalle24@gmail.com</td>
+            <td>+56961857774</td>
+            <td style="text-align:center"><span class="badge badge-naranja">4</span></td>
+            <td style="color:var(--gris); font-size:12px">3 PEND · 1 RESCHEDULED</td>
+            <td><span class="badge badge-naranja">Esta semana</span></td>
+          </tr>
+          <tr>
+            <td><strong>Hellen Osorio</strong></td>
+            <td style="color:var(--gris)">hellenvaleriagarzonosorio@gmail.com</td>
+            <td>+56936961086</td>
+            <td style="text-align:center"><span class="badge badge-gris">3</span></td>
+            <td style="color:var(--gris); font-size:12px">2 CANC · 1 PEND (misma prop.)</td>
+            <td><span class="badge badge-gris">Seguimiento</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- NO SHOWS -->
+  <div class="seccion">
+    <div class="seccion-header">
+      <div class="seccion-num">6</div>
+      <h2>No Shows — leads a reconectar</h2>
+    </div>
+    <div class="card">
+      <p style="font-size:13px; color:var(--gris); margin-bottom:16px;">8 leads que confirmaron y no llegaron. Tienen intención previa demostrada — vale la pena reagendar.</p>
+      <table class="leads-table">
+        <thead>
+          <tr>
+            <th>Lead</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Propiedad</th>
+            <th>Fecha</th>
+            <th>KAM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Gisela Pigatto</strong></td>
+            <td style="color:var(--gris)">giselapigatto@hotmail.com</td>
+            <td>+56988866062</td>
+            <td style="color:var(--gris)">Vicuña Mackenna 3737</td>
+            <td>01/06</td>
+            <td>Victor G.</td>
+          </tr>
+          <tr>
+            <td><strong>Tulia Olave</strong></td>
+            <td style="color:var(--gris)">olavetulia@gmail.com</td>
+            <td>+56922053330</td>
+            <td style="color:var(--gris)">María Rozas 55</td>
+            <td>02/06</td>
+            <td>María José</td>
+          </tr>
+          <tr>
+            <td><strong>Margaret Mosquera</strong></td>
+            <td style="color:var(--gris)">zulimosquera.24@gmail.com</td>
+            <td>+56949907895</td>
+            <td style="color:var(--gris)">Walker Martínez 815 ⚠️</td>
+            <td>02/06</td>
+            <td>Victor G.</td>
+          </tr>
+          <tr>
+            <td><strong>David Garay</strong></td>
+            <td style="color:var(--gris)">davidmarcelogaray@protonmail.com</td>
+            <td>+56953135873</td>
+            <td style="color:var(--gris)">Abtao 24</td>
+            <td>02/06</td>
+            <td>María José</td>
+          </tr>
+          <tr>
+            <td><strong>Anael Hinstz</strong></td>
+            <td style="color:var(--gris)">anitaaromero65@gmail.com</td>
+            <td>+56972071931</td>
+            <td style="color:var(--gris)">Vicuña Mackenna Pte.</td>
+            <td>03/06</td>
+            <td>Mathias B.</td>
+          </tr>
+          <tr>
+            <td><strong>Susana Franco</strong></td>
+            <td style="color:var(--gris)">francosullon@gmail.com</td>
+            <td>+56994029869</td>
+            <td style="color:var(--gris)">Los Andes Violeta Parra</td>
+            <td>04/06</td>
+            <td>María José</td>
+          </tr>
+          <tr>
+            <td><strong>Paula Fernandez</strong></td>
+            <td style="color:var(--gris)">paula.paly.fer@gmail.com</td>
+            <td>+56930684156</td>
+            <td style="color:var(--gris)">Walker Martínez 815 ⚠️</td>
+            <td>04/06</td>
+            <td>Victor G.</td>
+          </tr>
+          <tr>
+            <td><strong>Catalina Gómez</strong></td>
+            <td style="color:var(--gris)">catagomezaedo21@gmail.com</td>
+            <td>+56967202065</td>
+            <td style="color:var(--gris)">Walker Martínez 815 ⚠️</td>
+            <td>06/06</td>
+            <td>Victor G.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="alerta" style="margin-top:16px; margin-bottom:0;">
+        <strong>⚠️ Walker Martínez 815 (RE0004502):</strong> 3 no-shows distintos en la misma propiedad. No es problema del lead — hay un problema de acceso o señalización que debe revisarse antes de agendar nuevas visitas.
+      </div>
+    </div>
+  </div>
+
+  <!-- DISTRIBUCIÓN TEMPORAL -->
+  <div class="grid-2">
+    <div class="seccion">
+      <div class="seccion-header">
+        <div class="seccion-num">7</div>
+        <h2>Por día de la semana</h2>
+      </div>
+      <div class="card">
+        <div class="hora-row">
+          <div class="hora-label">Lun</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:52%"></div></div></div>
+          <div class="hora-n">34</div>
+          <div class="hora-done">0 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">Mar</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:45%"></div></div></div>
+          <div class="hora-n">29</div>
+          <div class="hora-done">2 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">Mié</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:62%"></div></div></div>
+          <div class="hora-n">40</div>
+          <div class="hora-done">4 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">Jue</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:66%"></div></div></div>
+          <div class="hora-n">43</div>
+          <div class="hora-done" style="color:var(--verde);font-weight:700">9 done ★</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">Vie</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:48%"></div></div></div>
+          <div class="hora-n">31</div>
+          <div class="hora-done">1 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label" style="color:#D94F4F; font-weight:700">Sáb ⚠</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:100%; background:#D94F4F"></div></div></div>
+          <div class="hora-n" style="color:#D94F4F; font-weight:700">65</div>
+          <div class="hora-done" style="color:#D94F4F">0 done ⚠</div>
+        </div>
+        <div class="insight-block" style="margin-top:12px;">
+          <strong>Sábado:</strong> 27% del volumen total pero <strong>0 visitas completadas</strong>. Investigar si los KAMs operan ese día.
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion">
+      <div class="seccion-header">
+        <div class="seccion-num">8</div>
+        <h2>Por franja horaria</h2>
+      </div>
+      <div class="card">
+        <div class="hora-row">
+          <div class="hora-label">09:00</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:12%"></div></div></div>
+          <div class="hora-n">6</div>
+          <div class="hora-done">0 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">10:00</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:64%"></div></div></div>
+          <div class="hora-n">32</div>
+          <div class="hora-done">1 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">11:00</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:56%"></div></div></div>
+          <div class="hora-n">28</div>
+          <div class="hora-done">2 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">12:00</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:38%"></div></div></div>
+          <div class="hora-n">19</div>
+          <div class="hora-done">1 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">13:00</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:54%"></div></div></div>
+          <div class="hora-n">27</div>
+          <div class="hora-done" style="color:var(--verde)">3 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">15:00</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:58%"></div></div></div>
+          <div class="hora-n">29</div>
+          <div class="hora-done" style="color:var(--verde)">3 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">16:00</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:100%"></div></div></div>
+          <div class="hora-n">50</div>
+          <div class="hora-done">2 done</div>
+        </div>
+        <div class="hora-row">
+          <div class="hora-label">17:00</div>
+          <div class="hora-barra-wrap"><div class="hora-barra-bg"><div class="hora-barra-fill" style="width:86%"></div></div></div>
+          <div class="hora-n">43</div>
+          <div class="hora-done">3 done</div>
+        </div>
+        <div class="insight-block" style="margin-top:12px;">
+          <strong>16:00–17:00:</strong> Mayor volumen (38%) pero ratio de conversión bajo. El horario de 13:00 y 15:00 tiene mejor eficiencia relativa.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCIONABLES -->
+  <div class="seccion">
+    <div class="seccion-header">
+      <div class="seccion-num" style="background:var(--naranja)">!</div>
+      <h2>Accionables prioritarios</h2>
+    </div>
+    <div class="accionables-grid">
+      <div class="accionable urgente">
+        <div class="accionable-header">
+          <span class="urgencia-chip alta">Alta</span>
+          <h4>Bloquear propiedades con 100% cancelación</h4>
+        </div>
+        <p>8 propiedades acumulan 36 cancelaciones sin una sola visita completada. Desactivarlas para nuevas citas evita ~39% de las cancelaciones futuras.</p>
+      </div>
+      <div class="accionable urgente">
+        <div class="accionable-header">
+          <span class="urgencia-chip alta">Alta</span>
+          <h4>Llamar a Constanza Gomez hoy</h4>
+        </div>
+        <p>7 citas en 7 propiedades distintas, todas sin concretar. Alta intención de arriendo. Contacto: +56997361006</p>
+      </div>
+      <div class="accionable urgente">
+        <div class="accionable-header">
+          <span class="urgencia-chip alta">Alta</span>
+          <h4>Investigar Walker Martínez 815</h4>
+        </div>
+        <p>3 no-shows distintos en la misma propiedad (RE0004502). Problema de acceso o señalización. No agendar más citas hasta resolver.</p>
+      </div>
+      <div class="accionable urgente">
+        <div class="accionable-header">
+          <span class="urgencia-chip alta">Alta</span>
+          <h4>Revisar caso Gricel Garcia</h4>
+        </div>
+        <p>42 citas asignadas, 0 visitas completadas. Mayor portfolio activo del equipo pero sin conversión. Requiere atención inmediata.</p>
+      </div>
+      <div class="accionable medio">
+        <div class="accionable-header">
+          <span class="urgencia-chip media">Media</span>
+          <h4>Replicar proceso de María José Ruiz</h4>
+        </div>
+        <p>50% de conversión vs promedio del equipo de ~10%. Documentar su proceso de confirmación y seguimiento para replicar al resto del equipo.</p>
+      </div>
+      <div class="accionable medio">
+        <div class="accionable-header">
+          <span class="urgencia-chip media">Media</span>
+          <h4>Auditar operación de sábados</h4>
+        </div>
+        <p>65 citas agendadas los sábados (27% del total) con 0 visitas completadas. Definir si es un problema operativo o de política.</p>
+      </div>
+      <div class="accionable medio">
+        <div class="accionable-header">
+          <span class="urgencia-chip media">Media</span>
+          <h4>Reconectar los 8 leads con no-show</h4>
+        </div>
+        <p>Leads con intención confirmada que no llegaron. Reagendar activamente tiene mayor probabilidad de cierre que leads nuevos.</p>
+      </div>
+      <div class="accionable medio">
+        <div class="accionable-header">
+          <span class="urgencia-chip media">Media</span>
+          <h4>Revisar ventana de auto-cancelación</h4>
+        </div>
+        <p>El sistema cancela por NO_RESPONSE en ~30 horas. Verificar si el lead alcanza a confirmar, especialmente en citas creadas con poca anticipación.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-logo">homie</div>
+  <p>Reporte generado automáticamente · Datos de producción appoint_hub · HOMIERENT Chile · Junio 2026</p>
+</div>
+
+</body>
+</html>
