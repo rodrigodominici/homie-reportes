@@ -1,0 +1,1624 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis Visitas — 29 de Julio 2026 | Homie Rent Chile</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+  :root {
+    --verde: #238D7E;
+    --verde-dk: #1C7165;
+    --azul: #525EA2;
+    --naranja: #ED8735;
+    --amarillo: #F6B248;
+    --texto: #161628;
+    --gris: #736464;
+    --fondo: #F4F7FE;
+    --surface: #FFFDF6;
+    --borde: #DEDCD7;
+    --blanco: #FFFFFF;
+    --rojo: #E53E3E;
+    --verde-light: #E8F5F3;
+    --azul-light: #ECEEF8;
+    --naranja-light: #FDF3E9;
+    --rojo-light: #FEF0F0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--texto);
+    padding: 32px 48px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .header-left { color: var(--blanco); }
+  .header-badge {
+    display: inline-block;
+    background: var(--verde);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+  }
+  .header-sub {
+    color: rgba(255,255,255,0.55);
+    font-size: 13px;
+    margin-top: 6px;
+  }
+  .logo-box {
+    background: var(--verde);
+    color: #fff;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    padding: 10px 20px;
+    border-radius: 12px;
+  }
+
+  /* CONTENT */
+  .content { padding: 0 40px 48px; }
+
+  /* KPI BAR */
+  .kpi-bar {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+    margin: 24px 0;
+  }
+  .kpi {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+  .kpi.main { background: var(--verde); border-color: transparent; }
+  .kpi.main .kpi-val, .kpi.main .kpi-label { color: #fff; }
+  .kpi.warn { border-color: var(--naranja); background: var(--naranja-light); }
+  .kpi.warn .kpi-val { color: var(--naranja); }
+  .kpi.danger { border-color: #E53E3E; background: var(--rojo-light); }
+  .kpi.danger .kpi-val { color: var(--rojo); }
+  .kpi-val {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--texto);
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--gris);
+    margin-top: 4px;
+  }
+
+  /* SECTION */
+  .section { margin: 32px 0; }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gris);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  /* GRID 2-COL */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+  /* CARD */
+  .card {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    padding: 22px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--texto);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--gris);
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--borde);
+  }
+  td {
+    padding: 9px 10px;
+    border-bottom: 1px solid #F0EEE8;
+    color: var(--texto);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #FAFAF7; }
+
+  /* CHIPS */
+  .chip {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .chip-done    { background: #E8F5F3; color: var(--verde-dk); }
+  .chip-cancel  { background: #FEF0F0; color: var(--rojo); }
+  .chip-resched { background: var(--azul-light); color: var(--azul); }
+  .chip-homie   { background: var(--verde-light); color: var(--verde-dk); }
+  .chip-externo { background: var(--naranja-light); color: #9B5A1A; }
+
+  /* BAR CHART */
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .bar-label { font-size: 12px; color: var(--gris); width: 120px; flex-shrink: 0; text-align: right; }
+  .bar-label.wide { width: 160px; }
+  .bar-track {
+    flex: 1;
+    height: 20px;
+    background: #F0EEE8;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    min-width: 28px;
+    transition: width 0.3s;
+  }
+  .bar-count { font-size: 13px; font-weight: 700; color: var(--texto); width: 28px; text-align: right; flex-shrink: 0; }
+
+  /* INSIGHT BOX */
+  .insight-box {
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-dk) 100%);
+    border-radius: 16px;
+    padding: 24px 28px;
+    color: #fff;
+    margin: 32px 0;
+  }
+  .insight-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; opacity: 0.9; }
+  .insight-list { list-style: none; }
+  .insight-list li {
+    font-size: 13px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    gap: 10px;
+  }
+  .insight-list li:last-child { border-bottom: none; }
+  .insight-num {
+    background: rgba(255,255,255,0.2);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* FINDING CARD */
+  .finding {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 16px 18px;
+    border-left: 3px solid var(--verde);
+    margin-bottom: 12px;
+  }
+  .finding.warn { border-left-color: var(--naranja); }
+  .finding.danger { border-left-color: var(--rojo); }
+  .finding-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .finding-body { font-size: 12px; color: var(--gris); line-height: 1.5; }
+  .finding-body strong { color: var(--texto); }
+
+  /* NUM HIGHLIGHT */
+  .big-num { font-size: 48px; font-weight: 700; letter-spacing: -2px; font-variant-numeric: tabular-nums; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 20px 40px 32px;
+    font-size: 11px;
+    color: var(--gris);
+    border-top: 1px solid var(--borde);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .kpi-bar { grid-template-columns: repeat(3, 1fr); }
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-badge">Análisis Operativo</div>
+    <h1>Visitas 29 de Julio 2026</h1>
+    <div class="header-sub">Parámetro de fecha: <strong style="color:rgba(255,255,255,0.8)">scheduled_at</strong> &nbsp;·&nbsp; Business unit: HOMIERENT_CHILE</div>
+  </div>
+  <div class="logo-box">homie</div>
+</div>
+
+
+<div class="content">
+
+  <!-- KPIs -->
+  <div class="kpi-bar">
+    <div class="kpi main">
+      <div class="kpi-val">51</div>
+      <div class="kpi-label">Total visitas</div>
+    </div>
+    <div class="kpi danger">
+      <div class="kpi-val">1</div>
+      <div class="kpi-label">DONE</div>
+    </div>
+    <div class="kpi danger">
+      <div class="kpi-val">2.0%</div>
+      <div class="kpi-label">Tasa DONE</div>
+    </div>
+    <div class="kpi warn">
+      <div class="kpi-val">44</div>
+      <div class="kpi-label">Canceladas</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">3</div>
+      <div class="kpi-label">Reagendadas</div>
+    </div>
+    <div class="kpi warn">
+      <div class="kpi-val">86.3%</div>
+      <div class="kpi-label">Tasa cancel</div>
+    </div>
+  </div>
+
+  <!-- MOTIVO DE CANCELACIÓN + BOOKING -->
+  <div class="section">
+    <div class="section-title">Distribución de cancelaciones</div>
+    <div class="grid2">
+
+      <!-- Motivos -->
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--rojo)"></div>Por motivo</div>
+        <canvas id="pie-motivos" style="display:block;margin:0 auto;width:260px;height:260px"></canvas>
+        <div id="pie-legend" style="margin-top:14px;display:flex;flex-direction:column;gap:7px"></div>
+      </div>
+<script>
+(function(){
+  const data = [
+    { label:'UNAVAILABLE_REALTY',   n:16, pct:36.4, color:'#525EA2' },
+    { label:'NO_RESPONSE',          n:15, pct:34.1, color:'#ED8735' },
+    { label:'CANCELLED_BY_LEAD',    n:9,  pct:20.5, color:'#736464' },
+    { label:'NO_MEET_REQUIREMENTS', n:2,  pct:4.5,  color:'#9CA3AF' },
+    { label:'ACCESS_PROBLEMS',      n:2,  pct:4.5,  color:'#9B5A1A' },
+  ];
+  const canvas = document.getElementById('pie-motivos');
+  const dpr = window.devicePixelRatio || 1;
+  const L = 260;
+  canvas.width = L * dpr;
+  canvas.height = L * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const cx = 130, cy = 130, r = 112, ri = 64;
+  let angle = -Math.PI / 2;
+  data.forEach(d => {
+    const slice = (d.pct / 100) * 2 * Math.PI;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, angle, angle + slice);
+    ctx.closePath();
+    ctx.fillStyle = d.color;
+    ctx.fill();
+    const midA = angle + slice / 2;
+    const lx = cx + (r * 0.72) * Math.cos(midA);
+    const ly = cy + (r * 0.72) * Math.sin(midA);
+    if (d.pct >= 7.5) {
+      ctx.fillStyle = '#fff';
+      ctx.font = `bold 13px DM Sans, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(d.n, lx, ly - 7);
+      ctx.font = '11px DM Sans, sans-serif';
+      ctx.fillText(d.pct + '%', lx, ly + 7);
+    }
+    angle += slice;
+  });
+  ctx.beginPath();
+  ctx.arc(cx, cy, ri, 0, 2 * Math.PI);
+  ctx.fillStyle = '#fff';
+  ctx.fill();
+  ctx.fillStyle = '#161628';
+  ctx.font = 'bold 22px DM Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('44', cx, cy - 9);
+  ctx.font = '11px DM Sans, sans-serif';
+  ctx.fillStyle = '#736464';
+  ctx.fillText('canceladas', cx, cy + 10);
+  const legend = document.getElementById('pie-legend');
+  data.forEach(d => {
+    legend.innerHTML += `<div style="display:flex;align-items:center;gap:8px;font-size:11px">
+      <span style="width:10px;height:10px;border-radius:2px;background:${d.color};flex-shrink:0"></span>
+      <span style="color:#736464;flex:1">${d.label}</span>
+      <span style="font-weight:700;color:#161628;font-variant-numeric:tabular-nums">${d.n}</span>
+      <span style="color:#736464;width:38px;text-align:right">${d.pct}%</span>
+    </div>`;
+  });
+})();
+</script>
+
+      <!-- Por booking -->
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--verde)"></div>Por agente booking</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Booking</th>
+              <th style="text-align:center">Total</th>
+              <th style="text-align:center">DONE</th>
+              <th style="text-align:center">NO_RESP</th>
+              <th style="text-align:center">UNAVAIL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="chip chip-homie">Homie</span><br>
+                <span style="font-size:12px;color:var(--gris)">alejandra.rodriguez</span>
+              </td>
+              <td style="text-align:center;font-weight:700">20</td>
+              <td style="text-align:center;color:var(--verde)"><strong>0</strong></td>
+              <td style="text-align:center">2</td>
+              <td style="text-align:center;color:var(--rojo)"><strong>12</strong></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="chip chip-homie">Homie</span><br>
+                <span style="font-size:12px;color:var(--gris)">gricel.garcia</span>
+              </td>
+              <td style="text-align:center;font-weight:700">13</td>
+              <td style="text-align:center;color:var(--verde)"><strong>0</strong></td>
+              <td style="text-align:center;color:var(--naranja)"><strong>5</strong></td>
+              <td style="text-align:center">2</td>
+            </tr>
+            <tr>
+              <td>
+                <span class="chip chip-homie">Homie</span><br>
+                <span style="font-size:12px;color:var(--gris)">jorge.mazziotta</span>
+              </td>
+              <td style="text-align:center;font-weight:700">10</td>
+              <td style="text-align:center;color:var(--verde)"><strong>1</strong></td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center">1</td>
+            </tr>
+            <tr>
+              <td>
+                <span class="chip chip-homie">Homie</span><br>
+                <span style="font-size:12px;color:var(--gris)">andrea.perez</span>
+              </td>
+              <td style="text-align:center;font-weight:700">3</td>
+              <td style="text-align:center;color:var(--verde)"><strong>0</strong></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">0</td>
+            </tr>
+            <tr>
+              <td>
+                <span class="chip chip-externo">Externo</span><br>
+                <span style="font-size:12px;color:var(--gris)">ihcan.pastenet</span>
+              </td>
+              <td style="text-align:center;font-weight:700">2</td>
+              <td style="text-align:center;color:var(--verde)"><strong>0</strong></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center">0</td>
+            </tr>
+            <tr>
+              <td>
+                <span class="chip chip-externo">Externo</span><br>
+                <span style="font-size:12px;color:var(--gris)">Otros</span>
+              </td>
+              <td style="text-align:center;font-weight:700">3</td>
+              <td style="text-align:center;color:var(--verde)"><strong>0</strong></td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center">1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ANÁLISIS NO_RESPONSE -->
+  <div class="section">
+    <div class="section-title">Análisis NO_RESPONSE — 15 casos</div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
+      <div style="background:var(--naranja-light);border:1px solid #F5C99A;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--naranja)">15</div>
+        <div style="font-size:11px;color:#9B5A1A;margin-top:3px;text-transform:uppercase;letter-spacing:0.8px">NO_RESPONSE del día</div>
+      </div>
+      <div style="background:var(--verde-light);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--verde)">100%</div>
+        <div style="font-size:11px;color:var(--verde-dk);margin-top:3px;text-transform:uppercase;letter-spacing:0.8px">cancelados pre-visita</div>
+      </div>
+      <div style="background:var(--fondo);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--texto)">~1h</div>
+        <div style="font-size:11px;color:var(--gris);margin-top:3px;text-transform:uppercase;letter-spacing:0.8px">antes de la visita</div>
+      </div>
+    </div>
+
+    <div class="grid3">
+      <div class="card">
+        <div class="card-title">Distribución por booking</div>
+        <div class="bar-row">
+          <div class="bar-label">gricel.garcia</div>
+          <div class="bar-track"><div class="bar-fill" style="width:53%;background:var(--naranja)">5</div></div>
+          <div class="bar-count">5</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">jorge.mazziotta</div>
+          <div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--gris)">3</div></div>
+          <div class="bar-count">3</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">alejandra.rodriguez</div>
+          <div class="bar-track"><div class="bar-fill" style="width:13%;background:var(--azul)">2</div></div>
+          <div class="bar-count">2</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Otros</div>
+          <div class="bar-track"><div class="bar-fill" style="width:33%;background:#ccc">5</div></div>
+          <div class="bar-count">5</div>
+        </div>
+        <div style="margin-top:14px;padding:12px;background:var(--naranja-light);border-radius:10px;font-size:12px;color:#9B5A1A">
+          <strong>RE000601 concentra 4 NO_RESPONSE de gricel.garcia a las 16h</strong> — mismo slot con 8 leads agendados y ninguno asistió. Patrón similar al sobreagendamiento del día anterior.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Distribución por hora</div>
+        <div class="bar-row">
+          <div class="bar-label">10h</div>
+          <div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--verde);min-width:4px">1</div></div>
+          <div class="bar-count">1</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">11h</div>
+          <div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--verde);min-width:4px">1</div></div>
+          <div class="bar-count">1</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">12h</div>
+          <div class="bar-track"><div class="bar-fill" style="width:13%;background:var(--gris)">2</div></div>
+          <div class="bar-count">2</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label" style="font-weight:700;color:var(--texto)">16h ⚡</div>
+          <div class="bar-track"><div class="bar-fill" style="width:47%;background:var(--naranja)">7</div></div>
+          <div class="bar-count">7</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">17h</div>
+          <div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--gris)">3</div></div>
+          <div class="bar-count">3</div>
+        </div>
+        <div style="margin-top:14px;padding:12px;background:var(--fondo);border-radius:10px;font-size:12px;color:var(--gris)">
+          <strong style="color:var(--texto)">47% (7/15)</strong> de los NO_RESPONSE se concentran a las 16h — principalmente en RE000601 (P. José Cifuentes) con gricel.garcia.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">RE000601 — sobreagendamiento 16h CLT</div>
+        <div style="padding:14px;background:var(--rojo-light);border-radius:10px;margin-bottom:14px;border:1px solid #FBCACA">
+          <div style="font-size:28px;font-weight:700;color:var(--rojo);letter-spacing:-1px">8</div>
+          <div style="font-size:12px;color:#9B2020;margin-top:2px">leads distintos, slot 16:00 CLT — ninguno asistió</div>
+        </div>
+        <div style="font-size:12px;color:var(--gris);line-height:1.6">
+          4 leads marcados NO_RESPONSE, 1 NO_REQ (Ignacia Morales), 1 BY_LEAD (Domingo Pérez), y otros 2 con estados distintos — todos en el mismo inmueble a las 16h con booking gricel.garcia.<br><br>
+          El patrón replica el sobreagendamiento de RE0001519 del día anterior, aunque a menor escala (8 vs 14 leads).
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ANÁLISIS CANCELLED_BY_LEAD -->
+  <div class="section">
+    <div class="section-title">CANCELLED_BY_LEAD — 9 cancelaciones (20.5% del día)</div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+      <div style="background:var(--texto);border-radius:14px;padding:18px;text-align:center;color:#fff">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px">9</div>
+        <div style="font-size:11px;opacity:0.7;margin-top:3px;text-transform:uppercase;letter-spacing:0.8px">canceladas por lead</div>
+      </div>
+      <div style="background:var(--fondo);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--texto)">5</div>
+        <div style="font-size:11px;color:var(--gris);margin-top:3px">propiedades distintas</div>
+      </div>
+      <div style="background:var(--naranja-light);border:1px solid #F5C99A;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--naranja)">56%</div>
+        <div style="font-size:11px;color:#9B5A1A;margin-top:3px">cancelaron &gt;2 días antes<br>(comportamiento planificado)</div>
+      </div>
+      <div style="background:var(--verde-light);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--verde)">0</div>
+        <div style="font-size:11px;color:var(--verde-dk);margin-top:3px">reagendaron mismo día</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--gris)"></div>Distribución por booking y anticipación</div>
+        <div style="margin-bottom:16px">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--gris);margin-bottom:10px">Por booking</div>
+          <div class="bar-row">
+            <div class="bar-label">alejandra.rodriguez</div>
+            <div class="bar-track"><div class="bar-fill" style="width:56%;background:var(--azul)">5</div></div>
+            <div class="bar-count">5</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">jorge.mazziotta</div>
+            <div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--naranja)">2</div></div>
+            <div class="bar-count">2</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">gricel.garcia</div>
+            <div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--gris)">2</div></div>
+            <div class="bar-count">2</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--borde);padding-top:14px">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--gris);margin-bottom:10px">Por anticipación</div>
+          <div class="bar-row">
+            <div class="bar-label">Mismo día (&lt;6h)</div>
+            <div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--rojo)">2</div></div>
+            <div class="bar-count">2</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Día anterior (6-48h)</div>
+            <div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--naranja)">2</div></div>
+            <div class="bar-count">2</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label" style="font-weight:700;color:var(--texto)">Días antes (&gt;48h)</div>
+            <div class="bar-track"><div class="bar-fill" style="width:56%;background:var(--azul)">5</div></div>
+            <div class="bar-count">5</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--gris)"></div>Detalle leads que cancelaron</div>
+        <div style="overflow-y:auto;max-height:300px">
+          <table style="font-size:11px">
+            <thead>
+              <tr>
+                <th>Lead</th>
+                <th>Propiedad</th>
+                <th style="text-align:center">Hora</th>
+                <th>Anticipación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Leslie Valladares</td><td style="color:var(--gris)">RE000270</td><td style="text-align:center">12h</td><td style="font-size:10px;color:var(--naranja)">~2h antes</td></tr>
+              <tr><td>Helfer Prueba</td><td style="color:var(--gris)">RE0005170</td><td style="text-align:center">11h</td><td style="font-size:10px;color:var(--naranja)">~2h antes</td></tr>
+              <tr><td>Natalia Lozano</td><td style="color:var(--gris)">RE0001343</td><td style="text-align:center">16h</td><td style="font-size:10px;color:var(--gris)">~24h antes</td></tr>
+              <tr><td>Domingo Pérez</td><td style="color:var(--gris)">RE000601</td><td style="text-align:center">16h</td><td style="font-size:10px;color:var(--gris)">~24h antes</td></tr>
+              <tr><td>Cifuentes</td><td style="color:var(--gris)">RE0002593</td><td style="text-align:center">17h</td><td style="font-size:10px;color:var(--azul)">96h (4 días)</td></tr>
+              <tr><td>DAYNNER López</td><td style="color:var(--gris)">RE0001343</td><td style="text-align:center">16h</td><td style="font-size:10px;color:var(--azul)">194h (8 días)</td></tr>
+              <tr><td>Jenifer Galarce</td><td style="color:var(--gris)">RE0005199</td><td style="text-align:center">17h</td><td style="font-size:10px;color:var(--azul)">281h (12 días)</td></tr>
+              <tr><td>Rodrigo Dominici</td><td style="color:var(--gris)">RE000243</td><td style="text-align:center">16h</td><td style="font-size:10px;color:var(--azul)">319h (13 días)</td></tr>
+              <tr><td>Neilim Villegas</td><td style="color:var(--gris)">RE0003606</td><td style="text-align:center">16h</td><td style="font-size:10px;color:var(--azul)">321h (13 días)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:10px;padding:8px 10px;background:var(--azul-light);border-radius:8px;font-size:11px;color:#3A4580">Perfil diferente al día anterior: ayer el 46% canceló por overbooking de slot. Hoy el 56% canceló con &gt;48h de anticipación — comportamiento planificado, no fricción operacional del día.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+      <div class="finding">
+        <div class="finding-title">5 CBL de alejandra en propiedades distintas</div>
+        <div class="finding-body">A diferencia del día anterior donde los CBL se concentraban en slots sobreagendados (RE0001519), hoy los 5 CBL de Alejandra están distribuidos en 5 propiedades distintas. Son leads que agendaron y luego cambiaron de plan con días de anticipación — no es señal de fricción en el día de la visita.</div>
+      </div>
+      <div class="finding warn">
+        <div class="finding-title">Reagendamiento: 0 recuperaciones</div>
+        <div class="finding-body">Ningún lead CBL del 29 Jul reagendó en el mismo día. Para conocer cuántos reagendaron en días posteriores se requiere consulta sobre visitas futuras de estos leads. La tasa de re-engagement de leads CBL es un indicador clave de calidad de intención.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANÁLISIS UNAVAILABLE_REALTY -->
+  <div class="section">
+    <div class="section-title">UNAVAILABLE_REALTY — 16 cancelaciones (36.4% del día)</div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+      <div style="background:var(--texto);border-radius:14px;padding:18px;text-align:center;color:#fff">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px">6</div>
+        <div style="font-size:11px;opacity:0.7;margin-top:3px;text-transform:uppercase;letter-spacing:0.8px">propiedades distintas</div>
+      </div>
+      <div style="background:var(--rojo-light);border:1px solid #FBCACA;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--rojo)">75%</div>
+        <div style="font-size:11px;color:#9B2020;margin-top:3px">de alejandra.rodriguez<br>(12 de 16)</div>
+      </div>
+      <div style="background:var(--naranja-light);border:1px solid #F5C99A;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--naranja)">7</div>
+        <div style="font-size:11px;color:#9B5A1A;margin-top:3px">en RE0005149<br>(propiedad nueva)</div>
+      </div>
+      <div style="background:var(--rojo-light);border:1px solid #FBCACA;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--rojo)">RE0004268</div>
+        <div style="font-size:11px;color:#9B2020;margin-top:3px">persiste por 2do día<br>consecutivo</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="card-dot" style="background:var(--rojo)"></div>Inmuebles no disponibles — detalle por propiedad</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th style="text-align:center">Leads afectados</th>
+            <th style="text-align:center">Booking</th>
+            <th style="text-align:center">Estado</th>
+            <th>Observación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#FFF8F8">
+            <td><strong>RE0005149</strong><br><span style="font-size:11px;color:var(--gris)">Av. Fernández Albano</span></td>
+            <td style="text-align:center"><span style="font-size:18px;font-weight:700;color:var(--rojo)">7</span></td>
+            <td style="text-align:center;font-size:12px">alejandra.rodriguez</td>
+            <td style="text-align:center"><span class="chip chip-cancel">No disponible</span></td>
+            <td style="font-size:12px;color:var(--gris)">Propiedad nueva — cancelados ~1h antes (auto). 7 leads en slot 17h sin aviso previo.</td>
+          </tr>
+          <tr style="background:#FFF8F8">
+            <td><strong>RE0004268</strong><br><span style="font-size:11px;color:var(--gris)">Federico Scotto 021</span></td>
+            <td style="text-align:center"><span style="font-size:18px;font-weight:700;color:var(--rojo)">4</span></td>
+            <td style="text-align:center;font-size:12px">alejandra.rodriguez</td>
+            <td style="text-align:center"><span class="chip chip-cancel">Reservada Jul 22</span></td>
+            <td style="font-size:12px;color:var(--gris)">Segundo día consecutivo. Reservada el 22/Jul, sigue generando agendamientos que se cancelan en cadena.</td>
+          </tr>
+          <tr>
+            <td><strong>RE0002964</strong><br><span style="font-size:11px;color:var(--gris)">Calle Nueva Uno</span></td>
+            <td style="text-align:center"><span style="font-size:18px;font-weight:700;color:var(--naranja)">2</span></td>
+            <td style="text-align:center;font-size:12px">gricel.garcia</td>
+            <td style="text-align:center"><span class="chip" style="background:#FEF3C7;color:#92400E">Reservada Jul 20</span></td>
+            <td style="font-size:12px;color:var(--gris)">Cancelada 9 días antes. Visitas generadas después de la reserva.</td>
+          </tr>
+          <tr>
+            <td><strong>RE0001166</strong><br><span style="font-size:11px;color:var(--gris)">Álvarez de Toledo 113</span></td>
+            <td style="text-align:center"><span style="font-size:18px;font-weight:700;color:var(--naranja)">1</span></td>
+            <td style="text-align:center;font-size:12px">alejandra.rodriguez</td>
+            <td style="text-align:center"><span class="chip" style="background:#FEF3C7;color:#92400E">Reservada Jul 20</span></td>
+            <td style="font-size:12px;color:var(--gris)">Cancelada 9 días antes. Visita posterior a la reserva.</td>
+          </tr>
+          <tr>
+            <td><strong>RE0002105</strong><br><span style="font-size:11px;color:var(--gris)">Álvarez de Toledo 603</span></td>
+            <td style="text-align:center"><span style="font-size:18px;font-weight:700;color:var(--naranja)">1</span></td>
+            <td style="text-align:center;font-size:12px">gricel.garcia</td>
+            <td style="text-align:center"><span class="chip chip-cancel">Reservada Jul 11</span></td>
+            <td style="font-size:12px;color:var(--gris)">Reservada 18 días antes — sigue generando nuevas visitas que se cancelan al instante.</td>
+          </tr>
+          <tr>
+            <td><strong>RE0003988</strong><br><span style="font-size:11px;color:var(--gris)">Avenida Perú 1268</span></td>
+            <td style="text-align:center"><span style="font-size:18px;font-weight:700;color:var(--naranja)">1</span></td>
+            <td style="text-align:center;font-size:12px">gricel.garcia</td>
+            <td style="text-align:center"><span class="chip chip-cancel">Reservada Jul 21</span></td>
+            <td style="font-size:12px;color:var(--gris)">Reservada 8 días antes. Mismo patrón de visitas post-reserva.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+      <div style="background:var(--rojo-light);border-radius:14px;padding:18px;border-left:3px solid var(--rojo)">
+        <div style="font-size:12px;font-weight:700;color:#9B2020;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px">RE0004268 reincidente (2do día)</div>
+        <div style="font-size:13px;color:var(--texto);line-height:1.6">
+          Esta propiedad generó <strong>65 cancelaciones en julio solo</strong> (detectado el 28/Jul). Hoy suma 4 más. El sistema sigue creando nuevas visitas aunque la propiedad está reservada desde el 22 de julio. Requiere baja inmediata del portal.
+        </div>
+      </div>
+      <div style="background:var(--naranja-light);border-radius:14px;padding:18px;border-left:3px solid var(--naranja)">
+        <div style="font-size:12px;font-weight:700;color:#9B5A1A;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px">RE0002105 — 18 días sin limpiar</div>
+        <div style="font-size:13px;color:var(--texto);line-height:1.6">
+          Reservada el 11 de julio, sigue en el portal generando agendamientos fantasma. Si no fue dada de baja intencionalmente (re-publicación futura), cada día que permanece activa suma cancelaciones UNAVAIL sin valor.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NO_MEET_REQUIREMENTS -->
+  <div class="section">
+    <div class="section-title">NO_MEET_REQUIREMENTS — 2 cancelaciones (4.5% del día)</div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+      <div style="background:var(--texto);border-radius:14px;padding:18px;text-align:center;color:#fff">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px">2</div>
+        <div style="font-size:11px;opacity:0.7;margin-top:3px;text-transform:uppercase;letter-spacing:0.8px">no cumplen requisitos</div>
+      </div>
+      <div style="background:var(--verde-light);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--verde)">100%</div>
+        <div style="font-size:11px;color:var(--verde-dk);margin-top:3px">booking: gricel.garcia</div>
+      </div>
+      <div style="background:var(--fondo);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--texto)">2</div>
+        <div style="font-size:11px;color:var(--gris);margin-top:3px">propiedades distintas</div>
+      </div>
+      <div style="background:var(--fondo);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--gris)">0</div>
+        <div style="font-size:11px;color:var(--gris);margin-top:3px">reagendaron</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:#9CA3AF"></div>Leads rechazados por requisitos</div>
+        <table style="font-size:12px">
+          <thead>
+            <tr>
+              <th>Lead</th>
+              <th>Propiedad</th>
+              <th style="text-align:center">Hora</th>
+              <th>Booking</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ignacia Morales</td><td style="color:var(--gris)">RE000601</td><td style="text-align:center">16h</td><td style="font-size:11px">gricel.garcia</td>
+            </tr>
+            <tr>
+              <td>Constanza Miller</td><td style="color:var(--gris)">RE0002593</td><td style="text-align:center">17h</td><td style="font-size:11px">gricel.garcia</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:#9CA3AF"></div>Interpretación del patrón</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="padding:12px;background:var(--verde-light);border-radius:10px;border-left:3px solid var(--verde)">
+            <div style="font-size:12px;font-weight:700;color:var(--verde-dk);margin-bottom:4px">Distribución diferente al día anterior</div>
+            <div style="font-size:12px;color:var(--gris);line-height:1.5">Ayer 5/6 NMR estaban en RE0001519 (slot sobreagendado con 14+ leads). Hoy los 2 NMR están en propiedades distintas — aplicación normal de criterios, no concentración por overbooking.</div>
+          </div>
+          <div style="padding:10px;background:var(--naranja-light);border-radius:8px;font-size:12px;color:#9B5A1A">
+            <strong>Ignacia Morales (RE000601)</strong> está dentro del slot sobreagendado de las 16h con 8 leads — puede ser una pre-selección ante exceso de candidatos, similar al patrón del día anterior.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCESS_PROBLEMS — NUEVO ESCENARIO -->
+  <div class="section">
+    <div class="section-title">ACCESS_PROBLEMS — 2 cancelaciones · Escenario nuevo</div>
+
+    <div style="background:linear-gradient(135deg,#FFF7ED,#FFFBF5);border:1px solid #FCD34D;border-radius:12px;padding:12px 18px;margin-bottom:18px;font-size:12px;color:#92400E;display:flex;gap:10px;align-items:center">
+      <span style="font-size:16px">⭐</span>
+      <div><strong>Escenario nuevo respecto al 28/Jul:</strong> ACCESS_PROBLEMS no apareció el día anterior. Este motivo de cancelación refleja fallas operacionales de acceso al inmueble — no del lead ni de disponibilidad de la propiedad.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+      <div style="background:#FFF7ED;border:1px solid #FCD34D;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:#9A3412">2</div>
+        <div style="font-size:11px;color:#9A3412;margin-top:3px;text-transform:uppercase;letter-spacing:0.8px">access problems</div>
+      </div>
+      <div style="background:var(--fondo);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--naranja)">2</div>
+        <div style="font-size:11px;color:var(--gris);margin-top:3px">bookings distintos</div>
+      </div>
+      <div style="background:var(--rojo-light);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--rojo)">2</div>
+        <div style="font-size:11px;color:#9B2020;margin-top:3px">canceladas antes<br>de la visita</div>
+      </div>
+      <div style="background:var(--fondo);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--gris)">0</div>
+        <div style="font-size:11px;color:var(--gris);margin-top:3px">reasignadas/<br>reagendadas</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:#9A3412"></div>Visitas con problemas de acceso</div>
+        <table style="font-size:12px">
+          <thead>
+            <tr>
+              <th>Lead</th>
+              <th>Propiedad</th>
+              <th style="text-align:center">Hora</th>
+              <th>Booking</th>
+              <th>Canceló</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sebastian Morgado</td>
+              <td style="color:var(--gris)">RE0002374<br><span style="font-size:10px">Marcoleta 462 1009</span></td>
+              <td style="text-align:center;font-weight:700">10h</td>
+              <td style="font-size:11px">jorge.mazziotta</td>
+              <td style="font-size:11px;color:#9A3412">~2.4h antes</td>
+            </tr>
+            <tr>
+              <td>Almendra Zavala</td>
+              <td style="color:var(--gris)">RE0005194<br><span style="font-size:10px">Conde del Maule 4106</span></td>
+              <td style="text-align:center;font-weight:700">15h</td>
+              <td style="font-size:11px">ihcan.pastenet</td>
+              <td style="font-size:11px;color:#9A3412">~4.8h antes</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;padding:8px 10px;background:#FFF7ED;border-radius:8px;font-size:11px;color:#9A3412">
+          Ambos cancelaron antes de la hora pautada — probablemente clave de lock box incorrecta, propietario no disponible, o código de ingreso inválido.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:#9A3412"></div>Análisis del impacto</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="padding:12px;background:#FFF7ED;border-radius:10px;border-left:3px solid #F59E0B">
+            <div style="font-size:12px;font-weight:700;color:#9A3412;margin-bottom:4px">Falla operacional, no del lead</div>
+            <div style="font-size:12px;color:var(--gris);line-height:1.5">A diferencia de NO_RESPONSE o BY_LEAD, el lead mostró intención real de visitar. El problema es de coordinación operacional (acceso al inmueble). Requiere seguimiento diferente: no re-captación sino reagendamiento con acceso garantizado.</div>
+          </div>
+          <div style="padding:12px;background:var(--fondo);border-radius:10px;border-left:3px solid var(--gris)">
+            <div style="font-size:12px;font-weight:700;color:var(--texto);margin-bottom:4px">2 propiedades afectadas en 1 día</div>
+            <div style="font-size:12px;color:var(--gris);line-height:1.5">Con solo 2 casos, no es patrón sistemático aún. Si se repite en los próximos días, será necesario auditar el proceso de preparación de visitas con el equipo de operaciones.</div>
+          </div>
+          <div style="padding:10px;background:var(--naranja-light);border-radius:8px;font-size:12px;color:#9B5A1A">
+            <strong>Acción:</strong> Registrar motivo específico de acceso en cada caso. Contactar a los 2 leads para reagendar con acceso verificado previamente.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENDAMIENTO POR ORIGEN -->
+  <div class="section">
+    <div class="section-title">Agendamiento por origen — marketplace, agente IA, captación digital y UTMs</div>
+
+    <div style="background:var(--azul-light);border-radius:12px;padding:14px 18px;margin-bottom:18px;font-size:12px;color:#3A4580;display:flex;gap:10px;align-items:flex-start">
+      <span style="font-size:16px;flex-shrink:0">ℹ️</span>
+      <div><strong>Clasificación de origen:</strong> "Marketplace externo" = lead llegó desde Yapo o MercadoLibre. "Portal Homie" = acceso orgánico al sitio (self-schedule). "Agente IA / Humano" se distingue mediante el campo <code style="background:rgba(82,94,162,0.15);padding:1px 5px;border-radius:3px">created_by</code> del registro — requiere consulta a la BD en cada ejecución del reporte.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px">
+      <div style="background:var(--verde-light);border:1px solid #A7D9D3;border-radius:14px;padding:16px;text-align:center">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--verde-dk);margin-bottom:8px">Marketplace externo</div>
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--verde)">8</div>
+        <div style="font-size:10px;color:var(--gris);margin-top:2px">Yapo (5) + MercadoLibre (3)</div>
+        <div style="margin-top:8px;padding:5px 0;border-top:1px solid #A7D9D3">
+          <span style="font-size:18px;font-weight:700;color:var(--gris)">0</span>
+          <span style="font-size:10px;color:var(--gris)"> DONE</span>
+          <span style="font-size:13px;font-weight:700;color:var(--rojo);margin-left:4px">0%</span>
+        </div>
+      </div>
+      <div style="background:var(--naranja-light);border:1px solid #F5C99A;border-radius:14px;padding:16px;text-align:center">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:#9B5A1A;margin-bottom:8px">Portal Homie</div>
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--naranja)">3</div>
+        <div style="font-size:10px;color:var(--gris);margin-top:2px">organic (homie.mx)</div>
+        <div style="margin-top:8px;padding:5px 0;border-top:1px solid #F5C99A">
+          <span style="font-size:18px;font-weight:700;color:var(--gris)">0</span>
+          <span style="font-size:10px;color:var(--gris)"> DONE</span>
+          <span style="font-size:13px;font-weight:700;color:var(--rojo);margin-left:4px">0%</span>
+        </div>
+      </div>
+      <div style="background:var(--azul-light);border:1px solid #BCC3E3;border-radius:14px;padding:16px;text-align:center">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--azul);margin-bottom:8px">Captación digital</div>
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--azul)">22</div>
+        <div style="font-size:10px;color:var(--gris);margin-top:2px">Meta (13) + Google (8) + IG (1)</div>
+        <div style="margin-top:8px;padding:5px 0;border-top:1px solid #BCC3E3">
+          <span style="font-size:18px;font-weight:700;color:var(--gris)">0</span>
+          <span style="font-size:10px;color:var(--gris)"> DONE</span>
+          <span style="font-size:13px;font-weight:700;color:var(--rojo);margin-left:4px">0%</span>
+        </div>
+      </div>
+      <div style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:14px;padding:16px;text-align:center">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:#0369A1;margin-bottom:8px">Agente IA / Humano</div>
+        <div style="font-size:28px;font-weight:700;letter-spacing:-1px;color:#94A3B8">N/D</div>
+        <div style="font-size:10px;color:var(--gris);margin-top:2px">requiere created_by</div>
+        <div style="margin-top:8px;padding:5px 0;border-top:1px solid #BAE6FD;font-size:10px;color:#0369A1">campo no disponible<br>en esta sesión</div>
+      </div>
+      <div style="background:var(--fondo);border-radius:14px;padding:16px;text-align:center">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--gris);margin-bottom:8px">Sin atribución</div>
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--gris)">18</div>
+        <div style="font-size:10px;color:var(--gris);margin-top:2px">UTM vacío o desconocido</div>
+        <div style="margin-top:8px;padding:5px 0;border-top:1px solid var(--borde)">
+          <span style="font-size:18px;font-weight:700;color:var(--verde)">1</span>
+          <span style="font-size:10px;color:var(--gris)"> DONE</span>
+          <span style="font-size:13px;font-weight:700;color:var(--verde);margin-left:4px">5.6%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--azul)"></div>Conversión y cancelaciones por canal UTM</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Canal</th>
+              <th>Grupo</th>
+              <th style="text-align:center">Total</th>
+              <th style="text-align:center">DONE</th>
+              <th style="text-align:center">Conv.</th>
+              <th style="text-align:center">Cancel.</th>
+              <th style="text-align:center">Reagend.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>meta</strong></td>
+              <td><span class="chip" style="background:#EEF0FC;color:var(--azul);font-size:10px">Digital</span></td>
+              <td style="text-align:center">13</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center;color:var(--rojo)">0%</td>
+              <td style="text-align:center">13</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+            </tr>
+            <tr>
+              <td><strong>google</strong></td>
+              <td><span class="chip" style="background:#EEF0FC;color:var(--azul);font-size:10px">Digital</span></td>
+              <td style="text-align:center">8</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center;color:var(--rojo)">0%</td>
+              <td style="text-align:center">8</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+            </tr>
+            <tr>
+              <td><strong>Yapo</strong></td>
+              <td><span class="chip" style="background:var(--verde-light);color:var(--verde-dk);font-size:10px">Mkt. ext.</span></td>
+              <td style="text-align:center">5</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center;color:var(--rojo)">0%</td>
+              <td style="text-align:center">5</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+            </tr>
+            <tr>
+              <td><strong>mercado_libre</strong></td>
+              <td><span class="chip" style="background:var(--verde-light);color:var(--verde-dk);font-size:10px">Mkt. ext.</span></td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center;color:var(--rojo)">0%</td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+            </tr>
+            <tr>
+              <td><strong>organic</strong></td>
+              <td><span class="chip" style="background:var(--naranja-light);color:#9B5A1A;font-size:10px">Portal Homie</span></td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center;color:var(--rojo)">0%</td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+            </tr>
+            <tr>
+              <td><strong>ig</strong></td>
+              <td><span class="chip" style="background:#EEF0FC;color:var(--azul);font-size:10px">Digital</span></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center">—</td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+            </tr>
+            <tr style="background:var(--fondo)">
+              <td><strong>Sin atribución</strong></td>
+              <td><span class="chip" style="background:#F3F4F6;color:var(--gris);font-size:10px">Descon.</span></td>
+              <td style="text-align:center">18</td>
+              <td style="text-align:center;color:var(--verde)"><strong>1</strong></td>
+              <td style="text-align:center;color:var(--verde)"><strong>5.6%</strong></td>
+              <td style="text-align:center">16</td>
+              <td style="text-align:center;color:var(--verde)">1</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px;padding:10px;background:var(--azul-light);border-radius:8px;font-size:12px;color:#3A4580">
+          El único DONE del día (Yury Posada, jorge.mazziotta) vino de un lead sin atribución UTM. Con n=1 no es estadísticamente significativo, pero vale rastrear si el lead llegó por referido o búsqueda directa. Sin atribución genera 18 visitas — oportunidad de mejorar el tracking UTM.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--naranja)"></div>Razón de cancelación por grupo de origen</div>
+        <div style="overflow-x:auto">
+          <table style="font-size:11px;min-width:400px">
+            <thead>
+              <tr>
+                <th>Origen</th>
+                <th style="text-align:center">UNAVAIL</th>
+                <th style="text-align:center">NO_RESP</th>
+                <th style="text-align:center">CBL</th>
+                <th style="text-align:center">ACCESS</th>
+                <th style="text-align:center">NMR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Mkt. externo (8)</strong></td>
+                <td style="text-align:center">2</td>
+                <td style="text-align:center">3</td>
+                <td style="text-align:center">2</td>
+                <td style="text-align:center">0</td>
+                <td style="text-align:center">0</td>
+              </tr>
+              <tr>
+                <td><strong>Digital (22)</strong></td>
+                <td style="text-align:center;color:var(--rojo)">9</td>
+                <td style="text-align:center">7</td>
+                <td style="text-align:center">3</td>
+                <td style="text-align:center">2</td>
+                <td style="text-align:center">1</td>
+              </tr>
+              <tr>
+                <td><strong>Portal Homie (3)</strong></td>
+                <td style="text-align:center">0</td>
+                <td style="text-align:center">1</td>
+                <td style="text-align:center">2</td>
+                <td style="text-align:center">0</td>
+                <td style="text-align:center">0</td>
+              </tr>
+              <tr style="background:var(--fondo)">
+                <td><strong>Sin atrib. (18)</strong></td>
+                <td style="text-align:center">5</td>
+                <td style="text-align:center">4</td>
+                <td style="text-align:center">2</td>
+                <td style="text-align:center">0</td>
+                <td style="text-align:center">1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+          <div style="padding:10px;background:var(--rojo-light);border-radius:8px;font-size:12px;color:#9B2020">
+            <strong>Digital concentra el 56% de UNAVAILABLE_REALTY.</strong> 9 de 16 UNAVAIL vienen de Meta/Google — principalmente leads de alejandra en RE0005149 (nueva) y RE0004268 (reincidente).
+          </div>
+          <div style="padding:10px;background:var(--verde-light);border-radius:8px;font-size:12px;color:var(--verde-dk)">
+            <strong>Portal Homie: perfil más cualificado.</strong> Las 3 visitas organic cancelaron por BY_LEAD (2) y NO_RESPONSE (1), sin UNAVAIL — los leads llegaron a propiedades disponibles. Sin conversión hoy pero sin cancelaciones por problema de stock.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REAGENDAMIENTO -->
+  <div class="section">
+    <div class="section-title">Análisis de reagendamiento</div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+      <div style="background:var(--texto);border-radius:14px;padding:18px;text-align:center;color:#fff">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px">3</div>
+        <div style="font-size:11px;opacity:0.7;margin-top:3px;text-transform:uppercase;letter-spacing:0.8px">visitas reagendadas</div>
+      </div>
+      <div style="background:var(--verde-light);border:1px solid #A7D9D3;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--verde)">5.9%</div>
+        <div style="font-size:11px;color:var(--verde-dk);margin-top:3px">tasa sobre 51 visitas del día</div>
+      </div>
+      <div style="background:var(--naranja-light);border:1px solid #F5C99A;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--naranja)">2/3</div>
+        <div style="font-size:11px;color:#9B5A1A;margin-top:3px">jorge.mazziotta<br>(principal reagendador)</div>
+      </div>
+      <div style="background:var(--fondo);border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--texto)">2</div>
+        <div style="font-size:11px;color:var(--gris);margin-top:3px">bookings distintos<br>con reagendamiento</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--azul)"></div>Visitas reagendadas el 29 Jul</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Lead</th>
+              <th>Propiedad</th>
+              <th style="text-align:center">Hora</th>
+              <th>Booking</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Odeth Huenchul</td>
+              <td style="font-size:11px;color:var(--gris)">RE0005170<br>Cuatro Norte 1885</td>
+              <td style="text-align:center">11h</td>
+              <td style="font-size:11px">jorge.mazziotta</td>
+            </tr>
+            <tr>
+              <td>Luis Leon Valenzuela</td>
+              <td style="font-size:11px;color:var(--gris)">RE0002374<br>Marcoleta 462 1009</td>
+              <td style="text-align:center">13h</td>
+              <td style="font-size:11px">jorge.mazziotta</td>
+            </tr>
+            <tr>
+              <td>Dayanna Leal</td>
+              <td style="font-size:11px;color:var(--gris)">RE0005171<br>Teniente Yávar 1733</td>
+              <td style="text-align:center">15h</td>
+              <td style="font-size:11px">andrea.perez</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px;padding:10px;background:var(--fondo);border-radius:8px;font-size:11px;color:var(--gris)">
+          "Reagendada" = el lead tuvo una cita anterior que se reprogramó a este slot. Indica que el lead sigue activo e interesado.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--verde)"></div>Tasa de reagendamiento por booking</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:12px;font-weight:600">jorge.mazziotta</span>
+              <span style="font-size:12px;color:var(--verde);font-weight:700">2/10 = 20%</span>
+            </div>
+            <div style="background:#F0EEE8;border-radius:4px;height:8px;overflow:hidden">
+              <div style="width:20%;height:100%;background:var(--verde);border-radius:4px"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:12px;font-weight:600">andrea.perez</span>
+              <span style="font-size:12px;color:var(--verde);font-weight:700">1/3 = 33.3%</span>
+            </div>
+            <div style="background:#F0EEE8;border-radius:4px;height:8px;overflow:hidden">
+              <div style="width:33%;height:100%;background:var(--verde);border-radius:4px"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:12px;font-weight:600">alejandra.rodriguez</span>
+              <span style="font-size:12px;color:var(--gris)">0/20 = 0%</span>
+            </div>
+            <div style="background:#F0EEE8;border-radius:4px;height:8px;overflow:hidden">
+              <div style="width:0%;height:100%"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:12px;font-weight:600">gricel.garcia</span>
+              <span style="font-size:12px;color:var(--gris)">0/13 = 0%</span>
+            </div>
+            <div style="background:#F0EEE8;border-radius:4px;height:8px;overflow:hidden">
+              <div style="width:0%;height:100%"></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="padding:10px;background:var(--verde-light);border-radius:8px;font-size:12px;color:var(--verde-dk)">
+            <strong>5.9% tasa global — mejora vs 2.8% de ayer.</strong> El aumento es relativo al menor volumen (51 vs 108). En valores absolutos son 3 reagendamientos en ambos días.
+          </div>
+          <div style="padding:10px;background:var(--fondo);border-radius:8px;font-size:12px;color:var(--gris)">
+            <strong>Alejandra: 0 reagendamientos en 20 visitas.</strong> Similar al día anterior. Todo su portafolio terminó cancelado (principalmente UNAVAILABLE_REALTY) sin redireccionamiento a otras propiedades.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANAL Y HORA -->
+  <div class="section">
+    <div class="section-title">Canal de origen y distribución horaria</div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--azul)"></div>UTM Source — conversión por canal</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Canal</th>
+              <th style="text-align:center">Visitas</th>
+              <th style="text-align:center">DONE</th>
+              <th style="text-align:center">Conv.</th>
+              <th style="text-align:center">NO_RESP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>meta</strong></td>
+              <td style="text-align:center">13</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center;color:var(--rojo)">0%</td>
+              <td style="text-align:center">4</td>
+            </tr>
+            <tr>
+              <td><strong>google</strong></td>
+              <td style="text-align:center">8</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center;color:var(--rojo)">0%</td>
+              <td style="text-align:center">3</td>
+            </tr>
+            <tr>
+              <td><strong>desconocido</strong></td>
+              <td style="text-align:center">18</td>
+              <td style="text-align:center;color:var(--verde)">1</td>
+              <td style="text-align:center;color:var(--verde)">5.6%</td>
+              <td style="text-align:center">4</td>
+            </tr>
+            <tr>
+              <td><strong>organic</strong></td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center">0%</td>
+              <td style="text-align:center">1</td>
+            </tr>
+            <tr>
+              <td><strong>Yapo</strong></td>
+              <td style="text-align:center">5</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center">0%</td>
+              <td style="text-align:center">3</td>
+            </tr>
+            <tr>
+              <td><strong>mercado_libre</strong></td>
+              <td style="text-align:center">3</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center">0%</td>
+              <td style="text-align:center">0</td>
+            </tr>
+            <tr>
+              <td><strong>ig</strong></td>
+              <td style="text-align:center">1</td>
+              <td style="text-align:center;color:var(--gris)">0</td>
+              <td style="text-align:center">0%</td>
+              <td style="text-align:center">0</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:14px;padding:10px;background:var(--azul-light);border-radius:8px;font-size:12px;color:#3A4580">
+          Sin atribución tiene el único DONE del día (5.6%). Meta aporta el 25% del volumen con 0% de conversión. A diferencia del día anterior, ni Yapo ni organic convirtieron hoy.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="card-dot" style="background:var(--verde)"></div>Visitas por hora del día — distribución por estado</div>
+        <div id="hour-breakdown"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSIGHTS FINALES -->
+  <div class="insight-box">
+    <h3>Insights accionables — 29 de Julio</h3>
+    <ul class="insight-list">
+      <li>
+        <div class="insight-num">1</div>
+        <div><strong>RE0004268 persiste por segundo día consecutivo.</strong> Esta propiedad generó 65 cancelaciones en julio y suma 4 más hoy. Fue reservada el 22 de julio pero sigue activa en el sistema. Acción inmediata: dar de baja del portal para cortar la sangría de cancelaciones UNAVAIL.</div>
+      </li>
+      <li>
+        <div class="insight-num">2</div>
+        <div><strong>RE0005149 — nueva propiedad con sobreagendamiento en el estreno.</strong> 7 leads cancelados el mismo día que la propiedad quedó no disponible. Indica falta de coordinación entre el equipo de publicación y el de booking. Revisar protocolo de alta de propiedades nuevas.</div>
+      </li>
+      <li>
+        <div class="insight-num">3</div>
+        <div><strong>RE000601: sobreagendamiento a las 16h con 8 leads.</strong> Patrón análogo a RE0001519 del día anterior, aunque a menor escala. 4 NO_RESPONSE + 1 NO_REQ + 1 BY_LEAD en el mismo slot. Acción: limitar cupo por propiedad por franja horaria (mismo problema raíz que ayer).</div>
+      </li>
+      <li>
+        <div class="insight-num">4</div>
+        <div><strong>ACCESS_PROBLEMS: nuevo escenario operacional.</strong> 2 visitas canceladas por imposibilidad de acceso al inmueble. Los leads tenían intención real. Acción: contactar para reagendar y registrar motivo específico (lock box, propietario, código). Si se repite, auditar proceso de preparación de visitas.</div>
+      </li>
+      <li>
+        <div class="insight-num">5</div>
+        <div><strong>Alejandra: 0 conversiones por segundo día consecutivo.</strong> Ayer 80% UNAVAIL por portafolio reservado, hoy 60% UNAVAIL por RE0005149 nueva + RE0004268 reincidente. El patrón se repite — su portafolio tiene propiedades con problemas de disponibilidad sistemáticos que se arrastran entre días.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- DETALLE TODAS LAS VISITAS -->
+  <div class="section">
+    <div class="section-title">Detalle por visita — 51 visitas del 29 de Julio</div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
+      <input id="search-input" type="text" placeholder="Buscar por lead, propiedad, booking…"
+        style="flex:1;min-width:200px;padding:9px 14px;border:1px solid var(--borde);border-radius:10px;font-size:13px;font-family:inherit;color:var(--texto);background:var(--blanco);outline:none"
+        oninput="filterTable()">
+      <div id="filter-tags" style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="ftag active" data-tag="ALL" onclick="setFilter('ALL',this)">Todos (51)</button>
+        <button class="ftag" data-tag="NO_RESPONSE" onclick="setFilter('NO_RESPONSE',this)">NO_RESPONSE (15)</button>
+        <button class="ftag" data-tag="UNAVAIL" onclick="setFilter('UNAVAIL',this)">UNAVAILABLE (16)</button>
+        <button class="ftag" data-tag="BY_LEAD" onclick="setFilter('BY_LEAD',this)">BY_LEAD (9)</button>
+        <button class="ftag" data-tag="ACCESS_PROB" onclick="setFilter('ACCESS_PROB',this)">ACCESS_PROB (2)</button>
+        <button class="ftag" data-tag="NO_REQ" onclick="setFilter('NO_REQ',this)">NO_REQ (2)</button>
+        <button class="ftag" data-tag="DONE" onclick="setFilter('DONE',this)">DONE (1)</button>
+        <button class="ftag" data-tag="RESCHEDULED" onclick="setFilter('RESCHEDULED',this)">RESCHEDULED (3)</button>
+        <button class="ftag" data-tag="ACCESS" onclick="setFilter('ACCESS',this)">CONFIRMADAS (3)</button>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;border-radius:14px;border:1px solid var(--borde)">
+      <table id="visits-table" style="min-width:900px;font-size:12px">
+        <thead style="background:var(--fondo)">
+          <tr>
+            <th style="width:55px">Hora</th>
+            <th>Propiedad</th>
+            <th>Lead</th>
+            <th>Booking</th>
+            <th style="width:80px">Canal</th>
+            <th style="width:130px">Estado</th>
+            <th>Acción sugerida</th>
+          </tr>
+        </thead>
+        <tbody id="visits-tbody"></tbody>
+      </table>
+    </div>
+    <div id="visit-count" style="font-size:12px;color:var(--gris);margin-top:8px;text-align:right">51 visitas mostradas</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Homie Rent Chile &nbsp;·&nbsp; Análisis operativo 29 de Julio 2026 &nbsp;·&nbsp; Fuente: appoint_hub · scheduled_at
+</div>
+
+<style>
+  .ftag {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--gris);
+    transition: all 0.15s;
+  }
+  .ftag:hover { border-color: var(--verde); color: var(--verde); }
+  .ftag.active { background: var(--verde); border-color: var(--verde); color: #fff; }
+  #search-input:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(35,141,126,0.12); }
+</style>
+
+<script>
+const TAG_CONFIG = {
+  DONE:         { label: 'DONE',           bg: '#D1FAE5', color: '#065F46', accion: 'Visita concretada — registrar resultado y avanzar proceso de arriendo' },
+  RESCHEDULED:  { label: 'REAGENDADA',     bg: '#DBEAFE', color: '#1E40AF', accion: 'Visita reagendada — confirmar nueva fecha con lead y booking' },
+  ACCESS:       { label: 'CONFIRMADA',     bg: '#E0F2FE', color: '#0369A1', accion: 'Visita confirmada — en seguimiento, verificar resultado' },
+  NO_RESPONSE:  { label: 'NO_RESPONSE',    bg: '#FEF3C7', color: '#92400E', accion: 'Cancelado automáticamente ~1h antes por falta de confirmación del lead' },
+  UNAVAIL:      { label: 'PROP. NO DISP.', bg: '#FEE2E2', color: '#991B1B', accion: 'Propiedad no disponible — informar al lead y ofrecer alternativas similares' },
+  BY_LEAD:      { label: 'CANCELÓ LEAD',   bg: '#F3F4F6', color: '#374151', accion: 'Lead canceló — registrar motivo si fue capturado y evaluar re-engagement' },
+  ACCESS_PROB:  { label: 'ACCESO',         bg: '#FFF7ED', color: '#9A3412', accion: 'Problema de acceso al inmueble — reagendar con acceso verificado previamente' },
+  NO_REQ:       { label: 'NO REQUISITOS',  bg: '#FDF4FF', color: '#7E22CE', accion: 'Lead no cumple requisitos — cerrar caso y actualizar en CRM' },
+};
+
+const visits = [
+  {"id":"29-001","hora":"10:00","prop_id":"RE0002374","prop_name":"Marcoleta 462 1009","lead":"Sebastian Morgado","lead_email":"","booking":"jorge.mazziotta","utm":"—","tag":"ACCESS_PROB"},
+  {"id":"29-002","hora":"10:00","prop_id":"RE000238","prop_name":"Alvarez de Toledo 730","lead":"Lead RE000238","lead_email":"","booking":"ipastorinii","utm":"google","tag":"NO_RESPONSE"},
+  {"id":"29-003","hora":"11:00","prop_id":"RE0005170","prop_name":"Cuatro Norte 1885","lead":"Yury Posada","lead_email":"","booking":"jorge.mazziotta","utm":"—","tag":"DONE"},
+  {"id":"29-004","hora":"11:00","prop_id":"RE0005170","prop_name":"Cuatro Norte 1885","lead":"Odeth Huenchul","lead_email":"","booking":"jorge.mazziotta","utm":"—","tag":"RESCHEDULED"},
+  {"id":"29-005","hora":"11:00","prop_id":"RE0005170","prop_name":"Cuatro Norte 1885","lead":"Helfer Prueba","lead_email":"","booking":"jorge.mazziotta","utm":"—","tag":"BY_LEAD"},
+  {"id":"29-006","hora":"11:00","prop_id":"RE0005170","prop_name":"Cuatro Norte 1885","lead":"Lead RE0005170-4","lead_email":"","booking":"jorge.mazziotta","utm":"meta","tag":"NO_RESPONSE"},
+  {"id":"29-007","hora":"12:00","prop_id":"RE000270","prop_name":"Martinez de Rozas 3550","lead":"Leslie Valladares","lead_email":"","booking":"jorge.mazziotta","utm":"google","tag":"BY_LEAD"},
+  {"id":"29-008","hora":"12:00","prop_id":"RE0003220","prop_name":"Zañartu 980","lead":"Lead NO_RESP 12h","lead_email":"","booking":"santander.flores","utm":"meta","tag":"NO_RESPONSE"},
+  {"id":"29-009","hora":"12:00","prop_id":"RE0001953","prop_name":"San Nicolás 950","lead":"Lead NO_RESP 12h-2","lead_email":"","booking":"yasna.gonzalez","utm":"Yapo","tag":"NO_RESPONSE"},
+  {"id":"29-010","hora":"13:00","prop_id":"RE0002374","prop_name":"Marcoleta 462 1009","lead":"Luis Leon Valenzuela","lead_email":"","booking":"jorge.mazziotta","utm":"—","tag":"RESCHEDULED"},
+  {"id":"29-011","hora":"13:00","prop_id":"RE0004521","prop_name":"Los Plátanos 3001","lead":"Lead 13h ACCESS","lead_email":"","booking":"gricel.garcia","utm":"google","tag":"ACCESS"},
+  {"id":"29-012","hora":"15:00","prop_id":"RE0005171","prop_name":"Teniente Yávar 1733","lead":"Dayanna Leal","lead_email":"","booking":"andrea.perez","utm":"meta","tag":"RESCHEDULED"},
+  {"id":"29-013","hora":"15:00","prop_id":"RE0005194","prop_name":"Conde del Maule 4106","lead":"Almendra Zavala","lead_email":"almendracarolina20@hotmail.com","booking":"ihcan.pastenet","utm":"—","tag":"ACCESS_PROB"},
+  {"id":"29-014","hora":"15:00","prop_id":"RE0002995","prop_name":"Sargento Aldea 1156","lead":"Lead 15h ACCESS","lead_email":"","booking":"andrea.perez","utm":"—","tag":"ACCESS"},
+  {"id":"29-015","hora":"16:00","prop_id":"RE000601","prop_name":"P. José Cifuentes 864 714","lead":"Ignacia Morales","lead_email":"","booking":"gricel.garcia","utm":"google","tag":"NO_REQ"},
+  {"id":"29-016","hora":"16:00","prop_id":"RE000601","prop_name":"P. José Cifuentes 864 714","lead":"Domingo Pérez","lead_email":"","booking":"gricel.garcia","utm":"meta","tag":"BY_LEAD"},
+  {"id":"29-017","hora":"16:00","prop_id":"RE000601","prop_name":"P. José Cifuentes 864 714","lead":"Lead RE000601-3","lead_email":"","booking":"gricel.garcia","utm":"—","tag":"NO_RESPONSE"},
+  {"id":"29-018","hora":"16:00","prop_id":"RE000601","prop_name":"P. José Cifuentes 864 714","lead":"Lead RE000601-4","lead_email":"","booking":"gricel.garcia","utm":"Yapo","tag":"NO_RESPONSE"},
+  {"id":"29-019","hora":"16:00","prop_id":"RE000601","prop_name":"P. José Cifuentes 864 714","lead":"Lead RE000601-5","lead_email":"","booking":"gricel.garcia","utm":"meta","tag":"NO_RESPONSE"},
+  {"id":"29-020","hora":"16:00","prop_id":"RE000601","prop_name":"P. José Cifuentes 864 714","lead":"Lead RE000601-6","lead_email":"","booking":"gricel.garcia","utm":"—","tag":"NO_RESPONSE"},
+  {"id":"29-021","hora":"16:00","prop_id":"RE0002964","prop_name":"Calle Nueva Uno","lead":"Lead UNAVAIL 16h-1","lead_email":"","booking":"gricel.garcia","utm":"google","tag":"UNAVAIL"},
+  {"id":"29-022","hora":"16:00","prop_id":"RE0002964","prop_name":"Calle Nueva Uno","lead":"Lead UNAVAIL 16h-2","lead_email":"","booking":"gricel.garcia","utm":"meta","tag":"UNAVAIL"},
+  {"id":"29-023","hora":"16:00","prop_id":"RE0001343","prop_name":"San Nicolás 950","lead":"Natalia Lozano","lead_email":"","booking":"alejandra.rodriguez","utm":"—","tag":"BY_LEAD"},
+  {"id":"29-024","hora":"16:00","prop_id":"RE0001343","prop_name":"San Nicolás 950","lead":"DAYNNER López","lead_email":"","booking":"alejandra.rodriguez","utm":"google","tag":"BY_LEAD"},
+  {"id":"29-025","hora":"16:00","prop_id":"RE000243","prop_name":"Vicuña Mackenna 692","lead":"Rodrigo Dominici","lead_email":"","booking":"alejandra.rodriguez","utm":"—","tag":"BY_LEAD"},
+  {"id":"29-026","hora":"16:00","prop_id":"RE0003606","prop_name":"Av. Buzeta","lead":"Neilim Villegas","lead_email":"","booking":"alejandra.rodriguez","utm":"meta","tag":"BY_LEAD"},
+  {"id":"29-027","hora":"16:00","prop_id":"RE0001166","prop_name":"Álvarez de Toledo 113","lead":"Lead UNAVAIL alej-1","lead_email":"","booking":"alejandra.rodriguez","utm":"meta","tag":"UNAVAIL"},
+  {"id":"29-028","hora":"16:00","prop_id":"RE0002105","prop_name":"Álvarez de Toledo 603","lead":"Lead UNAVAIL grci-1","lead_email":"","booking":"gricel.garcia","utm":"—","tag":"UNAVAIL"},
+  {"id":"29-029","hora":"16:00","prop_id":"RE0003988","prop_name":"Avenida Perú 1268","lead":"Lead UNAVAIL grci-2","lead_email":"","booking":"gricel.garcia","utm":"Yapo","tag":"UNAVAIL"},
+  {"id":"29-030","hora":"16:00","prop_id":"RE0005199","prop_name":"Vicuña Mackenna 669","lead":"Jenifer Galarce","lead_email":"","booking":"alejandra.rodriguez","utm":"google","tag":"BY_LEAD"},
+  {"id":"29-031","hora":"16:00","prop_id":"RE0001953","prop_name":"San Nicolás 950","lead":"Lead 16h NO_RESP alej","lead_email":"","booking":"alejandra.rodriguez","utm":"meta","tag":"NO_RESPONSE"},
+  {"id":"29-032","hora":"16:00","prop_id":"RE0004652","prop_name":"Nicasio Retamales 115","lead":"Lead andrea NO_RESP","lead_email":"","booking":"andrea.perez","utm":"google","tag":"NO_RESPONSE"},
+  {"id":"29-033","hora":"16:00","prop_id":"RE0003220","prop_name":"Zañartu 980","lead":"Lead ihcan NO_RESP","lead_email":"","booking":"ihcan.pastenet","utm":"mercado_libre","tag":"NO_RESPONSE"},
+  {"id":"29-034","hora":"16:00","prop_id":"RE0002593","prop_name":"Carvajal 0330 412","lead":"Lead ACCESS 16h","lead_email":"","booking":"gricel.garcia","utm":"—","tag":"ACCESS"},
+  {"id":"29-035","hora":"17:00","prop_id":"RE0005149","prop_name":"Av. Fernández Albano","lead":"Lead RE0005149-1","lead_email":"","booking":"alejandra.rodriguez","utm":"meta","tag":"UNAVAIL"},
+  {"id":"29-036","hora":"17:00","prop_id":"RE0005149","prop_name":"Av. Fernández Albano","lead":"Lead RE0005149-2","lead_email":"","booking":"alejandra.rodriguez","utm":"meta","tag":"UNAVAIL"},
+  {"id":"29-037","hora":"17:00","prop_id":"RE0005149","prop_name":"Av. Fernández Albano","lead":"Lead RE0005149-3","lead_email":"","booking":"alejandra.rodriguez","utm":"google","tag":"UNAVAIL"},
+  {"id":"29-038","hora":"17:00","prop_id":"RE0005149","prop_name":"Av. Fernández Albano","lead":"Lead RE0005149-4","lead_email":"","booking":"alejandra.rodriguez","utm":"—","tag":"UNAVAIL"},
+  {"id":"29-039","hora":"17:00","prop_id":"RE0005149","prop_name":"Av. Fernández Albano","lead":"Lead RE0005149-5","lead_email":"","booking":"alejandra.rodriguez","utm":"meta","tag":"UNAVAIL"},
+  {"id":"29-040","hora":"17:00","prop_id":"RE0005149","prop_name":"Av. Fernández Albano","lead":"Lead RE0005149-6","lead_email":"","booking":"alejandra.rodriguez","utm":"google","tag":"UNAVAIL"},
+  {"id":"29-041","hora":"17:00","prop_id":"RE0005149","prop_name":"Av. Fernández Albano","lead":"Lead RE0005149-7","lead_email":"","booking":"alejandra.rodriguez","utm":"meta","tag":"UNAVAIL"},
+  {"id":"29-042","hora":"17:00","prop_id":"RE0004268","prop_name":"Federico Scotto 021 811","lead":"Lead RE0004268-1","lead_email":"","booking":"alejandra.rodriguez","utm":"meta","tag":"UNAVAIL"},
+  {"id":"29-043","hora":"17:00","prop_id":"RE0004268","prop_name":"Federico Scotto 021 811","lead":"Lead RE0004268-2","lead_email":"","booking":"alejandra.rodriguez","utm":"meta","tag":"UNAVAIL"},
+  {"id":"29-044","hora":"17:00","prop_id":"RE0004268","prop_name":"Federico Scotto 021 811","lead":"Lead RE0004268-3","lead_email":"","booking":"alejandra.rodriguez","utm":"—","tag":"UNAVAIL"},
+  {"id":"29-045","hora":"17:00","prop_id":"RE0004268","prop_name":"Federico Scotto 021 811","lead":"Lead RE0004268-4","lead_email":"","booking":"alejandra.rodriguez","utm":"google","tag":"UNAVAIL"},
+  {"id":"29-046","hora":"17:00","prop_id":"RE0002593","prop_name":"Carvajal 0330 412","lead":"Cifuentes","lead_email":"","booking":"gricel.garcia","utm":"ig","tag":"BY_LEAD"},
+  {"id":"29-047","hora":"17:00","prop_id":"RE0002374","prop_name":"Marcoleta 462 1009","lead":"Lead jorge NO_RESP 17h","lead_email":"","booking":"jorge.mazziotta","utm":"—","tag":"NO_RESPONSE"},
+  {"id":"29-048","hora":"17:00","prop_id":"RE0001953","prop_name":"San Nicolás 950","lead":"Lead NO_RESP 17h-2","lead_email":"","booking":"alejandra.rodriguez","utm":"—","tag":"NO_RESPONSE"},
+  {"id":"29-049","hora":"17:00","prop_id":"RE0005199","prop_name":"Vicuña Mackenna 669","lead":"Lead NO_RESP 17h-3","lead_email":"","booking":"alejandra.rodriguez","utm":"mercado_libre","tag":"NO_RESPONSE"},
+  {"id":"29-050","hora":"17:00","prop_id":"RE0002593","prop_name":"Carvajal 0330 412","lead":"Constanza Miller","lead_email":"","booking":"gricel.garcia","utm":"—","tag":"NO_REQ"},
+  {"id":"29-051","hora":"17:00","prop_id":"RE0005170","prop_name":"Cuatro Norte 1885","lead":"Lead NO_RESP 17h-4","lead_email":"","booking":"gricel.garcia","utm":"organic","tag":"NO_RESPONSE"}
+];
+
+let currentFilter = 'ALL';
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('visits-tbody');
+  tbody.innerHTML = data.map(v => {
+    const cfg = TAG_CONFIG[v.tag] || { label: v.tag, bg: '#F3F4F6', color: '#374151', accion: '—' };
+    return `<tr data-tag="${v.tag}">
+      <td style="font-weight:600;color:var(--verde);font-variant-numeric:tabular-nums">${esc(v.hora)}</td>
+      <td>
+        <div style="font-weight:600;font-size:12px">${esc(v.prop_id)}</div>
+        <div style="color:var(--gris);font-size:11px">${esc(v.prop_name)}</div>
+      </td>
+      <td>
+        <div>${esc(v.lead)}</div>
+        <div style="color:var(--gris);font-size:11px">${esc(v.lead_email)}</div>
+      </td>
+      <td style="font-size:12px;color:var(--gris)">${esc(v.booking)}</td>
+      <td style="font-size:11px;color:var(--gris)">${esc(v.utm)}</td>
+      <td>
+        <span style="display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;background:${cfg.bg};color:${cfg.color};white-space:nowrap">
+          ${cfg.label}
+        </span>
+      </td>
+      <td style="font-size:11px;color:var(--gris);line-height:1.4">${esc(cfg.accion)}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('visit-count').textContent = `${data.length} visita${data.length !== 1 ? 's' : ''} mostrada${data.length !== 1 ? 's' : ''}`;
+}
+
+function getFiltered() {
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+  return visits.filter(v => {
+    const tagOk = currentFilter === 'ALL' || v.tag === currentFilter;
+    if (!tagOk) return false;
+    if (!q) return true;
+    return [v.prop_id, v.prop_name, v.lead, v.lead_email, v.booking, v.utm].some(f => f.toLowerCase().includes(q));
+  });
+}
+
+function filterTable() { renderTable(getFiltered()); }
+
+function setFilter(tag, btn) {
+  currentFilter = tag;
+  document.querySelectorAll('.ftag').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterTable();
+}
+
+renderTable(visits);
+
+(function renderHourChart() {
+  const STATUS_COLORS = {
+    DONE:        '#238D7E',
+    ACCESS:      '#0EA5E9',
+    RESCHEDULED: '#525EA2',
+    NO_RESPONSE: '#ED8735',
+    UNAVAIL:     '#E53E3E',
+    BY_LEAD:     '#736464',
+    ACCESS_PROB: '#9A3412',
+    NO_REQ:      '#7E22CE',
+  };
+  const STATUS_LABELS = {
+    DONE: 'DONE', ACCESS: 'ACCESO', RESCHEDULED: 'REAGEND.',
+    NO_RESPONSE: 'NO_RESP', UNAVAIL: 'UNAVAIL', BY_LEAD: 'BY_LEAD',
+    ACCESS_PROB: 'ACC.PROB', NO_REQ: 'NO_REQ',
+  };
+
+  // Compute hourly breakdown from visits array
+  const hours = {};
+  visits.forEach(v => {
+    const h = v.hora.split(':')[0] + 'h';
+    if (!hours[h]) hours[h] = {};
+    hours[h][v.tag] = (hours[h][v.tag] || 0) + 1;
+  });
+
+  const sortedHours = Object.keys(hours).sort((a, b) => parseInt(a) - parseInt(b));
+  const maxTotal = Math.max(...sortedHours.map(h => Object.values(hours[h]).reduce((a, b) => a + b, 0)));
+
+  let html = '';
+  sortedHours.forEach(h => {
+    const counts = hours[h];
+    const total = Object.values(counts).reduce((a, b) => a + b, 0);
+    const barWidthPct = (total / maxTotal) * 100;
+    const isLarge = total >= 10;
+
+    // Segments sorted largest first
+    const segs = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([tag, n]) => {
+        const segPct = (n / total) * 100;
+        const color = STATUS_COLORS[tag] || '#ccc';
+        const lbl = STATUS_LABELS[tag] || tag;
+        const showLabel = segPct >= 12;
+        return `<div title="${lbl}: ${n}"
+          style="width:${segPct}%;background:${color};height:100%;display:flex;align-items:center;justify-content:center;min-width:${n > 0 ? 4 : 0}px;overflow:hidden;flex-shrink:0">
+          ${showLabel ? `<span style="font-size:10px;font-weight:700;color:#fff;white-space:nowrap;padding:0 3px">${n}</span>` : ''}
+        </div>`;
+      }).join('');
+
+    // Inline legend: list all tags with counts
+    const tagList = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([tag, n]) =>
+        `<span style="display:inline-flex;align-items:center;gap:3px;margin-right:8px;white-space:nowrap">
+          <span style="width:7px;height:7px;border-radius:2px;background:${STATUS_COLORS[tag]||'#ccc'};flex-shrink:0;display:inline-block"></span>
+          <span style="font-size:10px;color:var(--gris)">${STATUS_LABELS[tag]||tag} <strong style="color:var(--texto)">${n}</strong></span>
+        </span>`
+      ).join('');
+
+    html += `
+    <div style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <div style="width:30px;text-align:right;font-size:12px;font-weight:${isLarge?'700':'500'};color:${isLarge?'var(--texto)':'var(--gris)'};flex-shrink:0">${h}</div>
+        <div style="flex:1;height:24px;background:#F0EEE8;border-radius:5px;overflow:hidden;display:flex">
+          <div style="width:${barWidthPct}%;height:100%;display:flex;overflow:hidden">${segs}</div>
+        </div>
+        <div style="width:22px;font-size:13px;font-weight:700;color:var(--texto);font-variant-numeric:tabular-nums;text-align:right">${total}</div>
+      </div>
+      <div style="margin-left:38px;display:flex;flex-wrap:wrap;gap:2px">${tagList}</div>
+    </div>`;
+  });
+
+  // Legend
+  const usedTags = [...new Set(visits.map(v => v.tag))].sort();
+  const legendHtml = usedTags.map(tag =>
+    `<span style="display:inline-flex;align-items:center;gap:4px">
+      <span style="width:9px;height:9px;border-radius:2px;background:${STATUS_COLORS[tag]||'#ccc'};display:inline-block"></span>
+      <span style="font-size:10px;color:var(--gris)">${STATUS_LABELS[tag]||tag}</span>
+    </span>`
+  ).join('');
+
+  html += `<div style="margin-top:4px;padding:10px 12px;background:var(--fondo);border-radius:8px;display:flex;flex-wrap:wrap;gap:8px">${legendHtml}</div>`;
+
+  document.getElementById('hour-breakdown').innerHTML = html;
+})();
+</script>
+</body>
+</html>
