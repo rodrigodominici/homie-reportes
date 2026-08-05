@@ -1,0 +1,1941 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte Mensual · Julio 2026 — HomieRent Chile</title>
+<style>
+:root {
+  --verde: #238D7E;
+  --verde-dk: #1C7165;
+  --verde-lt: #EBF6F4;
+  --azul: #525EA2;
+  --naranja: #ED8735;
+  --naranja-lt: #FFF3E8;
+  --rojo: #E53E3E;
+  --rojo-lt: #FFF5F5;
+  --amarillo: #F6B248;
+  --texto: #161628;
+  --texto2: #55556E;
+  --fondo: #F4F7FE;
+  --surface: #FFFDF6;
+  --borde: #DEDCD7;
+  --font: -apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--fondo);color:var(--texto);font-size:14px;line-height:1.6}
+
+/* ─── HERO ─── */
+.hero{background:var(--texto);padding:48px 40px 40px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(35,141,126,.18);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-40px;right:120px;width:180px;height:180px;border-radius:50%;background:rgba(82,94,162,.12);pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(35,141,126,.2);color:#7ED4CA;font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:16px}
+.hero-title{color:#fff;font-size:32px;font-weight:700;line-height:1.15;letter-spacing:-.5px;margin-bottom:6px}
+.hero-title span{color:#7ED4CA}
+.hero-sub{color:rgba(255,255,255,.55);font-size:13px;margin-top:8px}
+.hero-meta{display:flex;gap:24px;margin-top:20px;flex-wrap:wrap}
+.hero-meta-item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.7);font-size:12px}
+.hero-meta-item svg{opacity:.6}
+
+/* ─── CONTAINER ─── */
+.container{max-width:1100px;margin:0 auto;padding:32px 24px 60px}
+
+/* ─── KPI GRID ─── */
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:32px}
+@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--borde);border-radius:14px;padding:18px 16px;position:relative;overflow:hidden}
+.kpi-label{font-size:10.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--texto2);margin-bottom:6px}
+.kpi-value{font-size:26px;font-weight:700;color:var(--texto);line-height:1;font-variant-numeric:tabular-nums}
+.kpi-sub{font-size:11px;color:var(--texto2);margin-top:4px}
+.kpi.good .kpi-value{color:var(--verde)}
+.kpi.bad .kpi-value{color:var(--rojo)}
+.kpi.warn .kpi-value{color:var(--naranja)}
+.kpi-accent{position:absolute;top:0;right:0;width:4px;height:100%;border-radius:0 14px 14px 0}
+.kpi.good .kpi-accent{background:var(--verde)}
+.kpi.bad .kpi-accent{background:var(--rojo)}
+.kpi.warn .kpi-accent{background:var(--naranja)}
+.kpi.neutral .kpi-accent{background:var(--azul)}
+
+/* ─── SECTION HEADER ─── */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.section-title{font-size:16px;font-weight:700;color:var(--texto);display:flex;align-items:center;gap:8px}
+.section-title .dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-rojo{background:var(--rojo-lt);color:var(--rojo)}
+.badge-verde{background:var(--verde-lt);color:var(--verde)}
+.badge-naranja{background:var(--naranja-lt);color:var(--naranja)}
+.badge-azul{background:#EDEFFE;color:var(--azul)}
+.badge-gris{background:#F0F0F4;color:var(--texto2)}
+
+/* ─── CARD ─── */
+.card{background:var(--surface);border:1px solid var(--borde);border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(22,22,40,.04)}
+.card-2col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+@media(max-width:720px){.card-2col{grid-template-columns:1fr}}
+
+/* ─── DONUT CHART ─── */
+.donut-wrap{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
+.donut-svg-wrap{flex-shrink:0;position:relative;width:180px;height:180px}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.donut-center-val{font-size:22px;font-weight:700;color:var(--texto);line-height:1}
+.donut-center-lbl{font-size:10px;color:var(--texto2);margin-top:2px}
+.donut-legend{flex:1;min-width:200px}
+.legend-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(222,220,215,.5)}
+.legend-item:last-child{border-bottom:none}
+.legend-left{display:flex;align-items:center;gap:8px}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.legend-label{font-size:12.5px;color:var(--texto)}
+.legend-right{display:flex;align-items:center;gap:10px}
+.legend-count{font-size:13px;font-weight:600;color:var(--texto);font-variant-numeric:tabular-nums}
+.legend-pct{font-size:11px;color:var(--texto2);min-width:36px;text-align:right}
+
+/* ─── AGENT TABLE ─── */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--texto2);padding:6px 10px;border-bottom:2px solid var(--borde)}
+td{padding:9px 10px;border-bottom:1px solid rgba(222,220,215,.4)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(35,141,126,.03)}
+.td-name{font-weight:600;color:var(--texto)}
+.td-num{font-variant-numeric:tabular-nums;text-align:right}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.pill-green{background:var(--verde-lt);color:var(--verde)}
+.pill-red{background:var(--rojo-lt);color:var(--rojo)}
+.pill-warn{background:var(--naranja-lt);color:var(--naranja)}
+.pill-neutral{background:#F0F0F4;color:var(--texto2)}
+.bar-cell{display:flex;align-items:center;gap:8px}
+.bar-track{flex:1;height:6px;background:rgba(222,220,215,.6);border-radius:3px;min-width:60px}
+.bar-fill{height:6px;border-radius:3px;background:var(--verde)}
+.bar-fill.red{background:var(--rojo)}
+.bar-fill.warn{background:var(--naranja)}
+
+/* ─── VACANCY SECTION ─── */
+.vacancy-card{background:var(--surface);border:2px solid var(--naranja);border-radius:16px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(237,135,53,.12)}
+.vacancy-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--naranja),#F6B248)}
+.vacancy-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.vacancy-icon{width:44px;height:44px;background:var(--naranja-lt);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.vacancy-title{font-size:17px;font-weight:700;color:var(--texto)}
+.vacancy-desc{font-size:13px;color:var(--texto2);margin-top:3px}
+.alert-stat{display:flex;gap:6px;align-items:baseline}
+.alert-num{font-size:32px;font-weight:700;color:var(--naranja);font-variant-numeric:tabular-nums;line-height:1}
+.alert-lbl{font-size:12px;color:var(--texto2)}
+.vacancy-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:600px){.vacancy-kpis{grid-template-columns:repeat(2,1fr)}}
+.vacancy-kpi{background:rgba(237,135,53,.07);border:1px solid rgba(237,135,53,.2);border-radius:10px;padding:12px 14px;text-align:center}
+.vacancy-kpi .vk-val{font-size:22px;font-weight:700;color:var(--naranja);line-height:1;font-variant-numeric:tabular-nums}
+.vacancy-kpi .vk-lbl{font-size:10.5px;color:var(--texto2);margin-top:3px;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
+.prop-card{background:rgba(255,253,246,.9);border:1px solid var(--borde);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.prop-card.critical{border-color:rgba(229,62,62,.35);background:var(--rojo-lt)}
+.prop-id{font-size:13px;font-weight:700;font-family:monospace;color:var(--texto)}
+.prop-id.critical{color:var(--rojo)}
+.prop-bar-wrap{flex:1;min-width:100px}
+.prop-detail{font-size:11px;color:var(--texto2);text-align:right;white-space:nowrap}
+.prop-detail strong{color:var(--naranja);font-size:14px}
+.prop-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+@media(max-width:600px){.prop-grid{grid-template-columns:1fr}}
+.vacant-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;background:var(--rojo-lt);color:var(--rojo)}
+.critical-alert{background:rgba(229,62,62,.08);border:1px solid rgba(229,62,62,.25);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;margin-top:16px}
+.critical-alert-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.critical-alert-text{font-size:13px;color:var(--texto)}
+.critical-alert-text strong{color:var(--rojo)}
+
+/* ─── REASON SECTIONS ─── */
+.reason-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+@media(max-width:720px){.reason-grid{grid-template-columns:1fr}}
+.reason-card{background:var(--surface);border:1px solid var(--borde);border-radius:14px;padding:20px}
+.reason-card .r-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.reason-card .r-title{font-size:13px;font-weight:700;color:var(--texto)}
+.reason-card .r-num{font-size:24px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.reason-card .r-pct{font-size:11px;color:var(--texto2)}
+.reason-card .r-bar{height:6px;border-radius:3px;background:rgba(222,220,215,.5);margin-top:8px}
+.reason-card .r-fill{height:6px;border-radius:3px}
+
+/* ─── UTM TABLE ─── */
+.utm-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(222,220,215,.4)}
+.utm-row:last-child{border-bottom:none}
+.utm-name{width:120px;font-size:12.5px;font-weight:600;color:var(--texto);flex-shrink:0}
+.utm-bar-wrap{flex:1;height:8px;background:rgba(222,220,215,.5);border-radius:4px}
+.utm-bar-fill{height:8px;border-radius:4px;background:var(--azul)}
+.utm-stats{display:flex;gap:14px;font-size:12px;font-variant-numeric:tabular-nums;flex-shrink:0}
+.utm-done{color:var(--verde);font-weight:600}
+.utm-total{color:var(--texto2)}
+.utm-conv{font-weight:700;min-width:42px;text-align:right}
+
+/* ─── LINE CHART ─── */
+.chart-label{font-size:10px;fill:var(--texto2)}
+
+/* ─── BAR CHART (horaria) ─── */
+.h-bar-chart{display:flex;gap:4px;align-items:flex-end;height:120px}
+.h-bar-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.h-bar{width:100%;border-radius:4px 4px 0 0;background:var(--verde);min-height:4px}
+.h-bar.highlight{background:var(--naranja)}
+.h-bar-label{font-size:9.5px;color:var(--texto2);text-align:center;font-weight:600}
+.h-bar-val{font-size:9px;color:var(--texto2);font-variant-numeric:tabular-nums;text-align:center}
+
+/* ─── INSIGHT CARD ─── */
+.insights-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:720px){.insights-grid{grid-template-columns:1fr}}
+.insight-item{background:var(--surface);border:1px solid var(--borde);border-radius:12px;padding:16px;display:flex;gap:12px}
+.insight-icon{font-size:20px;flex-shrink:0}
+.insight-text{font-size:13px;color:var(--texto);line-height:1.5}
+.insight-text strong{color:var(--verde)}
+.insight-text.warn strong{color:var(--naranja)}
+.insight-text.alert strong{color:var(--rojo)}
+
+/* ─── FOOTER ─── */
+.report-footer{text-align:center;font-size:11px;color:var(--texto2);padding-top:24px;border-top:1px solid var(--borde);margin-top:32px}
+
+/* ─── WEEKLY SVG ─── */
+.week-chart-wrap{overflow-x:auto}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="5" fill="#7ED4CA"/></svg>
+    HomieRent Chile · Reporte Mensual
+  </div>
+  <div class="hero-title">Visitas &amp; Agendamiento<br><span>Julio 2026</span></div>
+  <div class="hero-sub">1 al 31 de julio · appoint_hub · business_unit: HOMIERENT_CHILE</div>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 1v2M8 1v2M1 5h10" stroke="currentColor" stroke-width="1.2"/></svg>
+      Jul 1 – Jul 31, 2026
+    </div>
+    <div class="hero-meta-item">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5v2.5l1.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Generado 4 agosto 2026
+    </div>
+    <div class="hero-meta-item">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10V5l4-3 4 3v5H8V7H4v3H2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      6 Booking Agents
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- KPI GRID -->
+<div class="kpi-grid" style="margin-top:28px">
+  <div class="kpi neutral">
+    <div class="kpi-label">Total Visitas</div>
+    <div class="kpi-value">1.593</div>
+    <div class="kpi-sub">Julio completo</div>
+    <div class="kpi-accent"></div>
+  </div>
+  <div class="kpi good">
+    <div class="kpi-label">Realizadas</div>
+    <div class="kpi-value">108</div>
+    <div class="kpi-sub">Concretadas</div>
+    <div class="kpi-accent"></div>
+  </div>
+  <div class="kpi good">
+    <div class="kpi-label">Tasa DONE</div>
+    <div class="kpi-value">6,8%</div>
+    <div class="kpi-sub">Conversión mensual</div>
+    <div class="kpi-accent"></div>
+  </div>
+  <div class="kpi bad">
+    <div class="kpi-label">Canceladas</div>
+    <div class="kpi-value">1.327</div>
+    <div class="kpi-sub">83,3% del total</div>
+    <div class="kpi-accent"></div>
+  </div>
+  <div class="kpi warn">
+    <div class="kpi-label">Reagendadas</div>
+    <div class="kpi-value">45</div>
+    <div class="kpi-sub">2,8% del total</div>
+    <div class="kpi-accent"></div>
+  </div>
+  <div class="kpi neutral">
+    <div class="kpi-label">Confirmadas</div>
+    <div class="kpi-value">27</div>
+    <div class="kpi-sub">En seguimiento</div>
+    <div class="kpi-accent"></div>
+  </div>
+</div>
+
+<!-- DISTRIBUCIÓN CANCELACIONES -->
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--rojo)"></span>
+      Distribución de Cancelaciones
+    </div>
+    <span class="badge badge-rojo">1.327 cancelaciones</span>
+  </div>
+  <div class="donut-wrap">
+    <div class="donut-svg-wrap">
+      <!-- SVG Donut: C = 2π×70 = 439.82 -->
+      <!-- UNAVAIL 31.9%=140.3, NR 28.0%=123.1, CBL 19.7%=86.6, NMR 8.8%=38.7, AP 6.8%=29.9, BK 4.7%=20.7 -->
+      <svg viewBox="0 0 200 200" width="180" height="180">
+        <!-- Background track -->
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#EDEDEF" stroke-width="30"/>
+        <!-- UNAVAIL: 31.9% offset=0 -->
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#E53E3E" stroke-width="30"
+          stroke-dasharray="140.3 299.5" stroke-dashoffset="439.82"
+          transform="rotate(-90 100 100)"/>
+        <!-- NO_RESPONSE: 28.0% offset=140.3 -->
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#ED8735" stroke-width="30"
+          stroke-dasharray="123.1 316.7" stroke-dashoffset="299.5"
+          transform="rotate(-90 100 100)"/>
+        <!-- BY_LEAD: 19.7% offset=263.4 -->
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#F6B248" stroke-width="30"
+          stroke-dasharray="86.6 353.2" stroke-dashoffset="176.4"
+          transform="rotate(-90 100 100)"/>
+        <!-- NO_REQ: 8.8% offset=350.0 -->
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#525EA2" stroke-width="30"
+          stroke-dasharray="38.7 401.1" stroke-dashoffset="89.8"
+          transform="rotate(-90 100 100)"/>
+        <!-- ACCESS_PROB: 6.8% offset=388.7 -->
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#238D7E" stroke-width="30"
+          stroke-dasharray="29.9 409.9" stroke-dashoffset="51.1"
+          transform="rotate(-90 100 100)"/>
+        <!-- BOOKING_CANT: 4.7% offset=418.6 -->
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#9CA3AF" stroke-width="30"
+          stroke-dasharray="20.7 419.1" stroke-dashoffset="21.2"
+          transform="rotate(-90 100 100)"/>
+      </svg>
+      <div class="donut-center">
+        <div class="donut-center-val">1.327</div>
+        <div class="donut-center-lbl">canceladas</div>
+      </div>
+    </div>
+    <div class="donut-legend">
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#E53E3E"></div><div class="legend-label">Inmueble no disponible</div></div>
+        <div class="legend-right"><span class="legend-count">424</span><span class="legend-pct">31,9%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#ED8735"></div><div class="legend-label">Sin respuesta del lead</div></div>
+        <div class="legend-right"><span class="legend-count">372</span><span class="legend-pct">28,0%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#F6B248"></div><div class="legend-label">Cancelado por el lead</div></div>
+        <div class="legend-right"><span class="legend-count">262</span><span class="legend-pct">19,7%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#525EA2"></div><div class="legend-label">No cumple requisitos</div></div>
+        <div class="legend-right"><span class="legend-count">117</span><span class="legend-pct">8,8%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#238D7E"></div><div class="legend-label">Problemas de acceso</div></div>
+        <div class="legend-right"><span class="legend-count">90</span><span class="legend-pct">6,8%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#9CA3AF"></div><div class="legend-label">Booking no puede asistir</div></div>
+        <div class="legend-right"><span class="legend-count">62</span><span class="legend-pct">4,7%</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABLA AGENTES -->
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--azul)"></span>
+      Rendimiento por Booking Agent
+    </div>
+    <span class="badge badge-azul">Julio 2026 · Todos los resultados</span>
+  </div>
+  <!-- Leyenda columnas -->
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;font-size:11px;color:var(--texto2)">
+    <span><strong style="color:var(--verde)">DONE</strong> = Visita realizada</span>
+    <span><strong>N-Show</strong> = No se presentó</span>
+    <span><strong style="color:var(--rojo)">UNAVL</strong> = Inmueble no disponible</span>
+    <span><strong>N-Resp</strong> = Sin respuesta del lead</span>
+    <span><strong>Cb-Lead</strong> = Canceló el lead</span>
+    <span><strong>NMReq</strong> = No cumple requisitos</span>
+    <span><strong>Acceso</strong> = Problema de acceso</span>
+    <span><strong>Bk-NA</strong> = Booking no puede asistir</span>
+  </div>
+  <div class="tbl-wrap">
+    <table style="font-size:12px">
+      <thead>
+        <tr>
+          <th>Agente</th>
+          <th class="td-num">Total</th>
+          <th class="td-num" style="color:var(--verde)">DONE</th>
+          <th class="td-num">% Conv.</th>
+          <th class="td-num">N-Show</th>
+          <th class="td-num" style="color:var(--rojo)">UNAVL</th>
+          <th class="td-num">N-Resp</th>
+          <th class="td-num">Cb-Lead</th>
+          <th class="td-num">NMReq</th>
+          <th class="td-num">Acceso</th>
+          <th class="td-num">Bk-NA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name">Alejandra Rodriguez</td>
+          <td class="td-num">406</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">8</td>
+          <td class="td-num"><span class="pill pill-red">2,0%</span></td>
+          <td class="td-num">16</td>
+          <td class="td-num" style="color:var(--rojo);font-weight:700">212</td>
+          <td class="td-num">72</td>
+          <td class="td-num">59</td>
+          <td class="td-num">20</td>
+          <td class="td-num">0</td>
+          <td class="td-num">11</td>
+        </tr>
+        <tr>
+          <td class="td-name">Gricel Garcia</td>
+          <td class="td-num">341</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">25</td>
+          <td class="td-num"><span class="pill pill-green">7,3%</span></td>
+          <td class="td-num">3</td>
+          <td class="td-num">79</td>
+          <td class="td-num">74</td>
+          <td class="td-num">43</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">92</td>
+          <td class="td-num">16</td>
+          <td class="td-num">1</td>
+        </tr>
+        <tr>
+          <td class="td-name">Victor Gonzalez</td>
+          <td class="td-num">321</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">29</td>
+          <td class="td-num"><span class="pill pill-green">9,0%</span></td>
+          <td class="td-num">22</td>
+          <td class="td-num">37</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">97</td>
+          <td class="td-num">64</td>
+          <td class="td-num">0</td>
+          <td class="td-num">32</td>
+          <td class="td-num">18</td>
+        </tr>
+        <tr>
+          <td class="td-name">Mathias Buckel</td>
+          <td class="td-num">196</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">13</td>
+          <td class="td-num"><span class="pill pill-green">6,6%</span></td>
+          <td class="td-num">16</td>
+          <td class="td-num">52</td>
+          <td class="td-num">46</td>
+          <td class="td-num">32</td>
+          <td class="td-num">4</td>
+          <td class="td-num">18</td>
+          <td class="td-num">7</td>
+        </tr>
+        <tr>
+          <td class="td-name">Jhoselyne Camacho</td>
+          <td class="td-num">122</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">12</td>
+          <td class="td-num"><span class="pill pill-green">9,8%</span></td>
+          <td class="td-num">7</td>
+          <td class="td-num">13</td>
+          <td class="td-num">41</td>
+          <td class="td-num">22</td>
+          <td class="td-num">0</td>
+          <td class="td-num">10</td>
+          <td class="td-num">6</td>
+        </tr>
+        <tr>
+          <td class="td-name">Helfer Quispe</td>
+          <td class="td-num">54</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">13</td>
+          <td class="td-num"><span class="pill pill-green" style="background:#D1FAE5;color:#065F46">24,1%</span></td>
+          <td class="td-num">9</td>
+          <td class="td-num">8</td>
+          <td class="td-num">11</td>
+          <td class="td-num">7</td>
+          <td class="td-num">0</td>
+          <td class="td-num">2</td>
+          <td class="td-num">1</td>
+        </tr>
+        <tr>
+          <td class="td-name">Emilio</td>
+          <td class="td-num">55</td>
+          <td class="td-num" style="color:var(--verde)">3</td>
+          <td class="td-num"><span class="pill pill-neutral">5,5%</span></td>
+          <td class="td-num">4</td>
+          <td class="td-num">3</td>
+          <td class="td-num">7</td>
+          <td class="td-num">14</td>
+          <td class="td-num">1</td>
+          <td class="td-num">5</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">11</td>
+        </tr>
+        <tr>
+          <td class="td-name">Valentina</td>
+          <td class="td-num">53</td>
+          <td class="td-num" style="color:var(--verde)">3</td>
+          <td class="td-num"><span class="pill pill-neutral">5,7%</span></td>
+          <td class="td-num">7</td>
+          <td class="td-num">8</td>
+          <td class="td-num">15</td>
+          <td class="td-num">13</td>
+          <td class="td-num">0</td>
+          <td class="td-num">2</td>
+          <td class="td-num">2</td>
+        </tr>
+        <tr>
+          <td class="td-name">María José</td>
+          <td class="td-num">43</td>
+          <td class="td-num" style="color:var(--verde)">1</td>
+          <td class="td-num"><span class="pill pill-red">2,3%</span></td>
+          <td class="td-num">2</td>
+          <td class="td-num">12</td>
+          <td class="td-num">9</td>
+          <td class="td-num">7</td>
+          <td class="td-num">0</td>
+          <td class="td-num">5</td>
+          <td class="td-num">5</td>
+        </tr>
+        <tr style="background:rgba(35,141,126,.04);font-weight:700;border-top:2px solid var(--borde)">
+          <td class="td-name">Total</td>
+          <td class="td-num">1.593</td>
+          <td class="td-num" style="color:var(--verde)">108</td>
+          <td class="td-num"><span class="pill pill-neutral">6,8%</span></td>
+          <td class="td-num">86</td>
+          <td class="td-num" style="color:var(--rojo)">424</td>
+          <td class="td-num">372</td>
+          <td class="td-num">262</td>
+          <td class="td-num">117</td>
+          <td class="td-num">90</td>
+          <td class="td-num">62</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     ANÁLISIS DE VACANCIA — SECCIÓN DESTACADA
+══════════════════════════════════════════════════════════════════════ -->
+<div class="vacancy-card">
+  <div class="vacancy-header">
+    <div class="vacancy-icon">🏚</div>
+    <div>
+      <div class="vacancy-title">Análisis de Vacancia de Inmuebles</div>
+      <div class="vacancy-desc">Propiedades con cancelaciones por UNAVAILABLE_REALTY — inmuebles que se muestran disponibles pero no lo están</div>
+    </div>
+    <span class="badge badge-rojo" style="font-size:12px;padding:5px 12px;align-self:flex-start">PRIORIDAD ALTA</span>
+  </div>
+
+  <!-- KPIs vacancia -->
+  <div class="vacancy-kpis">
+    <div class="vacancy-kpi">
+      <div class="vk-val">424</div>
+      <div class="vk-lbl">Visitas canceladas por vacancia</div>
+    </div>
+    <div class="vacancy-kpi">
+      <div class="vk-val">31,9%</div>
+      <div class="vk-lbl">Del total de cancelaciones</div>
+    </div>
+    <div class="vacancy-kpi">
+      <div class="vk-val">+137%</div>
+      <div class="vk-lbl">Incremento sem. 27 jul vs sem. 6 jul</div>
+    </div>
+  </div>
+
+  <!-- Propiedad crítica: RE0004268 -->
+  <div style="margin-bottom:14px">
+    <div style="font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--naranja);margin-bottom:10px">Caso Crítico</div>
+    <div class="prop-card critical" style="padding:16px 20px">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <span class="prop-id critical">RE0004268</span>
+          <span class="vacant-badge">65 UNAVAIL</span>
+        </div>
+        <div style="font-size:12px;color:var(--texto2)">Activa <strong style="color:var(--texto)">16 días</strong> · Primera ocurrencia: <strong style="color:var(--texto)">14 Jul</strong> · Pico: <strong style="color:var(--rojo)">30 Jul (36 UNAVAIL en 1 día)</strong></div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:28px;font-weight:700;color:var(--rojo);line-height:1;font-variant-numeric:tabular-nums">65</div>
+        <div style="font-size:10.5px;color:var(--texto2)">visitas canceladas</div>
+        <div style="font-size:10.5px;color:var(--rojo);font-weight:600">85,5% tasa UNAVAIL</div>
+      </div>
+    </div>
+    <div class="critical-alert" style="margin-top:10px">
+      <div class="critical-alert-icon">⚠️</div>
+      <div class="critical-alert-text">
+        <strong>RE0004268 generó 65 visitas canceladas en julio</strong> — todas infructuosas para el equipo. Las últimas 16 semanas de actividad (Jul 28–30) presentaron una explosión: <strong>19 UNAVAIL el 28 Jul</strong> y <strong>36 UNAVAIL el 30 Jul</strong>. Este inmueble debe ser marcado como <strong>arrendado o suspendido</strong> inmediatamente en el sistema de agendamiento.
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 5 propiedades -->
+  <div>
+    <div style="font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--naranja);margin-bottom:10px">Top 5 Propiedades por Impacto</div>
+    <div class="prop-grid">
+      <div class="prop-card">
+        <div>
+          <div class="prop-id critical">RE0004268</div>
+          <div style="font-size:11px;color:var(--texto2)">Jul 14–30 · 16 días activa</div>
+        </div>
+        <div class="prop-bar-wrap">
+          <div class="bar-track"><div class="bar-fill red" style="width:100%"></div></div>
+        </div>
+        <div class="prop-detail"><strong>65</strong> UNAVAIL</div>
+      </div>
+      <div class="prop-card">
+        <div>
+          <div class="prop-id" style="color:var(--naranja)">RE0002567</div>
+          <div style="font-size:11px;color:var(--texto2)">Jul 9–31 · 22 días activa</div>
+        </div>
+        <div class="prop-bar-wrap">
+          <div class="bar-track"><div class="bar-fill warn" style="width:43%"></div></div>
+        </div>
+        <div class="prop-detail"><strong>28</strong> UNAVAIL</div>
+      </div>
+      <div class="prop-card">
+        <div>
+          <div class="prop-id">RE0002070</div>
+          <div style="font-size:11px;color:var(--texto2)">Jul 6–25 · 19 días activa</div>
+        </div>
+        <div class="prop-bar-wrap">
+          <div class="bar-track"><div class="bar-fill warn" style="width:29%"></div></div>
+        </div>
+        <div class="prop-detail"><strong>19</strong> UNAVAIL</div>
+      </div>
+      <div class="prop-card">
+        <div>
+          <div class="prop-id">RE0002966</div>
+          <div style="font-size:11px;color:var(--texto2)">Jul 13–27 · 14 días activa</div>
+        </div>
+        <div class="prop-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:21.5%"></div></div>
+        </div>
+        <div class="prop-detail"><strong>14</strong> UNAVAIL</div>
+      </div>
+      <div class="prop-card" style="border-color:rgba(35,141,126,.25)">
+        <div>
+          <div class="prop-id" style="color:var(--verde)">RE0002269</div>
+          <div style="font-size:11px;color:var(--texto2)">Jul 1–7 · 6 días · <strong>Posible resolución</strong></div>
+        </div>
+        <div class="prop-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:21.5%;background:var(--verde)"></div></div>
+        </div>
+        <div class="prop-detail"><strong>14</strong> UNAVAIL</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;padding:10px 14px;background:rgba(35,141,126,.07);border-radius:10px;font-size:12px;color:var(--texto2);border:1px solid rgba(35,141,126,.15)">
+      💡 <strong style="color:var(--verde)">Nota:</strong> Las 5 propiedades de la lista concentran <strong>140 cancelaciones = 33%</strong> de todos los UNAVAIL del mes. Resolver estos 5 casos podría recuperar ~33 visitas realizadas adicionales.
+    </div>
+  </div>
+</div>
+
+<!-- MOTIVOS DE CANCELACIÓN (grid 2x3) -->
+<div style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--texto2);margin-bottom:12px;margin-top:4px">Análisis por Motivo de Cancelación</div>
+<div class="reason-grid">
+
+  <!-- NO_RESPONSE -->
+  <div class="reason-card">
+    <div class="r-head">
+      <div>
+        <div class="r-title">Sin respuesta (NO_RESPONSE)</div>
+        <div style="font-size:11px;color:var(--texto2)">Lead no contesta para confirmar</div>
+      </div>
+      <span class="badge badge-naranja">28,0%</span>
+    </div>
+    <div class="r-num" style="color:var(--naranja)">372</div>
+    <div class="r-pct">de 1.327 cancelaciones</div>
+    <div class="r-bar"><div class="r-fill" style="width:28%;background:var(--naranja)"></div></div>
+    <div style="margin-top:12px;font-size:12px;color:var(--texto2)">
+      Presente en las 5 semanas con distribución estable (~70–88/sem). Segundo motivo más frecuente del mes. Implica fallo en el flujo de confirmación previa a la visita.
+    </div>
+  </div>
+
+  <!-- CANCELLED_BY_LEAD -->
+  <div class="reason-card">
+    <div class="r-head">
+      <div>
+        <div class="r-title">Cancelado por lead</div>
+        <div style="font-size:11px;color:var(--texto2)">El prospecto desiste voluntariamente</div>
+      </div>
+      <span class="badge badge-naranja">19,7%</span>
+    </div>
+    <div class="r-num" style="color:var(--amarillo)">262</div>
+    <div class="r-pct">de 1.327 cancelaciones</div>
+    <div class="r-bar"><div class="r-fill" style="width:19.7%;background:var(--amarillo)"></div></div>
+    <div style="margin-top:12px;font-size:12px;color:var(--texto2)">
+      Subió de 55 (sem 6 jul) a 66 (sem 20 jul), estabilizándose en 61 (sem 27 jul). Puede reflejar baja calidad de leads entrantes o procesos largos hasta la visita.
+    </div>
+  </div>
+
+  <!-- UNAVAILABLE_REALTY -->
+  <div class="reason-card" style="border-color:rgba(229,62,62,.3)">
+    <div class="r-head">
+      <div>
+        <div class="r-title">Inmueble no disponible</div>
+        <div style="font-size:11px;color:var(--rojo)">⚑ Ver sección Vacancia para detalle</div>
+      </div>
+      <span class="badge badge-rojo">31,9%</span>
+    </div>
+    <div class="r-num" style="color:var(--rojo)">424</div>
+    <div class="r-pct">de 1.327 cancelaciones — motivo #1</div>
+    <div class="r-bar"><div class="r-fill" style="width:31.9%;background:var(--rojo)"></div></div>
+    <div style="margin-top:12px;font-size:12px;color:var(--texto2)">
+      Escaló de 56 (sem 29 jun) a <strong style="color:var(--rojo)">152 (sem 27 jul)</strong> — +171% en la última semana. Impulsado por RE0004268 que generó 55 de esas 152 cancelaciones.
+    </div>
+  </div>
+
+  <!-- NO_MEET_REQUIREMENTS -->
+  <div class="reason-card">
+    <div class="r-head">
+      <div>
+        <div class="r-title">No cumple requisitos</div>
+        <div style="font-size:11px;color:var(--texto2)">Lead no califica para el inmueble</div>
+      </div>
+      <span class="badge badge-azul">8,8%</span>
+    </div>
+    <div class="r-num" style="color:var(--azul)">117</div>
+    <div class="r-pct">de 1.327 cancelaciones</div>
+    <div class="r-bar"><div class="r-fill" style="width:8.8%;background:var(--azul)"></div></div>
+    <div style="margin-top:12px;font-size:12px;color:var(--texto2)">
+      Mayor concentración en sem 6 jul (34 casos). Puede indicar que el filtro de calificación del lead ocurre demasiado tarde en el funnel, generando visitas inútiles.
+    </div>
+  </div>
+
+  <!-- ACCESS_PROBLEMS -->
+  <div class="reason-card">
+    <div class="r-head">
+      <div>
+        <div class="r-title">Problemas de acceso</div>
+        <div style="font-size:11px;color:var(--texto2)">No se puede ingresar al inmueble</div>
+      </div>
+      <span class="badge badge-verde">6,8%</span>
+    </div>
+    <div class="r-num" style="color:var(--verde)">90</div>
+    <div class="r-pct">de 1.327 cancelaciones</div>
+    <div class="r-bar"><div class="r-fill" style="width:6.8%;background:var(--verde)"></div></div>
+    <div style="margin-top:12px;font-size:12px;color:var(--texto2)">
+      Pico en sem 20 jul (29 casos). Correlaciona con problemas de llaves/accesos electrónicos. Segunda semana tuvo 21. Sugiere gestión deficiente de lockbox o llaves físicas.
+    </div>
+  </div>
+
+  <!-- BOOKING_CAN_NOT_ASSIST -->
+  <div class="reason-card">
+    <div class="r-head">
+      <div>
+        <div class="r-title">Booking no puede asistir</div>
+        <div style="font-size:11px;color:var(--texto2)">Agenda del agente no disponible</div>
+      </div>
+      <span class="badge badge-gris">4,7%</span>
+    </div>
+    <div class="r-num" style="color:var(--texto2)">62</div>
+    <div class="r-pct">de 1.327 cancelaciones</div>
+    <div class="r-bar"><div class="r-fill" style="width:4.7%;background:#9CA3AF"></div></div>
+    <div style="margin-top:12px;font-size:12px;color:var(--texto2)">
+      Subió a 21 en la última semana (vs 7–16 semanas previas). Puede reflejar exceso de carga en la última semana del mes o vacaciones/ausencias no planificadas.
+    </div>
+  </div>
+
+</div>
+
+<!-- AGENDAMIENTO POR ORIGEN (UTM) -->
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--azul)"></span>
+      Origen del Agendamiento por Canal (UTM)
+    </div>
+    <span class="badge badge-azul">1.593 visitas totales</span>
+  </div>
+  <div>
+    <!-- mercado_libre -->
+    <div class="utm-row">
+      <div class="utm-name">Mercado Libre</div>
+      <div class="utm-bar-wrap"><div class="utm-bar-fill" style="width:7.3%;background:var(--verde)"></div></div>
+      <div class="utm-stats">
+        <span class="utm-done">17 DONE</span>
+        <span class="utm-total">116 total</span>
+        <span class="utm-conv" style="color:var(--verde)">14,7%</span>
+      </div>
+    </div>
+    <!-- Yapo -->
+    <div class="utm-row">
+      <div class="utm-name">Yapo</div>
+      <div class="utm-bar-wrap"><div class="utm-bar-fill" style="width:3.6%;background:#38A169"></div></div>
+      <div class="utm-stats">
+        <span class="utm-done">7 DONE</span>
+        <span class="utm-total">57 total</span>
+        <span class="utm-conv" style="color:#38A169">12,3%</span>
+      </div>
+    </div>
+    <!-- Sin atribución -->
+    <div class="utm-row">
+      <div class="utm-name">Sin atribución</div>
+      <div class="utm-bar-wrap"><div class="utm-bar-fill" style="width:25.1%;background:var(--azul)"></div></div>
+      <div class="utm-stats">
+        <span class="utm-done">38 DONE</span>
+        <span class="utm-total">400 total</span>
+        <span class="utm-conv" style="color:var(--azul)">9,5%</span>
+      </div>
+    </div>
+    <!-- organic -->
+    <div class="utm-row">
+      <div class="utm-name">Orgánico</div>
+      <div class="utm-bar-wrap"><div class="utm-bar-fill" style="width:8.0%;background:#4A90D9"></div></div>
+      <div class="utm-stats">
+        <span class="utm-done">4 DONE</span>
+        <span class="utm-total">128 total</span>
+        <span class="utm-conv" style="color:#4A90D9">3,1%</span>
+      </div>
+    </div>
+    <!-- meta -->
+    <div class="utm-row">
+      <div class="utm-name">Meta (Social)</div>
+      <div class="utm-bar-wrap"><div class="utm-bar-fill" style="width:31.6%;background:var(--naranja)"></div></div>
+      <div class="utm-stats">
+        <span class="utm-done">27 DONE</span>
+        <span class="utm-total" style="color:var(--naranja);font-weight:600">504 total ★</span>
+        <span class="utm-conv" style="color:var(--naranja)">5,4%</span>
+      </div>
+    </div>
+    <!-- google -->
+    <div class="utm-row">
+      <div class="utm-name">Google</div>
+      <div class="utm-bar-wrap"><div class="utm-bar-fill" style="width:19.0%;background:var(--rojo)"></div></div>
+      <div class="utm-stats">
+        <span class="utm-done">8 DONE</span>
+        <span class="utm-total">302 total</span>
+        <span class="utm-conv" style="color:var(--rojo)">2,6%</span>
+      </div>
+    </div>
+    <!-- toctoc -->
+    <div class="utm-row">
+      <div class="utm-name">TocToc</div>
+      <div class="utm-bar-wrap"><div class="utm-bar-fill" style="width:1.3%;background:#7B61FF"></div></div>
+      <div class="utm-stats">
+        <span class="utm-done">1 DONE</span>
+        <span class="utm-total">21 total</span>
+        <span class="utm-conv" style="color:#7B61FF">4,8%</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:14px;padding:12px 14px;background:var(--verde-lt);border-radius:10px;font-size:12px;color:var(--texto2);border:1px solid rgba(35,141,126,.2)">
+    📊 <strong style="color:var(--verde)">Insight clave:</strong> Mercado Libre (14,7%) e Yapo (12,3%) tienen la mejor tasa de conversión. Meta concentra el mayor volumen (504 visitas) pero con conversión mediocre (5,4%). Google representa 19% del volumen con la peor conversión (2,6%) — potencial de optimización o reducción de budget.
+  </div>
+</div>
+
+<!-- CANAL DE VISITA (MARKETPLACE vs AI_AGENT) -->
+<div class="card-2col">
+  <div class="card" style="margin-bottom:0">
+    <div class="section-header" style="margin-bottom:14px">
+      <div class="section-title">
+        <span class="dot" style="background:var(--verde)"></span>
+        Canal de Visita
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:140px">
+        <div style="display:flex;align-items:baseline;gap:4px">
+          <span style="font-size:30px;font-weight:700;color:var(--verde);line-height:1">1.476</span>
+          <span style="font-size:12px;color:var(--texto2)">92,7%</span>
+        </div>
+        <div style="font-size:12px;color:var(--texto2);margin-top:2px">MARKETPLACE</div>
+        <div style="font-size:11px;color:var(--texto2)">99 DONE · 6,7% conv.</div>
+        <div style="height:6px;background:var(--verde);border-radius:3px;width:92.7%;margin-top:8px"></div>
+      </div>
+      <div style="flex:1;min-width:140px">
+        <div style="display:flex;align-items:baseline;gap:4px">
+          <span style="font-size:30px;font-weight:700;color:var(--azul);line-height:1">117</span>
+          <span style="font-size:12px;color:var(--texto2)">7,3%</span>
+        </div>
+        <div style="font-size:12px;color:var(--texto2);margin-top:2px">AI AGENT</div>
+        <div style="font-size:11px;color:var(--verde);font-weight:600">9 DONE · 7,7% conv. ↑</div>
+        <div style="height:6px;background:var(--azul);border-radius:3px;width:7.3%;margin-top:8px"></div>
+      </div>
+    </div>
+    <div style="margin-top:12px;padding:8px 12px;background:rgba(82,94,162,.07);border-radius:8px;font-size:11.5px;color:var(--texto2);border:1px solid rgba(82,94,162,.15)">
+      AI Agent supera en conversión a Marketplace (7,7% vs 6,7%), aunque con menor volumen. Potencial canal de crecimiento.
+    </div>
+  </div>
+
+  <!-- SEMANA VIGENTE VS ANTERIOR -->
+  <div class="card" style="margin-bottom:0">
+    <div class="section-header" style="margin-bottom:14px">
+      <div class="section-title">
+        <span class="dot" style="background:var(--naranja)"></span>
+        Alertas Semanales
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--rojo-lt);border-radius:8px;border:1px solid rgba(229,62,62,.2)">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--rojo)">Sem 27 Jul — Peor del mes</div>
+          <div style="font-size:11px;color:var(--texto2)">389 visitas · 5,1% conversión</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:16px;font-weight:700;color:var(--rojo)">152</div>
+          <div style="font-size:10px;color:var(--texto2)">UNAVAIL</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--verde-lt);border-radius:8px;border:1px solid rgba(35,141,126,.2)">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--verde)">Sem 29 Jun — Mejor conv.</div>
+          <div style="font-size:11px;color:var(--texto2)">204 visitas · 7,8% conversión</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:16px;font-weight:700;color:var(--verde)">56</div>
+          <div style="font-size:10px;color:var(--texto2)">UNAVAIL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EVOLUCIÓN SEMANAL -->
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--verde)"></span>
+      Evolución Semanal — Julio 2026
+    </div>
+    <span class="badge badge-verde">5 semanas</span>
+  </div>
+  <div class="week-chart-wrap">
+    <svg viewBox="0 0 740 200" width="100%" style="min-width:500px;display:block">
+      <!-- Grid lines -->
+      <line x1="60" y1="20" x2="720" y2="20" stroke="#EDEDEF" stroke-width="1"/>
+      <line x1="60" y1="60" x2="720" y2="60" stroke="#EDEDEF" stroke-width="1"/>
+      <line x1="60" y1="100" x2="720" y2="100" stroke="#EDEDEF" stroke-width="1"/>
+      <line x1="60" y1="140" x2="720" y2="140" stroke="#EDEDEF" stroke-width="1"/>
+      <line x1="60" y1="170" x2="720" y2="170" stroke="#E5E5E5" stroke-width="1"/>
+      <!-- Y labels -->
+      <text x="52" y="24" text-anchor="end" font-size="10" fill="#9CA3AF">400</text>
+      <text x="52" y="64" text-anchor="end" font-size="10" fill="#9CA3AF">300</text>
+      <text x="52" y="104" text-anchor="end" font-size="10" fill="#9CA3AF">200</text>
+      <text x="52" y="144" text-anchor="end" font-size="10" fill="#9CA3AF">100</text>
+      <!-- Datos: max=389, scale=170px → 389 = 20, 0 = 170; 1px = (150/389) = 0.386 por visita -->
+      <!-- x positions: 5 semanas a x=116, 247, 378, 509, 640 -->
+      <!-- semana 1 (204): y = 170 - 204*0.386 = 170-78.7 = 91.3 -->
+      <!-- semana 2 (341): y = 170 - 341*0.386 = 170-131.6 = 38.4 -->
+      <!-- semana 3 (326): y = 170 - 326*0.386 = 170-125.8 = 44.2 -->
+      <!-- semana 4 (333): y = 170 - 333*0.386 = 170-128.5 = 41.5 -->
+      <!-- semana 5 (389): y = 170 - 389*0.386 = 170-150.2 = 19.8 -->
+
+      <!-- Bars visitas (verde) -->
+      <rect x="90" y="91" width="32" height="79" rx="3" fill="rgba(35,141,126,.25)"/>
+      <rect x="221" y="38" width="32" height="132" rx="3" fill="rgba(35,141,126,.25)"/>
+      <rect x="352" y="44" width="32" height="126" rx="3" fill="rgba(35,141,126,.25)"/>
+      <rect x="483" y="42" width="32" height="128" rx="3" fill="rgba(35,141,126,.25)"/>
+      <rect x="614" y="20" width="32" height="150" rx="3" fill="rgba(237,135,53,.25)"/>
+
+      <!-- Bars DONE (verde sólido) -->
+      <!-- DONE: 16,24,24,24,20 → scale: 1px=150/389=0.386 -->
+      <!-- 16: 170-6.2=163.8 h=6.2 -->
+      <!-- 24: 170-9.3=160.7 h=9.3 -->
+      <!-- 20: 170-7.7=162.3 h=7.7 -->
+      <rect x="90" y="163.8" width="32" height="6.2" rx="2" fill="#238D7E"/>
+      <rect x="221" y="160.7" width="32" height="9.3" rx="2" fill="#238D7E"/>
+      <rect x="352" y="160.7" width="32" height="9.3" rx="2" fill="#238D7E"/>
+      <rect x="483" y="160.7" width="32" height="9.3" rx="2" fill="#238D7E"/>
+      <rect x="614" y="162.3" width="32" height="7.7" rx="2" fill="#ED8735"/>
+
+      <!-- Line: conversión % -->
+      <!-- y para pct: 7.8%→ 5.1%; map 0-15% to 170-20 (150px range); 1%=10px -->
+      <!-- 7.8%: 170-78=92; 7.0%: 170-70=100; 7.4%: 170-74=96; 7.2%: 170-72=98; 5.1%: 170-51=119 -->
+      <polyline points="106,92 237,100 368,96 499,98 630,119" fill="none" stroke="#238D7E" stroke-width="2" stroke-dasharray="4 2" stroke-linejoin="round"/>
+      <!-- Dots -->
+      <circle cx="106" cy="92" r="4" fill="#238D7E" stroke="white" stroke-width="1.5"/>
+      <circle cx="237" cy="100" r="4" fill="#238D7E" stroke="white" stroke-width="1.5"/>
+      <circle cx="368" cy="96" r="4" fill="#238D7E" stroke="white" stroke-width="1.5"/>
+      <circle cx="499" cy="98" r="4" fill="#238D7E" stroke="white" stroke-width="1.5"/>
+      <circle cx="630" cy="119" r="4" fill="#ED8735" stroke="white" stroke-width="1.5"/>
+      <!-- Labels pct -->
+      <text x="106" y="86" text-anchor="middle" font-size="10" font-weight="600" fill="#238D7E">7,8%</text>
+      <text x="237" y="94" text-anchor="middle" font-size="10" font-weight="600" fill="#238D7E">7,0%</text>
+      <text x="368" y="90" text-anchor="middle" font-size="10" font-weight="600" fill="#238D7E">7,4%</text>
+      <text x="499" y="92" text-anchor="middle" font-size="10" font-weight="600" fill="#238D7E">7,2%</text>
+      <text x="630" y="113" text-anchor="middle" font-size="10" font-weight="700" fill="#ED8735">5,1%</text>
+      <!-- X labels -->
+      <text x="106" y="186" text-anchor="middle" font-size="10" fill="#9CA3AF">29 Jun</text>
+      <text x="237" y="186" text-anchor="middle" font-size="10" fill="#9CA3AF">6 Jul</text>
+      <text x="368" y="186" text-anchor="middle" font-size="10" fill="#9CA3AF">13 Jul</text>
+      <text x="499" y="186" text-anchor="middle" font-size="10" fill="#9CA3AF">20 Jul</text>
+      <text x="630" y="186" text-anchor="middle" font-size="10" font-weight="700" fill="#ED8735">27 Jul</text>
+      <!-- Subtotals -->
+      <text x="106" y="198" text-anchor="middle" font-size="9" fill="#9CA3AF">204 vis.</text>
+      <text x="237" y="198" text-anchor="middle" font-size="9" fill="#9CA3AF">341 vis.</text>
+      <text x="368" y="198" text-anchor="middle" font-size="9" fill="#9CA3AF">326 vis.</text>
+      <text x="499" y="198" text-anchor="middle" font-size="9" fill="#9CA3AF">333 vis.</text>
+      <text x="630" y="198" text-anchor="middle" font-size="9" font-weight="600" fill="#ED8735">389 vis.</text>
+      <!-- Legend -->
+      <rect x="60" y="5" width="10" height="8" rx="2" fill="rgba(35,141,126,.25)"/>
+      <text x="74" y="13" font-size="9" fill="#9CA3AF">Visitas</text>
+      <rect x="105" y="5" width="10" height="8" rx="2" fill="#238D7E"/>
+      <text x="119" y="13" font-size="9" fill="#9CA3AF">DONE</text>
+      <line x1="145" y1="9" x2="163" y2="9" stroke="#238D7E" stroke-width="2" stroke-dasharray="3 2"/>
+      <text x="167" y="13" font-size="9" fill="#9CA3AF">Conv. %</text>
+    </svg>
+  </div>
+</div>
+
+<!-- DISTRIBUCIÓN HORARIA -->
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--azul)"></span>
+      Distribución Horaria de Visitas
+    </div>
+    <span class="badge badge-naranja">Slots 16h–17h = 52,6% del total</span>
+  </div>
+  <div style="overflow-x:auto">
+    <div style="min-width:640px">
+      <!-- Barra para cada hora 09h–19h -->
+      <div style="display:grid;grid-template-columns:repeat(11,1fr);gap:6px;margin-bottom:20px">
+        <!-- 09h: 55 -->
+        <div style="text-align:center">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">09h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:10px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">55</div>
+        </div>
+        <!-- 10h: 97 -->
+        <div style="text-align:center">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">10h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:17px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">97</div>
+        </div>
+        <!-- 11h: 148 -->
+        <div style="text-align:center">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">11h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:27px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">148</div>
+        </div>
+        <!-- 12h: 97 -->
+        <div style="text-align:center">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">12h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:17px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">97</div>
+        </div>
+        <!-- 13h: 117 -->
+        <div style="text-align:center">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">13h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:21px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">117</div>
+        </div>
+        <!-- 14h: 77 -->
+        <div style="text-align:center">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">14h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:14px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">77</div>
+        </div>
+        <!-- 15h: 161 -->
+        <div style="text-align:center">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">15h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:29px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">161</div>
+        </div>
+        <!-- 16h: 392 ★ -->
+        <div style="text-align:center">
+          <div style="font-size:10px;font-weight:700;color:var(--verde);margin-bottom:4px">16h ★</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:70px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;font-weight:700;color:var(--verde);margin-top:3px">392</div>
+        </div>
+        <!-- 17h: 446 ★ -->
+        <div style="text-align:center">
+          <div style="font-size:10px;font-weight:700;color:var(--naranja);margin-bottom:4px">17h ★</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:80px;background:var(--naranja);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;font-weight:700;color:var(--naranja);margin-top:3px">446</div>
+        </div>
+        <!-- 18h: 2 post-fix -->
+        <div style="text-align:center">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">18h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:2px;background:var(--azul);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--azul);margin-top:3px">2 ✦</div>
+        </div>
+        <!-- 19h: 1 post-fix -->
+        <div style="text-align:center">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">19h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:1px;background:var(--azul);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--azul);margin-top:3px">1 ✦</div>
+        </div>
+      </div>
+
+      <!-- Leyenda fix -->
+      <div style="font-size:11px;color:var(--texto2);margin-bottom:14px">
+        ✦ Slots habilitados tras corrección del bug el 30 Jul — solo 3 visitas en todo el mes a partir de 18h
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="padding:12px 14px;background:var(--verde-lt);border-radius:10px;border:1px solid rgba(35,141,126,.2)">
+          <div style="font-size:11px;font-weight:700;color:var(--verde);margin-bottom:4px">Slot 16h — Segundo mayor volumen</div>
+          <div style="font-size:13px;font-weight:700;color:var(--verde)">392 visitas · 24,6% del total</div>
+          <div style="font-size:11px;color:var(--texto2)">19 DONE · 4,8% conversión</div>
+        </div>
+        <div style="padding:12px 14px;background:var(--naranja-lt);border-radius:10px;border:1px solid rgba(237,135,53,.2)">
+          <div style="font-size:11px;font-weight:700;color:var(--naranja);margin-bottom:4px">Slot 17h — Mayor volumen total ★</div>
+          <div style="font-size:13px;font-weight:700;color:var(--naranja)">446 visitas · 28,0% del total</div>
+          <div style="font-size:11px;color:var(--texto2)">23 DONE · 5,2% conversión</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     ANÁLISIS DE VACANCIA DE INMUEBLES
+══════════════════════════════════════════════════════════════ -->
+<div style="border-top:2px solid var(--borde);margin:36px 0 28px;padding-top:28px">
+  <div style="font-size:20px;font-weight:700;color:var(--texto);margin-bottom:4px">Análisis de Vacancia de Inmuebles — Julio 2026</div>
+  <div style="font-size:13px;color:var(--texto2)">162 propiedades con visitas en julio permanecen disponibles · Foco en inmuebles aún activos para agosto</div>
+</div>
+
+<!-- KPIs vacancia (solo disponibles) -->
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+  <div class="kpi good" style="border-left:4px solid var(--verde)">
+    <div class="kpi-label">Disponibles con actividad</div>
+    <div class="kpi-value" style="color:var(--verde)">73</div>
+    <div class="kpi-sub">≥1 visita DONE en julio</div>
+    <div class="kpi-accent"></div>
+  </div>
+  <div class="kpi warn" style="border-left:4px solid var(--naranja)">
+    <div class="kpi-label">Sin conversión</div>
+    <div class="kpi-value" style="color:var(--naranja)">89</div>
+    <div class="kpi-sub">0 DONE · necesitan diagnóstico</div>
+    <div class="kpi-accent"></div>
+  </div>
+  <div class="kpi neutral" style="border-left:4px solid var(--azul)">
+    <div class="kpi-label">Total disponibles</div>
+    <div class="kpi-value">162</div>
+    <div class="kpi-sub">De 193 con visitas en julio</div>
+    <div class="kpi-accent"></div>
+  </div>
+</div>
+
+<!-- Benchmark: visitas promedio de las que sí se ocuparon -->
+<div style="padding:14px 18px;background:var(--fondo);border:1px solid var(--borde);border-radius:12px;margin-bottom:24px;display:flex;align-items:center;gap:20px">
+  <div style="font-size:32px;font-weight:700;color:var(--azul);font-variant-numeric:tabular-nums;white-space:nowrap">~17 visitas</div>
+  <div>
+    <div style="font-size:13px;font-weight:700;color:var(--texto);margin-bottom:2px">Benchmark: visitas promedio antes de reservarse</div>
+    <div style="font-size:12px;color:var(--texto2)">Las 31 propiedades que se ocuparon durante julio recibieron en promedio 16,7 visitas en el mes. Este dato sirve como referencia: inmuebles disponibles con más de 17 visitas y sin DONE tienen una conversión inusualmente baja y merecen revisión de precio o condiciones.</div>
+  </div>
+</div>
+
+<!-- Tabla 1: Disponibles con actividad -->
+<div class="card" style="border-left:3px solid var(--verde)">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--verde)"></span>
+      Disponibles con actividad — Top performance
+    </div>
+    <span class="badge badge-verde">73 propiedades · ≥1 DONE · sin señal de ocupación</span>
+  </div>
+  <div style="font-size:12px;color:var(--texto2);margin-bottom:12px">Propiedades que concretaron al menos una visita DONE en julio y no mostraron señal de ocupación en los últimos días. Disponibles para agosto.</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Realty ID</th>
+          <th>Dirección</th>
+          <th class="td-num">Total visitas</th>
+          <th class="td-num">DONE</th>
+          <th class="td-num">% Conv.</th>
+          <th class="td-num">UNAVAIL</th>
+          <th class="td-num">NR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name" style="font-family:monospace;color:var(--verde)">RE000706</td>
+          <td style="font-size:11px;color:var(--texto2)">Padre Jose Cifuentes Grez 864 1104</td>
+          <td class="td-num">53</td><td class="td-num" style="color:var(--verde);font-weight:700">7</td>
+          <td class="td-num"><span class="pill pill-green">13,2%</span></td>
+          <td class="td-num">0</td><td class="td-num">—</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0001519</td>
+          <td style="font-size:11px;color:var(--texto2)">Abtao 24 1601</td>
+          <td class="td-num">33</td><td class="td-num" style="color:var(--verde);font-weight:700">2</td>
+          <td class="td-num"><span class="pill pill-neutral">6,1%</span></td>
+          <td class="td-num">0</td><td class="td-num">16</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0004652</td>
+          <td style="font-size:11px;color:var(--texto2)">Nicasio Retamales 115 609</td>
+          <td class="td-num">32</td><td class="td-num">1</td>
+          <td class="td-num"><span class="pill pill-neutral">3,1%</span></td>
+          <td class="td-num">0</td><td class="td-num">9</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0001953</td>
+          <td style="font-size:11px;color:var(--texto2)">San Nicolás 950 308</td>
+          <td class="td-num">32</td><td class="td-num" style="color:var(--verde);font-weight:700">3</td>
+          <td class="td-num"><span class="pill pill-green">9,4%</span></td>
+          <td class="td-num">0</td><td class="td-num">14</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0002070</td>
+          <td style="font-size:11px;color:var(--texto2)">Martinez de Rozas 3550 505</td>
+          <td class="td-num">27</td><td class="td-num">1</td>
+          <td class="td-num"><span class="pill pill-neutral">3,7%</span></td>
+          <td class="td-num" style="color:var(--naranja)">19</td><td class="td-num">—</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0004200</td>
+          <td style="font-size:11px;color:var(--texto2)">Manuel Antonio Tocornal 312 223</td>
+          <td class="td-num">21</td><td class="td-num">1</td>
+          <td class="td-num"><span class="pill pill-neutral">4,8%</span></td>
+          <td class="td-num">5</td><td class="td-num">—</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0002439</td>
+          <td style="font-size:11px;color:var(--texto2)">Compañía 4464 1707</td>
+          <td class="td-num">21</td><td class="td-num" style="color:var(--verde);font-weight:700">2</td>
+          <td class="td-num"><span class="pill pill-green">9,5%</span></td>
+          <td class="td-num">2</td><td class="td-num">—</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0005172</td>
+          <td style="font-size:11px;color:var(--texto2)">Pintor Cicarelli 278 909</td>
+          <td class="td-num">17</td><td class="td-num" style="color:var(--verde);font-weight:700">4</td>
+          <td class="td-num"><span class="pill pill-green">23,5%</span></td>
+          <td class="td-num">0</td><td class="td-num">3</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0001605</td>
+          <td style="font-size:11px;color:var(--texto2)">Salesianos 815 309</td>
+          <td class="td-num">18</td><td class="td-num" style="color:var(--verde);font-weight:700">2</td>
+          <td class="td-num"><span class="pill pill-green">11,1%</span></td>
+          <td class="td-num">3</td><td class="td-num">—</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE000939</td>
+          <td style="font-size:11px;color:var(--texto2)">Curiñanca 715 108</td>
+          <td class="td-num">18</td><td class="td-num">1</td>
+          <td class="td-num"><span class="pill pill-neutral">5,6%</span></td>
+          <td class="td-num">8</td><td class="td-num">—</td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;color:var(--texto2)">+ 63 propiedades más</td>
+          <td style="font-size:11px;color:var(--texto2)">1–5 visitas cada una</td>
+          <td class="td-num">—</td><td class="td-num">—</td><td class="td-num">—</td><td class="td-num">—</td><td class="td-num">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Tabla 2: Sin conversión -->
+<div class="card" style="border-left:3px solid var(--naranja)">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--naranja)"></span>
+      Sin conversión — Disponibles y sin DONE
+    </div>
+    <span class="badge badge-naranja">89 propiedades · 0 DONE · necesitan atención</span>
+  </div>
+  <div style="font-size:12px;color:var(--texto2);margin-bottom:12px">Propiedades disponibles con visitas en julio pero sin ninguna concretada. El tipo de cancelación dominante indica el problema a resolver.</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Realty ID</th>
+          <th>Dirección</th>
+          <th class="td-num">Visitas</th>
+          <th class="td-num">NR</th>
+          <th class="td-num">CBL</th>
+          <th class="td-num">NMR</th>
+          <th class="td-num">ACC</th>
+          <th>Diagnóstico</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0005194</td>
+          <td style="font-size:11px;color:var(--texto2)">Conde del Maule 4106 304</td>
+          <td class="td-num">25</td>
+          <td class="td-num">7</td><td class="td-num">1</td><td class="td-num">0</td><td class="td-num" style="color:var(--rojo);font-weight:700">10</td>
+          <td style="font-size:11px;color:var(--rojo)">Problema de acceso recurrente</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE000718</td>
+          <td style="font-size:11px;color:var(--texto2)">Pezoa Véliz 143 715</td>
+          <td class="td-num">17</td>
+          <td class="td-num">1</td><td class="td-num">2</td><td class="td-num">0</td><td class="td-num" style="color:var(--rojo);font-weight:700">7</td>
+          <td style="font-size:11px;color:var(--rojo)">Problema de acceso recurrente</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0004240</td>
+          <td style="font-size:11px;color:var(--texto2)">Domeyko 1954 204</td>
+          <td class="td-num">14</td>
+          <td class="td-num">2</td><td class="td-num">3</td><td class="td-num">1</td><td class="td-num" style="color:var(--naranja);font-weight:700">4</td>
+          <td style="font-size:11px;color:var(--naranja)">Acceso + lead mixto</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0003333</td>
+          <td style="font-size:11px;color:var(--texto2)">Av. Departamental 1475 2210</td>
+          <td class="td-num">14</td>
+          <td class="td-num">4</td><td class="td-num">2</td><td class="td-num" style="color:var(--naranja);font-weight:700">8</td><td class="td-num">0</td>
+          <td style="font-size:11px;color:var(--naranja)">Requisitos muy altos</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0001928</td>
+          <td style="font-size:11px;color:var(--texto2)">Martínez de Rozas 3550 1904</td>
+          <td class="td-num">13</td>
+          <td class="td-num">4</td><td class="td-num">2</td><td class="td-num">0</td><td class="td-num" style="color:var(--naranja);font-weight:700">5</td>
+          <td style="font-size:11px;color:var(--naranja)">Acceso + NR</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0002999</td>
+          <td style="font-size:11px;color:var(--texto2)">Carlos Pezoa Véliz 143 705</td>
+          <td class="td-num">12</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">4</td><td class="td-num">3</td><td class="td-num">0</td><td class="td-num">1</td>
+          <td style="font-size:11px;color:var(--texto2)">Lead de baja calidad</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0003799</td>
+          <td style="font-size:11px;color:var(--texto2)">Domingo Santa María 2565 1109</td>
+          <td class="td-num">12</td>
+          <td class="td-num">1</td><td class="td-num" style="color:var(--naranja);font-weight:700">7</td><td class="td-num">0</td><td class="td-num">0</td>
+          <td style="font-size:11px;color:var(--texto2)">Lead no comprometido</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0002374</td>
+          <td style="font-size:11px;color:var(--texto2)">Marcoleta 462 1009</td>
+          <td class="td-num">12</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">4</td><td class="td-num">2</td><td class="td-num">0</td><td class="td-num">2</td>
+          <td style="font-size:11px;color:var(--texto2)">Lead de baja calidad</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0001842</td>
+          <td style="font-size:11px;color:var(--texto2)">Padre José Cifuentes Grez 864 703</td>
+          <td class="td-num">11</td>
+          <td class="td-num">0</td><td class="td-num">2</td><td class="td-num">1</td><td class="td-num">0</td>
+          <td style="font-size:11px;color:var(--naranja)">UNAVAIL alto — revisar estado</td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0001056</td>
+          <td style="font-size:11px;color:var(--texto2)">Nicasio Retamales 054 310</td>
+          <td class="td-num">11</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">4</td><td class="td-num" style="color:var(--naranja);font-weight:700">5</td><td class="td-num">0</td><td class="td-num">0</td>
+          <td style="font-size:11px;color:var(--texto2)">Lead de baja calidad</td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;color:var(--texto2)">+ 79 propiedades más</td>
+          <td style="font-size:11px;color:var(--texto2)">1–8 visitas cada una</td>
+          <td class="td-num">—</td><td class="td-num">—</td><td class="td-num">—</td><td class="td-num">—</td><td class="td-num">—</td><td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECCIONES DETALLE POR MOTIVO
+══════════════════════════════════════════════════════════════ -->
+<div style="border-top:2px solid var(--borde);margin:36px 0 28px;padding-top:28px">
+  <div style="font-size:20px;font-weight:700;color:var(--texto);margin-bottom:4px">Análisis Detallado por Motivo de Cancelación</div>
+  <div style="font-size:13px;color:var(--texto2)">Desglose profundo por propiedad, agente y semana para cada escenario</div>
+</div>
+
+<!-- ─── DETALLE: PROBLEMAS DE ACCESO ─── -->
+<div class="card" style="border-top:3px solid var(--verde)">
+  <div class="section-header">
+    <div class="section-title" style="font-size:17px">
+      <span style="font-size:20px">🔑</span> Problemas de Acceso
+    </div>
+    <span class="badge badge-verde" style="font-size:12px;padding:5px 12px">90 casos · 6,8% de cancelaciones</span>
+  </div>
+
+  <!-- KPIs acceso -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
+    <div style="background:var(--verde-lt);border:1px solid rgba(35,141,126,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--verde)">90</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">Total casos</div>
+    </div>
+    <div style="background:var(--verde-lt);border:1px solid rgba(35,141,126,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--verde)">38</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">Props afectadas</div>
+    </div>
+    <div style="background:var(--naranja-lt);border:1px solid rgba(237,135,53,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--naranja)">29</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">Pico sem 20 jul</div>
+    </div>
+    <div style="background:var(--verde-lt);border:1px solid rgba(35,141,126,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--verde)">10</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">RE0005194 máx.</div>
+    </div>
+  </div>
+
+  <!-- Por semana -->
+  <div style="margin-bottom:20px">
+    <div style="font-size:11px;font-weight:700;color:var(--texto2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Evolución semanal</div>
+    <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap">
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:31%;background:var(--verde);border-radius:4px 4px 0 0;opacity:.7"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--verde)">9</div>
+        <div style="font-size:9px;color:var(--texto2)">29 Jun</div>
+        <div style="font-size:9px;color:var(--texto2)">8 props</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:72%;background:var(--verde);border-radius:4px 4px 0 0"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--verde)">21</div>
+        <div style="font-size:9px;color:var(--texto2)">6 Jul</div>
+        <div style="font-size:9px;color:var(--texto2)">9 props</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:45%;background:var(--verde);border-radius:4px 4px 0 0;opacity:.8"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--verde)">13</div>
+        <div style="font-size:9px;color:var(--texto2)">13 Jul</div>
+        <div style="font-size:9px;color:var(--texto2)">9 props</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:100%;background:var(--naranja);border-radius:4px 4px 0 0"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--naranja)">29</div>
+        <div style="font-size:9px;color:var(--texto2)">20 Jul</div>
+        <div style="font-size:9px;color:var(--texto2)">13 props ⚠</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:62%;background:var(--verde);border-radius:4px 4px 0 0;opacity:.8"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--verde)">18</div>
+        <div style="font-size:9px;color:var(--texto2)">27 Jul</div>
+        <div style="font-size:9px;color:var(--texto2)">9 props</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top props con ACCESS -->
+  <div>
+    <div style="font-size:11px;font-weight:700;color:var(--texto2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Propiedades con problemas recurrentes de acceso</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Realty ID</th>
+            <th class="td-num">Casos</th>
+            <th>Primera ocurrencia</th>
+            <th>Última ocurrencia</th>
+            <th class="td-num">Días afectados</th>
+            <th>Patrón</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name" style="font-family:monospace;color:var(--rojo)">RE0005194</td>
+            <td class="td-num" style="color:var(--rojo);font-weight:700">10</td>
+            <td>11 Jul</td><td>29 Jul</td><td class="td-num">5</td>
+            <td style="font-size:11px;color:var(--rojo)">Recurrente 18 días — problema sistémico</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE000718</td>
+            <td class="td-num" style="color:var(--naranja);font-weight:700">7</td>
+            <td>25 Jul</td><td>27 Jul</td><td class="td-num">2</td>
+            <td style="font-size:11px;color:var(--naranja)">Concentrado fin de mes</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0001605</td>
+            <td class="td-num" style="font-weight:700">6</td>
+            <td>8 Jul</td><td>13 Jul</td><td class="td-num">3</td>
+            <td style="font-size:11px;color:var(--texto2)">Problema puntual semana 6 Jul — posible resolución</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0001928</td>
+            <td class="td-num">5</td>
+            <td>14 Jul</td><td>24 Jul</td><td class="td-num">4</td>
+            <td style="font-size:11px;color:var(--texto2)">Distribuido 10 días, posible lockbox dañado</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0004240</td>
+            <td class="td-num">4</td>
+            <td>23 Jul</td><td>30 Jul</td><td class="td-num">4</td>
+            <td style="font-size:11px;color:var(--naranja)">Activo última semana — aún sin resolver</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0004652</td>
+            <td class="td-num">4</td>
+            <td>11 Jul</td><td>22 Jul</td><td class="td-num">2</td>
+            <td style="font-size:11px;color:var(--texto2)">Problema temporal, se estabilizó</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE000706</td>
+            <td class="td-num">4</td>
+            <td>7 Jul</td><td>25 Jul</td><td class="td-num">3</td>
+            <td style="font-size:11px;color:var(--texto2)">Esporádico — propiedad más activa del mes</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0002578</td>
+            <td class="td-num">3</td>
+            <td>27 Jul</td><td>31 Jul</td><td class="td-num">2</td>
+            <td style="font-size:11px;color:var(--naranja)">Última semana — sin resolver</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:10px;padding:10px 14px;background:rgba(35,141,126,.07);border-radius:8px;font-size:12px;color:var(--texto2)">
+      💡 <strong style="color:var(--verde)">Insight:</strong> RE0005194 es el caso más grave — 10 ACCESS en 18 días con 0 DONE. Muy probablemente tiene el lockbox dañado o sin código vigente. RE0004240 y RE0002578 tienen problemas activos al cierre del mes.
+    </div>
+  </div>
+</div>
+
+<!-- ─── DETALLE: BOOKING NO PUEDE ASISTIR ─── -->
+<div class="card" style="border-top:3px solid #9CA3AF">
+  <div class="section-header">
+    <div class="section-title" style="font-size:17px">
+      <span style="font-size:20px">🚫</span> Booking no puede asistir
+    </div>
+    <span class="badge badge-gris" style="font-size:12px;padding:5px 12px">62 casos · 4,7% de cancelaciones</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
+    <div style="background:#F9FAFB;border:1px solid var(--borde);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--texto)">62</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">Total casos</div>
+    </div>
+    <div style="background:var(--naranja-lt);border:1px solid rgba(237,135,53,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--naranja)">21</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">Jhoselyne Camacho</div>
+    </div>
+    <div style="background:var(--rojo-lt);border:1px solid rgba(229,62,62,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--rojo)">+21</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">Última semana (+167%)</div>
+    </div>
+  </div>
+
+  <!-- Por agente y semana -->
+  <div style="font-size:11px;font-weight:700;color:var(--texto2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Desglose por agente</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Agente</th>
+          <th class="td-num">29 Jun</th>
+          <th class="td-num">6 Jul</th>
+          <th class="td-num">13 Jul</th>
+          <th class="td-num">20 Jul</th>
+          <th class="td-num">27 Jul</th>
+          <th class="td-num">Total</th>
+          <th>Nota</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name">Jhoselyne Camacho</td>
+          <td class="td-num">1</td><td class="td-num">7</td><td class="td-num">2</td><td class="td-num">3</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">8</td>
+          <td class="td-num" style="font-weight:700">21</td>
+          <td style="font-size:11px;color:var(--naranja)">Constante todo el mes, subió sem 27</td>
+        </tr>
+        <tr>
+          <td class="td-name">Mathias Buckel (17ef)</td>
+          <td class="td-num">3</td><td class="td-num">2</td><td class="td-num">6</td><td class="td-num">1</td>
+          <td class="td-num">1</td>
+          <td class="td-num" style="font-weight:700">13</td>
+          <td style="font-size:11px;color:var(--texto2)">Pico sem 13 Jul</td>
+        </tr>
+        <tr>
+          <td class="td-name">Victor Gonzalez (d6d)</td>
+          <td class="td-num">2</td><td class="td-num">5</td><td class="td-num">0</td><td class="td-num">0</td>
+          <td class="td-num">0</td>
+          <td class="td-num" style="font-weight:700">7</td>
+          <td style="font-size:11px;color:var(--verde)">Solo primeras 2 semanas</td>
+        </tr>
+        <tr>
+          <td class="td-name">Victor Gonzalez (1e2)</td>
+          <td class="td-num">1</td><td class="td-num">2</td><td class="td-num">1</td><td class="td-num">1</td>
+          <td class="td-num">3</td>
+          <td class="td-num" style="font-weight:700">8</td>
+          <td style="font-size:11px;color:var(--texto2)">Distribuido, sem 27 leve subida</td>
+        </tr>
+        <tr>
+          <td class="td-name">Alejandra Rodriguez</td>
+          <td class="td-num">0</td><td class="td-num">0</td><td class="td-num">1</td><td class="td-num">2</td>
+          <td class="td-num" style="color:var(--rojo);font-weight:700">8</td>
+          <td class="td-num" style="font-weight:700">11</td>
+          <td style="font-size:11px;color:var(--rojo)">Escalada abrupta sem 27 Jul</td>
+        </tr>
+        <tr>
+          <td class="td-name">Gricel Garcia</td>
+          <td class="td-num">0</td><td class="td-num">0</td><td class="td-num">0</td><td class="td-num">0</td>
+          <td class="td-num">1</td>
+          <td class="td-num">1</td>
+          <td style="font-size:11px;color:var(--verde)">Prácticamente sin incidencias</td>
+        </tr>
+        <tr style="background:rgba(35,141,126,.04);font-weight:700">
+          <td class="td-name">Total</td>
+          <td class="td-num">8</td><td class="td-num">16</td><td class="td-num">10</td><td class="td-num">7</td>
+          <td class="td-num" style="color:var(--naranja)">21</td>
+          <td class="td-num">62</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:12px;padding:10px 14px;background:var(--naranja-lt);border-radius:8px;font-size:12px;color:var(--texto2);border:1px solid rgba(237,135,53,.2)">
+    ⚠️ <strong style="color:var(--naranja)">Alerta sem 27 Jul:</strong> Alejandra Rodriguez pasó de 0–2 casos/sem a 8 en la última semana, coincidiendo con su pico de UNAVAIL (152). Jhoselyne Camacho también tiene 8 esa semana. Podría haber un problema de gestión de agenda o carga de trabajo en el equipo ese período.
+  </div>
+</div>
+
+<!-- ─── DETALLE: INMUEBLE NO DISPONIBLE (PROFUNDIDAD) ─── -->
+<div class="card" style="border-top:3px solid var(--rojo)">
+  <div class="section-header">
+    <div class="section-title" style="font-size:17px">
+      <span style="font-size:20px">🏚</span> Inmueble no disponible — Detalle ampliado
+    </div>
+    <span class="badge badge-rojo" style="font-size:12px;padding:5px 12px">424 casos · 31,9% de cancelaciones</span>
+  </div>
+
+  <!-- 2 columnas: activas vs recuperadas -->
+  <div class="card-2col" style="margin-bottom:14px">
+    <div style="background:var(--rojo-lt);border:1px solid rgba(229,62,62,.25);border-radius:12px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--rojo);margin-bottom:8px">🔴 Riesgo activo al 31 Jul</div>
+      <div style="font-size:24px;font-weight:700;color:var(--rojo);margin-bottom:4px">31 propiedades</div>
+      <div style="font-size:12px;color:var(--texto2)">Con UNAVAIL en Jul 27–31. Probablemente siguen generando cancelaciones en agosto si no se interviene.</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--rojo)">Visitas potencialmente perdidas en agosto: <strong>~150–200 si no se actúa</strong></div>
+    </div>
+    <div style="background:var(--verde-lt);border:1px solid rgba(35,141,126,.25);border-radius:12px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--verde);margin-bottom:8px">🟢 Posiblemente recuperadas</div>
+      <div style="font-size:24px;font-weight:700;color:var(--verde);margin-bottom:4px">~40 propiedades</div>
+      <div style="font-size:12px;color:var(--texto2)">Tuvieron UNAVAIL en la primera quincena pero no en los últimos 5 días. Pueden estar disponibles nuevamente.</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--verde)">Ej: RE0002269 (solo Jul 1–7), RE0002070 (última = 25 Jul)</div>
+    </div>
+  </div>
+
+  <!-- Tabla top 15 propiedades por UNAVAIL total -->
+  <div style="font-size:11px;font-weight:700;color:var(--texto2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Top propiedades por impacto UNAVAIL</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Realty ID</th>
+          <th class="td-num">Total vis.</th>
+          <th class="td-num">UNAVAIL</th>
+          <th class="td-num">% de sus vis.</th>
+          <th class="td-num">DONE</th>
+          <th>Primera</th>
+          <th>Última</th>
+          <th>Estado al 31 Jul</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name" style="font-family:monospace;color:var(--rojo)">RE0004268</td>
+          <td class="td-num">76</td><td class="td-num" style="color:var(--rojo);font-weight:700">65</td>
+          <td class="td-num"><span class="pill pill-red">85,5%</span></td>
+          <td class="td-num">0</td><td>14 Jul</td><td>30 Jul</td>
+          <td><span class="pill pill-red">🔴 Activo</span></td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0002567</td>
+          <td class="td-num">52</td><td class="td-num" style="color:var(--naranja);font-weight:700">28</td>
+          <td class="td-num"><span class="pill pill-warn">53,8%</span></td>
+          <td class="td-num">0</td><td>9 Jul</td><td>31 Jul</td>
+          <td><span class="pill pill-red">🔴 Activo</span></td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0002070</td>
+          <td class="td-num">27</td><td class="td-num" style="color:var(--naranja)">19</td>
+          <td class="td-num"><span class="pill pill-warn">70,4%</span></td>
+          <td class="td-num">1</td><td>6 Jul</td><td>25 Jul</td>
+          <td><span class="pill pill-warn">🟠 Probable resolución</span></td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0002966</td>
+          <td class="td-num">18</td><td class="td-num">14</td>
+          <td class="td-num"><span class="pill pill-warn">77,8%</span></td>
+          <td class="td-num">0</td><td>13 Jul</td><td>27 Jul</td>
+          <td><span class="pill pill-red">🔴 Activo</span></td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0002269</td>
+          <td class="td-num">16</td><td class="td-num">14</td>
+          <td class="td-num"><span class="pill pill-warn">87,5%</span></td>
+          <td class="td-num">0</td><td>1 Jul</td><td>7 Jul</td>
+          <td><span class="pill pill-green">🟢 Posible recuperación</span></td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0001789</td>
+          <td class="td-num">25</td><td class="td-num">9</td>
+          <td class="td-num"><span class="pill pill-neutral">36,0%</span></td>
+          <td class="td-num">0</td><td>—</td><td>27 Jul</td>
+          <td><span class="pill pill-red">🔴 Activo</span></td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE000188</td>
+          <td class="td-num">11</td><td class="td-num">9</td>
+          <td class="td-num"><span class="pill pill-warn">81,8%</span></td>
+          <td class="td-num">0</td><td>—</td><td>28 Jul</td>
+          <td><span class="pill pill-red">🔴 Activo</span></td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0003131</td>
+          <td class="td-num">24</td><td class="td-num">9</td>
+          <td class="td-num"><span class="pill pill-neutral">37,5%</span></td>
+          <td class="td-num">1</td><td>—</td><td>30 Jul</td>
+          <td><span class="pill pill-red">🔴 Activo</span></td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE000583</td>
+          <td class="td-num">23</td><td class="td-num">8</td>
+          <td class="td-num"><span class="pill pill-neutral">34,8%</span></td>
+          <td class="td-num">0</td><td>—</td><td>31 Jul</td>
+          <td><span class="pill pill-red">🔴 Activo</span></td>
+        </tr>
+        <tr>
+          <td class="td-name" style="font-family:monospace">RE0001842</td>
+          <td class="td-num">11</td><td class="td-num">8</td>
+          <td class="td-num"><span class="pill pill-warn">72,7%</span></td>
+          <td class="td-num">0</td><td>—</td><td>20 Jul</td>
+          <td><span class="pill pill-warn">🟠 Posible resolución</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:12px;padding:10px 14px;background:var(--rojo-lt);border-radius:8px;font-size:12px;color:var(--texto2);border:1px solid rgba(229,62,62,.2)">
+    🔑 <strong style="color:var(--rojo)">Acción inmediata:</strong> RE0004268, RE0002567, RE000583, RE000188, RE0003131, RE0002966 y RE0001789 están activos al cierre de julio con alta probabilidad de seguir generando UNAVAIL en agosto. Cada uno de estos representa entre 50–170 cancelaciones proyectadas al mes si no se interviene.
+  </div>
+</div>
+
+<!-- ─── DETALLE: NO CUMPLE REQUISITOS ─── -->
+<div class="card" style="border-top:3px solid var(--azul)">
+  <div class="section-header">
+    <div class="section-title" style="font-size:17px">
+      <span style="font-size:20px">📋</span> No cumple requisitos
+    </div>
+    <span class="badge badge-azul" style="font-size:12px;padding:5px 12px">117 casos · 8,8% de cancelaciones</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
+    <div style="background:#EDEFFE;border:1px solid rgba(82,94,162,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--azul)">117</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">Total casos</div>
+    </div>
+    <div style="background:#EDEFFE;border:1px solid rgba(82,94,162,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--azul)">34</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">Pico sem 6 Jul</div>
+    </div>
+    <div style="background:#EDEFFE;border:1px solid rgba(82,94,162,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--azul)">47</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">Props afectadas</div>
+    </div>
+    <div style="background:#EDEFFE;border:1px solid rgba(82,94,162,.2);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--azul)">9</div>
+      <div style="font-size:10px;color:var(--texto2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">RE0001519 máx.</div>
+    </div>
+  </div>
+
+  <!-- Evolución semanal NMR -->
+  <div style="margin-bottom:20px">
+    <div style="font-size:11px;font-weight:700;color:var(--texto2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Evolución semanal</div>
+    <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap">
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:35%;background:var(--azul);border-radius:4px 4px 0 0;opacity:.7"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--azul)">12</div>
+        <div style="font-size:9px;color:var(--texto2)">29 Jun · 6 props</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:100%;background:var(--azul);border-radius:4px 4px 0 0"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--azul)">34</div>
+        <div style="font-size:9px;color:var(--texto2)">6 Jul · 17 props ⚠</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:74%;background:var(--azul);border-radius:4px 4px 0 0;opacity:.85"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--azul)">25</div>
+        <div style="font-size:9px;color:var(--texto2)">13 Jul · 12 props</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:79%;background:var(--azul);border-radius:4px 4px 0 0;opacity:.85"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--azul)">27</div>
+        <div style="font-size:9px;color:var(--texto2)">20 Jul · 17 props</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:80px">
+        <div style="height:40px;display:flex;align-items:flex-end;justify-content:center">
+          <div style="width:60%;height:56%;background:var(--azul);border-radius:4px 4px 0 0;opacity:.7"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--azul)">19</div>
+        <div style="font-size:9px;color:var(--texto2)">27 Jul · 8 props</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top props NMR -->
+  <div>
+    <div style="font-size:11px;font-weight:700;color:var(--texto2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Propiedades con más rechazos por requisitos</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Realty ID</th>
+            <th class="td-num">NMR</th>
+            <th class="td-num">Total vis.</th>
+            <th class="td-num">DONE</th>
+            <th class="td-num">% NMR</th>
+            <th>Hipótesis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name" style="font-family:monospace;color:var(--azul)">RE0001519</td>
+            <td class="td-num" style="color:var(--azul);font-weight:700">9</td>
+            <td class="td-num">33</td><td class="td-num">2</td>
+            <td class="td-num"><span class="pill pill-azul" style="background:#EDEFFE;color:var(--azul)">27,3%</span></td>
+            <td style="font-size:11px;color:var(--texto2)">Requisitos altos o descripción imprecisa</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0003333</td>
+            <td class="td-num" style="font-weight:700">8</td>
+            <td class="td-num">14</td><td class="td-num" style="color:var(--rojo)">0</td>
+            <td class="td-num"><span class="pill" style="background:#EDEFFE;color:var(--azul)">57,1%</span></td>
+            <td style="font-size:11px;color:var(--rojo)">+57% NMR, 0 DONE — perfil muy restrictivo</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0001621</td>
+            <td class="td-num" style="font-weight:700">8</td>
+            <td class="td-num">24</td><td class="td-num">1</td>
+            <td class="td-num"><span class="pill" style="background:#EDEFFE;color:var(--azul)">33,3%</span></td>
+            <td style="font-size:11px;color:var(--texto2)">Recurrente — revisar criterios de filtrado</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE000165</td>
+            <td class="td-num" style="font-weight:700">7</td>
+            <td class="td-num">12</td><td class="td-num">1</td>
+            <td class="td-num"><span class="pill" style="background:#EDEFFE;color:var(--azul)">58,3%</span></td>
+            <td style="font-size:11px;color:var(--texto2)">Más de la mitad de visitas termina en NMR</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0001142</td>
+            <td class="td-num">6</td>
+            <td class="td-num">13</td><td class="td-num">2</td>
+            <td class="td-num"><span class="pill" style="background:#EDEFFE;color:var(--azul)">46,2%</span></td>
+            <td style="font-size:11px;color:var(--texto2)">Alta tasa, posible mismatch de segmento</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0002964</td>
+            <td class="td-num">6</td>
+            <td class="td-num">21</td><td class="td-num" style="color:var(--verde)">4</td>
+            <td class="td-num"><span class="pill pill-neutral">28,6%</span></td>
+            <td style="font-size:11px;color:var(--texto2)">Tiene DONE — leads mixtos, algunos calificados</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0001119</td>
+            <td class="td-num">6</td>
+            <td class="td-num">11</td><td class="td-num">1</td>
+            <td class="td-num"><span class="pill" style="background:#EDEFFE;color:var(--azul)">54,5%</span></td>
+            <td style="font-size:11px;color:var(--texto2)">Más de la mitad no califica</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace">RE0001953</td>
+            <td class="td-num">6</td>
+            <td class="td-num">32</td><td class="td-num">3</td>
+            <td class="td-num"><span class="pill pill-neutral">18,8%</span></td>
+            <td style="font-size:11px;color:var(--texto2)">Propiedad activa, NMR es baja proporción</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;padding:10px 14px;background:#EDEFFE;border-radius:8px;font-size:12px;color:var(--texto2);border:1px solid rgba(82,94,162,.2)">
+      📋 <strong style="color:var(--azul)">Patrón detectado:</strong> RE0003333, RE000165, RE0001119 y RE0001621 tienen tasas NMR &gt;33% — probable mismatch entre el perfil de leads que llegan desde los canales (mayoritariamente Meta) y los requisitos del propietario. Revisar si los criterios publicados en el marketplace coinciden con los requisitos reales. El pico de la semana 6 Jul (34 casos, 17 propiedades) sugiere un batch de leads de baja calidad que ingresaron al inicio del mes.
+    </div>
+  </div>
+</div>
+
+<!-- INSIGHTS -->
+<div class="card" style="background:var(--texto);border-color:var(--texto)">
+  <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px">
+    <span style="font-size:16px">💡</span> Insights Accionables — Julio 2026
+  </div>
+  <div class="insights-grid">
+    <div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)">
+      <div class="insight-icon">🏚</div>
+      <div class="insight-text alert" style="color:rgba(255,255,255,.85)">
+        <strong style="color:#FC8181">Vacancia crítica: RE0004268</strong><br>
+        65 UNAVAIL en julio, con pico explosivo de 55 en los últimos 4 días. Debe suspenderse inmediatamente del sistema de agendamiento.
+      </div>
+    </div>
+    <div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)">
+      <div class="insight-icon">📉</div>
+      <div class="insight-text warn" style="color:rgba(255,255,255,.85)">
+        <strong style="color:#FBD38D">Última semana bajó a 5,1% de conversión</strong><br>
+        UNAVAIL subió 137% vs sem 6 jul. Sem 27 jul es la peor del mes. Urgente revisar portafolio de Alejandra Rodriguez (52% UNAVAIL).
+      </div>
+    </div>
+    <div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)">
+      <div class="insight-icon">📊</div>
+      <div class="insight-text" style="color:rgba(255,255,255,.85)">
+        <strong style="color:#9AE6B4">Mercado Libre 14,7% y Yapo 12,3% lideran conversión</strong><br>
+        Google tiene el mayor volumen ineficiente (302 visitas, 2,6%). Redirigir budget de Google a portales con mejor ROI.
+      </div>
+    </div>
+    <div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)">
+      <div class="insight-icon">🤖</div>
+      <div class="insight-text" style="color:rgba(255,255,255,.85)">
+        <strong style="color:#9AE6B4">AI Agent supera conversión de Marketplace</strong><br>
+        7,7% vs 6,7%. Con solo 117 visitas es una muestra pequeña pero prometedora. Escalar el canal AI podría mejorar métricas globales.
+      </div>
+    </div>
+    <div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)">
+      <div class="insight-icon">🕔</div>
+      <div class="insight-text" style="color:rgba(255,255,255,.85)">
+        <strong style="color:#FBD38D">Slots 16h–17h concentran el 52,6% del volumen</strong><br>
+        17h es el slot dominante (446 visitas, 28%). El bug corregido el 30 Jul bloqueaba nuevos agendamientos en slots &gt;17h — solo 3 visitas a las 18h–19h en todo julio. A partir de agosto se esperan nuevos slots disponibles.
+      </div>
+    </div>
+    <div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)">
+      <div class="insight-icon">⭐</div>
+      <div class="insight-text" style="color:rgba(255,255,255,.85)">
+        <strong style="color:#9AE6B4">Victor Gonzalez mejor tasa de conversión (9,3%)</strong><br>
+        Con 237 visitas supera la media del equipo. Helfer Quispe muestra 47% en muestra pequeña. Modelo a replicar en otros agentes.
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:14px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(237,135,53,.3);border-radius:12px;margin-top:4px">
+    <div style="font-size:12px;font-weight:700;color:#FBD38D;margin-bottom:8px">Acciones prioritarias para Agosto 2026</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:rgba(255,255,255,.7)">
+      <div style="display:flex;gap:6px"><span style="color:#FC8181;font-weight:700">1.</span>Suspender RE0004268 del sistema de agendamiento</div>
+      <div style="display:flex;gap:6px"><span style="color:#FC8181;font-weight:700">2.</span>Auditar portafolio Alejandra Rodriguez (212 UNAVAIL)</div>
+      <div style="display:flex;gap:6px"><span style="color:#FBD38D;font-weight:700">3.</span>Revisar RE0002567 y RE0002070 aún activos</div>
+      <div style="display:flex;gap:6px"><span style="color:#FBD38D;font-weight:700">4.</span>Escalar slots 15h–16h; revisar impacto del fix en slots nocturnos</div>
+      <div style="display:flex;gap:6px"><span style="color:#9AE6B4;font-weight:700">5.</span>Incrementar inversión en Mercado Libre / Yapo</div>
+      <div style="display:flex;gap:6px"><span style="color:#9AE6B4;font-weight:700">6.</span>Implementar alerta automática de UNAVAIL &gt;3 días</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="report-footer">
+  <strong>HomieRent Chile</strong> · Reporte Mensual Julio 2026 · appoint_hub · business_unit: HOMIERENT_CHILE<br>
+  Datos al 31 Jul 2026 · Generado 4 Ago 2026 · Solo visitas con scheduled_at en zona America/Santiago
+</div>
+
+</div><!-- /container -->
+</body>
+</html>
