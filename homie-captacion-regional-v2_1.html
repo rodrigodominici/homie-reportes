@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homie · Proceso Regional de Captación — Estados y Tareas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#238D7E;--green-dark:#1C7165;--green-pale:#EAF5F3;--green-mid:#C0E5DF;
+  --blue:#525EA2;--blue-dark:#424B82;--blue-pale:#ECEEF7;--blue-mid:#C9CEE8;
+  --orange:#ED8735;--orange-pale:#FEF1E5;--orange-mid:#FBD9B8;
+  --purple:#8B5CF6;--purple-pale:#F3EEFF;--purple-mid:#DDD0FA;
+  --yellow:#F6B248;
+  --ink:#161628;--warm-gray:#736464;--bg:#F4F7FE;--surface:#FFFDF6;
+  --border:#DEDCD7;--white:#FFF;
+  --r-card:20px;--r-chip:12px;
+  --shadow:0 2px 12px rgba(0,0,0,.08);
+  --font-title:'DM Sans',-apple-system,sans-serif;
+  --font-body:'Inter',-apple-system,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.title{font-family:var(--font-title)}
+
+/* HERO */
+.hero{background:var(--green);color:var(--white);padding:52px 40px 44px}
+.hero-inner{max-width:1160px;margin:0 auto}
+.hero-logo{font-family:var(--font-title);font-weight:700;font-size:15px;letter-spacing:-.3px;margin-bottom:26px;opacity:.85}
+.hero-chip{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:600;margin-bottom:18px;letter-spacing:.03em}
+.hero h1{font-size:clamp(30px,4vw,44px);font-weight:700;line-height:1.08;letter-spacing:-1px;margin-bottom:14px;max-width:820px}
+.hero p{font-size:16px;line-height:1.6;opacity:.9;max-width:720px}
+
+/* LEGEND BAR */
+.legend-bar{background:var(--ink);color:var(--white);padding:14px 40px}
+.legend-inner{max-width:1160px;margin:0 auto;display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+.legend-inner .lb-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.6}
+.lb-item{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500}
+.lb-dot{width:12px;height:12px;border-radius:4px;flex-shrink:0}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(244,247,254,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 40px}
+.nav-inner{max-width:1160px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:10px 0}
+.nav-inner::-webkit-scrollbar{height:0}
+.nav-btn{white-space:nowrap;padding:8px 16px;border-radius:100px;border:1px solid var(--border);background:var(--white);color:var(--warm-gray);font-family:var(--font-body);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.nav-btn:hover{border-color:var(--green-mid);color:var(--green)}
+.nav-btn.active{background:var(--green);border-color:var(--green);color:var(--white)}
+
+.wrap{max-width:1160px;margin:0 auto;padding:44px 40px}
+.section{scroll-margin-top:66px;margin-bottom:16px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.section h2{font-size:26px;font-weight:700;letter-spacing:-.5px;margin-bottom:10px;line-height:1.15}
+.section .lead{font-size:15px;color:var(--warm-gray);line-height:1.65;max-width:780px;margin-bottom:28px}
+
+/* OBJECT STATE MACHINES (overview) */
+.sm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.sm-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:20px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.sm-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px}
+.sm-card.prop::before{background:var(--purple)}
+.sm-card.contract::before{background:var(--green)}
+.sm-card.inmueble::before{background:var(--blue)}
+.sm-card.insp::before{background:var(--orange)}
+.sm-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sm-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.sm-card.prop .sm-icon{background:var(--purple-pale)}
+.sm-card.contract .sm-icon{background:var(--green-pale)}
+.sm-card.inmueble .sm-icon{background:var(--blue-pale)}
+.sm-card.insp .sm-icon{background:var(--orange-pale)}
+.sm-head h3{font-size:16px;font-weight:700}
+.sm-chain{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+.sm-st{font-size:11.5px;font-weight:500;padding:4px 10px;border-radius:100px;border:1px solid;white-space:nowrap}
+.sm-arr{font-size:10px;opacity:.4}
+.sm-card.prop .sm-st{background:var(--purple-pale);color:#6D28D9;border-color:var(--purple-mid)}
+.sm-card.contract .sm-st{background:var(--green-pale);color:var(--green-dark);border-color:var(--green-mid)}
+.sm-card.inmueble .sm-st{background:var(--blue-pale);color:var(--blue-dark);border-color:var(--blue-mid)}
+.sm-card.insp .sm-st{background:var(--orange-pale);color:#B45309;border-color:var(--orange-mid)}
+.sm-st.term{opacity:.55;font-style:italic}
+
+/* TIMELINE FLOW */
+.tl{position:relative;margin-top:8px}
+.tl::before{content:'';position:absolute;left:23px;top:20px;bottom:20px;width:2px;background:var(--border)}
+.node{position:relative;padding-left:64px;margin-bottom:14px}
+.node-dot{position:absolute;left:12px;top:22px;width:24px;height:24px;border-radius:50%;background:var(--white);border:3px solid var(--green);z-index:2;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:var(--font-title);color:var(--green)}
+.node-dot.blue{border-color:var(--blue);color:var(--blue)}
+.node-dot.orange{border-color:var(--orange);color:var(--orange)}
+.node-dot.term{border-color:var(--warm-gray);color:var(--warm-gray)}
+.node-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden}
+.node-top{padding:16px 20px;border-left:4px solid var(--green)}
+.node-top.blue{border-left-color:var(--blue)}
+.node-top.orange{border-left-color:var(--orange)}
+.node-top.term{border-left-color:var(--warm-gray)}
+.node-obj{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:100px;margin-bottom:8px}
+.node-obj.contract{background:var(--green-pale);color:var(--green-dark)}
+.node-obj.inmueble{background:var(--blue-pale);color:var(--blue-dark)}
+.node-obj.insp{background:var(--orange-pale);color:#B45309}
+.node-obj.prop{background:var(--purple-pale);color:#6D28D9}
+.node-name{font-family:var(--font-title);font-size:19px;font-weight:700;letter-spacing:-.3px;margin-bottom:4px}
+.node-purpose{font-size:13px;color:var(--warm-gray);font-style:italic;line-height:1.5}
+.node-tasks{padding:16px 20px 18px;background:var(--white)}
+.node-tasks-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:10px}
+.task-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
+.task-list li{font-size:13.5px;color:var(--ink);line-height:1.45;display:flex;gap:9px;align-items:flex-start}
+.task-list li .tk{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--green-mid);flex-shrink:0;margin-top:1px}
+.node-flag{margin:0 20px 18px;border-radius:10px;padding:11px 15px;font-size:12.5px;line-height:1.5;display:flex;gap:9px;align-items:flex-start}
+.node-flag .fi{font-size:15px;flex-shrink:0}
+.node-flag.trigger{background:var(--blue-pale);border:1px solid var(--blue-mid);color:var(--blue-dark)}
+.node-flag.gate{background:#FEF6E9;border:1px solid var(--yellow);color:#92610C}
+.node-flag.insp{background:var(--orange-pale);border:1px solid var(--orange-mid);color:#B45309}
+.node-flag b{font-weight:700}
+
+/* INSPECTION SUB-CYCLE */
+.subcycle{background:var(--orange-pale);border:1px dashed var(--orange);border-radius:14px;padding:14px 18px;margin:0 20px 18px}
+.subcycle-title{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#B45309;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.subcycle-chain{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+.subcycle-chain .sm-st{background:var(--white);color:#B45309;border:1px solid var(--orange-mid)}
+
+/* REGIONAL 3 LAYERS */
+.reg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.reg-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:22px;box-shadow:var(--shadow)}
+.reg-num{font-family:var(--font-title);font-size:12px;font-weight:700;color:var(--green);margin-bottom:10px}
+.reg-card h4{font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.25}
+.reg-card p{font-size:13px;color:var(--warm-gray);line-height:1.6}
+.reg-card .ex{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--ink)}
+.reg-card .ex b{color:var(--green-dark)}
+
+/* DIFF TABLE */
+.diff-wrap{overflow-x:auto;border-radius:var(--r-card);border:1px solid var(--border);box-shadow:var(--shadow)}
+table.diff{width:100%;border-collapse:collapse;background:var(--surface);font-size:13px;min-width:660px}
+table.diff th{text-align:left;padding:13px 18px;font-family:var(--font-title);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--warm-gray);border-bottom:2px solid var(--border);background:var(--bg)}
+table.diff td{padding:13px 18px;border-bottom:1px solid var(--border);color:var(--ink);line-height:1.5;vertical-align:top}
+table.diff tr:last-child td{border-bottom:none}
+table.diff td:first-child{font-weight:600}
+.flag{font-size:11px;font-weight:600;padding:2px 9px;border-radius:100px}
+.flag.pe{background:var(--orange-pale);color:#B45309}
+.flag.mx{background:var(--green-pale);color:var(--green-dark)}
+
+/* VALIDATE */
+.val-list{display:flex;flex-direction:column;gap:12px}
+.val-item{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow)}
+.val-q{width:26px;height:26px;border-radius:50%;background:var(--yellow);color:var(--ink);font-family:var(--font-title);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.val-item p{font-size:14px;line-height:1.5}
+.val-item p b{font-weight:600}
+
+.footer{background:var(--ink);color:var(--white);padding:38px 40px;text-align:center;margin-top:36px}
+.footer .big{font-family:var(--font-title);font-size:19px;font-weight:700;margin-bottom:8px}
+.footer p{font-size:13px;opacity:.7;line-height:1.6}
+
+@media(max-width:900px){
+  .sm-grid{grid-template-columns:1fr}
+  .reg-grid{grid-template-columns:1fr}
+  .task-list{grid-template-columns:1fr}
+  .hero,.wrap,.nav,.legend-bar{padding-left:22px;padding-right:22px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">homie · Rent Manager</div>
+    <div class="hero-chip">PROPUESTA DE PROCESO · CAPTACIÓN · CL · MX · PE</div>
+    <h1>Proceso Regional de Captación</h1>
+    <p>Propuesta del flujo de estados y las tareas de cada objeto, desde que el propietario decide avanzar hasta que la propiedad está publicada. Un solo proceso para los tres países. Para validar con el equipo comercial.</p>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <div class="legend-inner">
+    <span class="lb-title">Objetos</span>
+    <span class="lb-item"><span class="lb-dot" style="background:var(--purple)"></span>Propietario</span>
+    <span class="lb-item"><span class="lb-dot" style="background:var(--green)"></span>Contrato</span>
+    <span class="lb-item"><span class="lb-dot" style="background:var(--blue)"></span>Inmueble</span>
+    <span class="lb-item"><span class="lb-dot" style="background:var(--orange)"></span>Inspección</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="scrollToSec('maquinas',this)">Estados por objeto</button>
+    <button class="nav-btn" onclick="scrollToSec('flujo',this)">Flujo y tareas</button>
+    <button class="nav-btn" onclick="scrollToSec('regional',this)">Modelo regional</button>
+    <button class="nav-btn" onclick="scrollToSec('diferencias',this)">Diferencias por país</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- STATE MACHINES -->
+<div class="section" id="maquinas">
+  <div class="eyebrow">Punto de partida</div>
+  <h2>Cuatro objetos, cuatro máquinas de estado</h2>
+  <p class="lead">El proceso se compone de cuatro objetos independientes. Cada uno tiene su propia secuencia de estados y avanza a su ritmo. Un cambio de estado en un objeto puede disparar el avance de otro, pero cada uno se gestiona por separado — esto permite manejar renovaciones, Renta Continua (dos contratos sobre un inmueble) y reinspecciones sin romper el modelo. La <b>vigencia vive en el contrato</b>: los estados de arriendo del inmueble (Reservado, Arrendado, Vacío) se derivan del contrato del inquilino, no se cargan a mano — así el inmueble y el contrato nunca quedan desincronizados.</p>
+  <div class="sm-grid">
+    <div class="sm-card prop">
+      <div class="sm-head"><div class="sm-icon">👤</div><h3>Propietario</h3></div>
+      <div class="sm-chain">
+        <span class="sm-st">Prospecto</span><span class="sm-arr">→</span>
+        <span class="sm-st">En captación</span><span class="sm-arr">→</span>
+        <span class="sm-st">Activo</span><span class="sm-arr">→</span>
+        <span class="sm-st term">Inactivo</span>
+      </div>
+    </div>
+    <div class="sm-card contract">
+      <div class="sm-head"><div class="sm-icon">📄</div><h3>Contrato</h3></div>
+      <div class="sm-chain">
+        <span class="sm-st">Borrador</span><span class="sm-arr">→</span>
+        <span class="sm-st">En revisión</span><span class="sm-arr">→</span>
+        <span class="sm-st">Enviado a firma</span><span class="sm-arr">→</span>
+        <span class="sm-st">Firmado</span><span class="sm-arr">→</span>
+        <span class="sm-st">Vigente</span><span class="sm-arr">→</span>
+        <span class="sm-st">Finalizado</span><span class="sm-arr">·</span>
+        <span class="sm-st term">Caído</span>
+      </div>
+    </div>
+    <div class="sm-card inmueble">
+      <div class="sm-head"><div class="sm-icon">🏠</div><h3>Inmueble</h3></div>
+      <div class="sm-chain">
+        <span class="sm-st">En captación</span><span class="sm-arr">→</span>
+        <span class="sm-st">Recolección llaves</span><span class="sm-arr">→</span>
+        <span class="sm-st">En inspección</span><span class="sm-arr">→</span>
+        <span class="sm-st">Pendiente publicar</span><span class="sm-arr">→</span>
+        <span class="sm-st">Publicado</span>
+      </div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--blue-mid)">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px">Derivados del contrato del inquilino</div>
+        <div class="sm-chain">
+          <span class="sm-st" style="opacity:.75">Reservado</span><span class="sm-arr">→</span>
+          <span class="sm-st" style="opacity:.75">Arrendado</span><span class="sm-arr">→</span>
+          <span class="sm-st term">Vacío</span>
+        </div>
+      </div>
+    </div>
+    <div class="sm-card insp">
+      <div class="sm-head"><div class="sm-icon">📋</div><h3>Inspección <span style="font-size:10px;font-weight:500;color:var(--warm-gray)">· Homie Inspection</span></h3></div>
+      <div class="sm-chain">
+        <span class="sm-st">Agendada</span><span class="sm-arr">→</span>
+        <span class="sm-st">En curso</span><span class="sm-arr">→</span>
+        <span class="sm-st">Completada</span><span class="sm-arr">→</span>
+        <span class="sm-st">Aprobada</span><span class="sm-arr">·</span>
+        <span class="sm-st term">Rechazada</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLUJO TEMPORAL -->
+<div class="section" id="flujo" style="margin-top:52px">
+  <div class="eyebrow">El proceso en el tiempo</div>
+  <h2>Flujo de estados y tareas de cada etapa</h2>
+  <p class="lead">La secuencia completa en orden temporal, cruzando los objetos. Cada etapa muestra su propósito en una línea y las tareas que se ejecutan dentro de ese estado. Los recuadros de color marcan disparadores entre objetos y reglas de negocio (gates).</p>
+
+  <div class="tl">
+
+    <!-- 1 -->
+    <div class="node">
+      <div class="node-dot">1</div>
+      <div class="node-card">
+        <div class="node-top">
+          <span class="node-obj contract">Contrato · Borrador</span>
+          <div class="node-name">El propietario decide avanzar</div>
+          <div class="node-purpose">Capturar todo lo necesario para generar el contrato correcto según el producto.</div>
+        </div>
+        <div class="node-tasks">
+          <div class="node-tasks-label">Tareas dentro del estado</div>
+          <ul class="task-list">
+            <li><span class="tk"></span>Registrar datos del propietario (carga única)</li>
+            <li><span class="tk"></span>Registrar datos del inmueble</li>
+            <li><span class="tk"></span>Seleccionar producto: Administración / Renta Continua</li>
+            <li><span class="tk"></span>Definir términos comerciales (plan, fee, vigencia)</li>
+            <li><span class="tk"></span>Recolectar documentos del propietario</li>
+            <li><span class="tk"></span>Generar el contrato</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="node">
+      <div class="node-dot">2</div>
+      <div class="node-card">
+        <div class="node-top">
+          <span class="node-obj contract">Contrato · En revisión</span>
+          <div class="node-name">El propietario revisa el contrato</div>
+          <div class="node-purpose">Obtener la conformidad del propietario antes de enviar a firma.</div>
+        </div>
+        <div class="node-tasks">
+          <div class="node-tasks-label">Tareas dentro del estado</div>
+          <ul class="task-list">
+            <li><span class="tk"></span>Compartir el contrato con el propietario</li>
+            <li><span class="tk"></span>Registrar ajustes solicitados</li>
+            <li><span class="tk"></span>Obtener OK para avanzar</li>
+          </ul>
+        </div>
+        <div class="node-flag gate"><span class="fi">💡</span><div><b>Estado opcional.</b> Puede saltarse si el propietario conoció un contrato modelo antes de avanzar. ¿Aplica en su país?</div></div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="node">
+      <div class="node-dot">3</div>
+      <div class="node-card">
+        <div class="node-top">
+          <span class="node-obj contract">Contrato · Enviado a firma</span>
+          <div class="node-name">El contrato va a firma digital</div>
+          <div class="node-purpose">Conseguir la firma de todas las partes y seguir el estado de cada firmante.</div>
+        </div>
+        <div class="node-tasks">
+          <div class="node-tasks-label">Tareas dentro del estado</div>
+          <ul class="task-list">
+            <li><span class="tk"></span>Enviar a firma digital a todas las partes</li>
+            <li><span class="tk"></span>Seguimiento del estado de cada firmante</li>
+            <li><span class="tk"></span>Reenviar / recordar si no firman</li>
+          </ul>
+        </div>
+        <div class="node-flag trigger"><span class="fi">⚡</span><div><b>Disparador:</b> el inmueble asociado pasa a <b>"En captación"</b>.</div></div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="node">
+      <div class="node-dot">4</div>
+      <div class="node-card">
+        <div class="node-top">
+          <span class="node-obj contract">Contrato · Firmado</span>
+          <div class="node-name">Contrato firmado</div>
+          <div class="node-purpose">Formalizar la captación y arrancar el proceso operativo del inmueble.</div>
+        </div>
+        <div class="node-tasks">
+          <div class="node-tasks-label">Tareas dentro del estado</div>
+          <ul class="task-list">
+            <li><span class="tk"></span>Registrar el contrato firmado con validez legal</li>
+            <li><span class="tk"></span>Archivar el documento firmado</li>
+          </ul>
+        </div>
+        <div class="node-flag trigger"><span class="fi">⚡</span><div><b>Doble disparador:</b> el <b>Propietario</b> pasa a "Activo" y el <b>Inmueble</b> pasa a "Recolección de llaves".</div></div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="node">
+      <div class="node-dot blue">5</div>
+      <div class="node-card">
+        <div class="node-top blue">
+          <span class="node-obj inmueble">Inmueble · Recolección de llaves</span>
+          <div class="node-name">Homie recibe las llaves</div>
+          <div class="node-purpose">Tomar control físico del inmueble para poder prepararlo.</div>
+        </div>
+        <div class="node-tasks">
+          <div class="node-tasks-label">Tareas dentro del estado</div>
+          <ul class="task-list">
+            <li><span class="tk"></span>Coordinar la entrega con el propietario</li>
+            <li><span class="tk"></span>Registrar la recepción de llaves</li>
+            <li><span class="tk"></span>Registrar accesos / observaciones</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="node">
+      <div class="node-dot orange">6</div>
+      <div class="node-card">
+        <div class="node-top orange">
+          <span class="node-obj inmueble">Inmueble · En inspección</span>
+          <div class="node-name">Inspección y preparación</div>
+          <div class="node-purpose">Verificar el estado real del inmueble y dejarlo listo para publicar.</div>
+        </div>
+        <div class="node-tasks">
+          <div class="node-tasks-label">Tareas dentro del estado</div>
+          <ul class="task-list">
+            <li><span class="tk"></span>Fotografía profesional</li>
+            <li><span class="tk"></span>Redacción de la publicación</li>
+            <li><span class="tk"></span>Reparaciones si corresponde</li>
+            <li><span class="tk"></span>Definir precio y condiciones</li>
+          </ul>
+        </div>
+        <div class="subcycle">
+          <div class="subcycle-title">📋 Dispara Homie Inspection · ciclo propio</div>
+          <div class="subcycle-chain">
+            <span class="sm-st">Agendada</span><span class="sm-arr">→</span>
+            <span class="sm-st">En curso</span><span class="sm-arr">→</span>
+            <span class="sm-st">Completada</span><span class="sm-arr">→</span>
+            <span class="sm-st">Aprobada</span><span class="sm-arr">·</span>
+            <span class="sm-st" style="opacity:.6">Rechazada</span>
+          </div>
+        </div>
+        <div class="node-flag insp"><span class="fi">↩</span><div><b>El inmueble espera el resultado.</b> Aprobada → avanza a "Pendiente de publicar". Rechazada (propiedad en mal estado) → se frena, se evalúa reparación o caída del contrato.</div></div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="node">
+      <div class="node-dot blue">7</div>
+      <div class="node-card">
+        <div class="node-top blue">
+          <span class="node-obj inmueble">Inmueble · Pendiente de publicar</span>
+          <div class="node-name">Listo para salir a portales</div>
+          <div class="node-purpose">Publicar solo cuando la propiedad está realmente lista.</div>
+        </div>
+        <div class="node-tasks">
+          <div class="node-tasks-label">Tareas dentro del estado</div>
+          <ul class="task-list">
+            <li><span class="tk"></span>Validar que la publicación está completa</li>
+            <li><span class="tk"></span>Programar fecha de publicación</li>
+          </ul>
+        </div>
+        <div class="node-flag gate"><span class="fi">🔒</span><div><b>GATE REGIONAL:</b> no se puede publicar sin llaves recibidas + inspección aprobada. Igual para CL, MX y PE, sin excepción.</div></div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="node">
+      <div class="node-dot blue">8</div>
+      <div class="node-card">
+        <div class="node-top blue">
+          <span class="node-obj inmueble">Inmueble · Publicado</span>
+          <div class="node-name">La propiedad está publicada</div>
+          <div class="node-purpose">Poner la propiedad disponible y habilitar el agendamiento de visitas.</div>
+        </div>
+        <div class="node-tasks">
+          <div class="node-tasks-label">Tareas dentro del estado</div>
+          <ul class="task-list">
+            <li><span class="tk"></span>Publicar en portales</li>
+            <li><span class="tk"></span>Definir "disponible desde" (fecha futura controlada)</li>
+            <li><span class="tk"></span>Habilitar agendamiento de visitas</li>
+          </ul>
+        </div>
+        <div class="node-flag trigger"><span class="fi">➡️</span><div><b>Handoff:</b> termina la captación, arranca el módulo de <b>Visitas</b>. De ahí en adelante el inmueble pasa a <b>Reservado</b> y luego <b>Arrendado</b> — estados que se derivan del contrato del inquilino cuando entra en vigencia.</div></div>
+      </div>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="node">
+      <div class="node-dot term">✕</div>
+      <div class="node-card">
+        <div class="node-top term">
+          <span class="node-obj contract">Terminal</span>
+          <div class="node-name">Cuando la captación se cae</div>
+          <div class="node-purpose">Cerrar limpiamente los casos que no llegan a publicación.</div>
+        </div>
+        <div class="node-flag gate"><span class="fi">⚠️</span><div>Antes de la firma el propietario puede echarse atrás, o la inspección puede rechazar la propiedad. El <b>Contrato</b> pasa a "Caído" y el <b>Inmueble</b> a "Captación finalizada".</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- REGIONAL -->
+<div class="section" id="regional" style="margin-top:52px">
+  <div class="eyebrow">La idea central</div>
+  <h2>Un modelo regional en tres capas</h2>
+  <p class="lead">Los estados son iguales en los tres países. Lo que cambia son las tareas internas y las herramientas. Los gates de negocio se unifican a la mejor práctica.</p>
+  <div class="reg-grid">
+    <div class="reg-card">
+      <div class="reg-num">CAPA 1 — IGUAL PARA TODOS</div>
+      <h4>Los estados</h4>
+      <p>Los hitos por los que pasa cada objeto son idénticos en CL, MX y PE.</p>
+      <div class="ex"><b>Borrador → Enviado a firma → Firmado</b> ocurre igual en los tres países.</div>
+    </div>
+    <div class="reg-card">
+      <div class="reg-num">CAPA 2 — VARÍA POR PAÍS</div>
+      <h4>Las tareas dentro de cada estado</h4>
+      <p>Qué se ejecuta dentro de un estado puede variar: qué documentos se piden, quién los ejecuta.</p>
+      <div class="ex">Los <b>documentos del propietario</b> difieren, pero "recolectar documentos" es la misma tarea.</div>
+    </div>
+    <div class="reg-card">
+      <div class="reg-num">CAPA 3 — MEJOR PRÁCTICA</div>
+      <h4>Los gates de negocio</h4>
+      <p>Los bloqueos son iguales para todos, tomando lo que mejor funciona.</p>
+      <div class="ex"><b>No publicar sin inspección aprobada</b> se vuelve regla para todos.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DIFERENCIAS -->
+<div class="section" id="diferencias" style="margin-top:52px">
+  <div class="eyebrow">Lo relevado hasta ahora</div>
+  <h2>Dónde difieren las tareas por país</h2>
+  <p class="lead">Los estados no cambian. Estas son las diferencias en las tareas internas. A completar y corregir con ustedes.</p>
+  <div class="diff-wrap">
+    <table class="diff">
+      <thead><tr><th>Tarea / etapa</th><th>Chile</th><th>México</th><th>Perú</th></tr></thead>
+      <tbody>
+        <tr><td>Documentos del propietario</td><td>Datos + formulario del inmueble</td><td>CSF + carátula bancaria</td><td><span class="flag pe">Por confirmar</span></td></tr>
+        <tr><td>Revisión previa del propietario</td><td>Paso explícito</td><td><span class="flag mx">Por confirmar</span></td><td><span class="flag pe">Por confirmar</span></td></tr>
+        <tr><td>Preparación del inmueble</td><td>Inspector recibe + comercial fotografía</td><td>Mantenimiento hace visita técnica</td><td><span class="flag pe">Por confirmar</span></td></tr>
+        <tr><td>Momento de publicación</td><td>5 días antes de disponibilidad</td><td>Al recibir fecha estimada</td><td><span class="flag pe">Por confirmar</span></td></tr>
+        <tr><td>Secuencia de estados</td><td colspan="3" style="text-align:center;background:var(--green-pale);color:var(--green-dark);font-weight:600">Igual en los tres países ✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p class="big">homie · Rent Manager</p>
+  <p>Propuesta de proceso regional de captación · Estados y tareas · CL · MX · PE<br>Documento de trabajo — abierto a discusión.</p>
+</div>
+
+<script>
+function scrollToSec(id, btn){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+}
+const sections=['maquinas','flujo','regional','diferencias'];
+const navBtns=document.querySelectorAll('.nav-btn');
+window.addEventListener('scroll',()=>{
+  let current=sections[0];
+  for(const id of sections){
+    const el=document.getElementById(id);
+    if(el && el.getBoundingClientRect().top<=120) current=id;
+  }
+  navBtns.forEach((b,i)=>b.classList.toggle('active',sections[i]===current));
+},{passive:true});
+</script>
+</body>
+</html>
