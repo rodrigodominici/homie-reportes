@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reporte Visitas · July 2026</title>
+<style>
+:root {
+  --verde:#238D7E; --verde-dk:#1C7165; --verde-lt:#F0FAF9;
+  --azul:#525EA2; --azul-lt:#EDEFFE;
+  --naranja:#ED8735; --naranja-lt:#FFF4EA;
+  --rojo:#E53E3E; --rojo-lt:#FFF5F5;
+  --texto:#161628; --texto2:#736464;
+  --fondo:#F4F7FE; --surface:#FFFDF6; --borde:#DEDCD7;
+}
+@media (prefers-color-scheme:dark) {
+  :root { --fondo:#0F1117; --surface:#1A1D27; --borde:#2D3044;
+          --texto:#E8EAF6; --texto2:#9096B0; }
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+       background:var(--fondo); color:var(--texto); padding:24px 16px; }
+.container { max-width:960px; margin:0 auto }
+.report-hero { background:var(--verde-dk); color:#fff; border-radius:16px;
+               padding:28px 32px; margin-bottom:24px; }
+.hero-eyebrow { font-size:11px; font-weight:600; letter-spacing:.8px;
+                text-transform:uppercase; color:rgba(255,255,255,.6); margin-bottom:8px }
+.hero-title { font-size:26px; font-weight:700; margin-bottom:20px }
+.hero-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px }
+@media(max-width:600px) { .hero-grid { grid-template-columns:repeat(2,1fr) } }
+.hero-kpi .hero-val { font-size:28px; font-weight:700; line-height:1 }
+.hero-kpi .hero-lbl { font-size:11px; color:rgba(255,255,255,.65); margin-top:4px }
+.card { background:var(--surface); border:1px solid var(--borde); border-radius:14px;
+        padding:20px; margin-bottom:16px; }
+.section-header { display:flex; justify-content:space-between; align-items:center;
+                  margin-bottom:16px; flex-wrap:wrap; gap:8px }
+.section-title { font-size:15px; font-weight:700; color:var(--texto);
+                 display:flex; align-items:center; gap:8px }
+.dot { width:8px; height:8px; border-radius:50%; display:inline-block; flex-shrink:0 }
+.badge { display:inline-flex; align-items:center; border-radius:20px;
+         font-size:11px; font-weight:600; padding:3px 10px }
+.badge-azul { background:var(--azul-lt); color:var(--azul) }
+.badge-verde { background:var(--verde-lt); color:var(--verde-dk) }
+.badge-naranja { background:var(--naranja-lt); color:var(--naranja) }
+.badge-rojo { background:var(--rojo-lt); color:var(--rojo) }
+.tbl-wrap { overflow-x:auto }
+table { width:100%; border-collapse:collapse; font-size:13px }
+th { padding:8px 12px; text-align:left; font-size:11px; font-weight:600;
+     text-transform:uppercase; letter-spacing:.3px; color:var(--texto2);
+     border-bottom:2px solid var(--borde); white-space:nowrap }
+td { padding:8px 12px; border-bottom:1px solid var(--borde); vertical-align:middle }
+tr:last-child td { border-bottom:none }
+tr:hover td { background:rgba(35,141,126,.04) }
+.td-num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap }
+.td-name { font-weight:600 }
+.pill { display:inline-flex; align-items:center; border-radius:20px;
+        font-size:11px; font-weight:600; padding:2px 8px }
+.pill-green { background:#D1FAE5; color:#065F46 }
+.pill-neutral { background:#E5E7EB; color:#374151 }
+.pill-warn { background:#FEF3C7; color:#92400E }
+.pill-red { background:#FEE2E2; color:#991B1B }
+.kpi { background:var(--surface); border:1px solid var(--borde); border-radius:12px;
+       padding:14px 16px; position:relative; overflow:hidden }
+.kpi-label { font-size:11px; color:var(--texto2); font-weight:600;
+             text-transform:uppercase; letter-spacing:.3px; margin-bottom:6px }
+.kpi-value { font-size:28px; font-weight:700; line-height:1; margin-bottom:4px;
+             font-variant-numeric:tabular-nums }
+.kpi-sub { font-size:11px; color:var(--texto2) }
+.insights-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px;
+                 margin-bottom:12px }
+@media(max-width:600px) { .insights-grid { grid-template-columns:1fr } }
+.insight-item { display:flex; gap:10px; align-items:flex-start; padding:12px;
+                border-radius:10px; border:1px solid transparent }
+.insight-icon { font-size:18px; flex-shrink:0; margin-top:1px }
+.insight-text { font-size:12px; line-height:1.5 }
+.report-footer { margin-top:32px; padding-top:16px; border-top:1px solid var(--borde);
+                 font-size:11px; color:var(--texto2); text-align:center }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="report-hero">
+  <div class="hero-eyebrow">HomieRent Chile · Reporte de Visitas</div>
+  <div class="hero-title">July 2026</div>
+  <div class="hero-grid">
+    <div class="hero-kpi">
+      <div class="hero-val">1.593</div>
+      <div class="hero-lbl">Visitas totales</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-val" style="color:#A7F3D0">108</div>
+      <div class="hero-lbl">Realizadas (DONE)</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-val" style="color:#A7F3D0">6.8%</div>
+      <div class="hero-lbl">Tasa de conversión</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-val" style="color:#FED7AA">424</div>
+      <div class="hero-lbl">UNAVAIL (26.6%)</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-val" style="color:#FED7AA">83.3%</div>
+      <div class="hero-lbl">Cancelaciones</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-val">86</div>
+      <div class="hero-lbl">No-show (5.4%)</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--verde)"></span>
+      Visitas por Día
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <div style="min-width:1176px">
+      <div style="display:grid;grid-template-columns:repeat(28,1fr);gap:4px">
+        
+        <div style="text-align:center" title="2026-07-01 · 54 vis · 3 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">1 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:30px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:1px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">54</div>
+        </div>
+        <div style="text-align:center" title="2026-07-02 · 49 vis · 4 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">2 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:27px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">49</div>
+        </div>
+        <div style="text-align:center" title="2026-07-03 · 41 vis · 4 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">3 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:22px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">41</div>
+        </div>
+        <div style="text-align:center" title="2026-07-04 · 57 vis · 5 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">4 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:31px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">57</div>
+        </div>
+        <div style="text-align:center" title="2026-07-05 · 3 vis · 0 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">5 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:0px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">3</div>
+        </div>
+        <div style="text-align:center" title="2026-07-06 · 63 vis · 5 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">6 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:35px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">63</div>
+        </div>
+        <div style="text-align:center" title="2026-07-07 · 67 vis · 5 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">7 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:37px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">67</div>
+        </div>
+        <div style="text-align:center" title="2026-07-08 · 45 vis · 2 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">8 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:25px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:1px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">45</div>
+        </div>
+        <div style="text-align:center" title="2026-07-09 · 48 vis · 3 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">9 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:26px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:1px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">48</div>
+        </div>
+        <div style="text-align:center" title="2026-07-10 · 35 vis · 3 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">10 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:19px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:1px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">35</div>
+        </div>
+        <div style="text-align:center" title="2026-07-11 · 79 vis · 6 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">11 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:43px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:3px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">79</div>
+        </div>
+        <div style="text-align:center" title="2026-07-12 · 4 vis · 0 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">12 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:0px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">4</div>
+        </div>
+        <div style="text-align:center" title="2026-07-13 · 90 vis · 6 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">13 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:50px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:3px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">90</div>
+        </div>
+        <div style="text-align:center" title="2026-07-14 · 59 vis · 3 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">14 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:32px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:1px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">59</div>
+        </div>
+        <div style="text-align:center" title="2026-07-15 · 51 vis · 8 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">15 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:28px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:4px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">51</div>
+        </div>
+        <div style="text-align:center" title="2026-07-17 · 44 vis · 1 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">17 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:24px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:0px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">44</div>
+        </div>
+        <div style="text-align:center" title="2026-07-18 · 82 vis · 6 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">18 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:45px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:3px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">82</div>
+        </div>
+        <div style="text-align:center" title="2026-07-20 · 81 vis · 5 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">20 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:45px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">81</div>
+        </div>
+        <div style="text-align:center" title="2026-07-21 · 56 vis · 3 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">21 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:31px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:1px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">56</div>
+        </div>
+        <div style="text-align:center" title="2026-07-22 · 42 vis · 4 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">22 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:23px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">42</div>
+        </div>
+        <div style="text-align:center" title="2026-07-23 · 46 vis · 4 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">23 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:25px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">46</div>
+        </div>
+        <div style="text-align:center" title="2026-07-24 · 37 vis · 0 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">24 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:20px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:0px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">37</div>
+        </div>
+        <div style="text-align:center" title="2026-07-25 · 71 vis · 8 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">25 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:39px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:4px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">71</div>
+        </div>
+        <div style="text-align:center" title="2026-07-27 · 72 vis · 9 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">27 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:40px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:5px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">72</div>
+        </div>
+        <div style="text-align:center" title="2026-07-28 · 108 vis · 4 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">28 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:60px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:2px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">108</div>
+        </div>
+        <div style="text-align:center" title="2026-07-29 · 50 vis · 1 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">29 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:27px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:0px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">50</div>
+        </div>
+        <div style="text-align:center" title="2026-07-30 · 104 vis · 6 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">30 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:57px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:3px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">104</div>
+        </div>
+        <div style="text-align:center" title="2026-07-31 · 55 vis · 0 done">
+          <div style="font-size:9px;color:var(--texto2);margin-bottom:3px">31 Jul</div>
+          <div style="height:60px;background:rgba(222,220,215,.3);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;position:relative">
+            <div style="position:absolute;bottom:0;width:100%;height:30px;background:rgba(35,141,126,.2);border-radius:3px"></div>
+            <div style="position:absolute;bottom:0;width:100%;height:0px;background:var(--verde);border-radius:3px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:2px">55</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--texto2);display:flex;gap:16px">
+        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(35,141,126,.3);border-radius:2px;margin-right:4px"></span>Total</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:var(--verde);border-radius:2px;margin-right:4px"></span>DONE</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--azul)"></span>
+      Rendimiento por Booking Agent
+    </div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;font-size:11px;color:var(--texto2)">
+    <span><strong style="color:var(--verde)">DONE</strong> = Visita realizada</span>
+    <span><strong>N-Show</strong> = No se presentó</span>
+    <span><strong style="color:var(--rojo)">UNAVL</strong> = Inmueble no disponible</span>
+    <span><strong>N-Resp</strong> = Sin respuesta</span>
+    <span><strong>Cb-Lead</strong> = Canceló el lead</span>
+    <span><strong>NMReq</strong> = No cumple requisitos</span>
+    <span><strong>Acceso</strong> = Problema de acceso</span>
+    <span><strong>Bk-NA</strong> = Booking no puede asistir</span>
+  </div>
+  <div class="tbl-wrap">
+    <table style="font-size:12px">
+      <thead>
+        <tr>
+          <th>Agente</th>
+          <th class="td-num">Total</th>
+          <th class="td-num" style="color:var(--verde)">DONE</th>
+          <th class="td-num">% Conv.</th>
+          <th class="td-num">N-Show</th>
+          <th class="td-num" style="color:var(--rojo)">UNAVL</th>
+          <th class="td-num">N-Resp</th>
+          <th class="td-num">Cb-Lead</th>
+          <th class="td-num">NMReq</th>
+          <th class="td-num">Acceso</th>
+          <th class="td-num">Bk-NA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name">Alejandra</td>
+          <td class="td-num">406</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">8</td>
+          <td class="td-num"><span class="pill pill-warn">2.0%</span></td>
+          <td class="td-num">16</td>
+          <td class="td-num" style="color:var(--rojo);font-weight:700">212</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">72</td>
+          <td class="td-num">59</td>
+          <td class="td-num">20</td>
+          <td class="td-num">0</td>
+          <td class="td-num">11</td>
+        </tr>
+        <tr>
+          <td class="td-name">Gricel</td>
+          <td class="td-num">341</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">25</td>
+          <td class="td-num"><span class="pill pill-neutral">7.3%</span></td>
+          <td class="td-num">3</td>
+          <td class="td-num" style="color:var(--rojo);font-weight:700">79</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">74</td>
+          <td class="td-num">43</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">92</td>
+          <td class="td-num">16</td>
+          <td class="td-num">1</td>
+        </tr>
+        <tr>
+          <td class="td-name">Victor</td>
+          <td class="td-num">321</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">29</td>
+          <td class="td-num"><span class="pill pill-neutral">9.0%</span></td>
+          <td class="td-num">22</td>
+          <td class="td-num">37</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">97</td>
+          <td class="td-num">64</td>
+          <td class="td-num">0</td>
+          <td class="td-num">32</td>
+          <td class="td-num">18</td>
+        </tr>
+        <tr>
+          <td class="td-name">Mathias</td>
+          <td class="td-num">196</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">13</td>
+          <td class="td-num"><span class="pill pill-neutral">6.6%</span></td>
+          <td class="td-num">16</td>
+          <td class="td-num" style="color:var(--rojo);font-weight:700">52</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">46</td>
+          <td class="td-num">32</td>
+          <td class="td-num">4</td>
+          <td class="td-num">18</td>
+          <td class="td-num">7</td>
+        </tr>
+        <tr>
+          <td class="td-name">Jhoselyne</td>
+          <td class="td-num">122</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">12</td>
+          <td class="td-num"><span class="pill pill-neutral">9.8%</span></td>
+          <td class="td-num">7</td>
+          <td class="td-num">13</td>
+          <td class="td-num" style="color:var(--naranja);font-weight:700">41</td>
+          <td class="td-num">22</td>
+          <td class="td-num">0</td>
+          <td class="td-num">10</td>
+          <td class="td-num">6</td>
+        </tr>
+        <tr>
+          <td class="td-name">Emilio</td>
+          <td class="td-num">55</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">3</td>
+          <td class="td-num"><span class="pill pill-neutral">5.5%</span></td>
+          <td class="td-num">4</td>
+          <td class="td-num">3</td>
+          <td class="td-num">7</td>
+          <td class="td-num">14</td>
+          <td class="td-num">1</td>
+          <td class="td-num">5</td>
+          <td class="td-num">11</td>
+        </tr>
+        <tr>
+          <td class="td-name">Helfer</td>
+          <td class="td-num">54</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">13</td>
+          <td class="td-num"><span class="pill pill-green">24.1%</span></td>
+          <td class="td-num">9</td>
+          <td class="td-num">8</td>
+          <td class="td-num">11</td>
+          <td class="td-num">7</td>
+          <td class="td-num">0</td>
+          <td class="td-num">2</td>
+          <td class="td-num">1</td>
+        </tr>
+        <tr>
+          <td class="td-name">Valentina</td>
+          <td class="td-num">53</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">3</td>
+          <td class="td-num"><span class="pill pill-neutral">5.7%</span></td>
+          <td class="td-num">7</td>
+          <td class="td-num">8</td>
+          <td class="td-num">15</td>
+          <td class="td-num">13</td>
+          <td class="td-num">0</td>
+          <td class="td-num">2</td>
+          <td class="td-num">2</td>
+        </tr>
+        <tr>
+          <td class="td-name">María José</td>
+          <td class="td-num">43</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">1</td>
+          <td class="td-num"><span class="pill pill-warn">2.3%</span></td>
+          <td class="td-num">2</td>
+          <td class="td-num">12</td>
+          <td class="td-num">9</td>
+          <td class="td-num">7</td>
+          <td class="td-num">0</td>
+          <td class="td-num">5</td>
+          <td class="td-num">5</td>
+        </tr>
+        <tr>
+          <td class="td-name">Yasna</td>
+          <td class="td-num">1</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">1</td>
+          <td class="td-num"><span class="pill pill-green">100.0%</span></td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+        </tr>
+        <tr>
+          <td class="td-name">Lizver</td>
+          <td class="td-num">1</td>
+          <td class="td-num" style="color:var(--verde);font-weight:700">0</td>
+          <td class="td-num"><span class="pill pill-warn">0.0%</span></td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+          <td class="td-num">1</td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+          <td class="td-num">0</td>
+        </tr>
+        <tr style="background:rgba(35,141,126,.06);font-weight:700;border-top:2px solid var(--borde)">
+          <td class="td-name">Total</td>
+          <td class="td-num">1.593</td>
+          <td class="td-num" style="color:var(--verde)">108</td>
+          <td class="td-num"><span class="pill pill-neutral">6.8%</span></td>
+          <td class="td-num">86</td>
+          <td class="td-num" style="color:var(--rojo)">424</td>
+          <td class="td-num">372</td>
+          <td class="td-num">262</td>
+          <td class="td-num">117</td>
+          <td class="td-num">90</td>
+          <td class="td-num">62</td>
+        </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--azul)"></span>
+      Distribución Horaria de Visitas
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <div style="min-width:605px">
+      <div style="display:grid;grid-template-columns:repeat(11,1fr);gap:6px;margin-bottom:20px">
+        
+        <div style="text-align:center" title="09h · 55 visitas · 10.9% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">09h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:9px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">55</div>
+        </div>
+        <div style="text-align:center" title="10h · 97 visitas · 6.2% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">10h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:17px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">97</div>
+        </div>
+        <div style="text-align:center" title="11h · 148 visitas · 8.8% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">11h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:26px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">148</div>
+        </div>
+        <div style="text-align:center" title="12h · 97 visitas · 9.3% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">12h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:17px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">97</div>
+        </div>
+        <div style="text-align:center" title="13h · 117 visitas · 9.4% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">13h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:20px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">117</div>
+        </div>
+        <div style="text-align:center" title="14h · 77 visitas · 13.0% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">14h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:13px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">77</div>
+        </div>
+        <div style="text-align:center" title="15h · 161 visitas · 6.8% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">15h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:28px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">161</div>
+        </div>
+        <div style="text-align:center" title="16h · 392 visitas · 4.8% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">16h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:70px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">392</div>
+        </div>
+        <div style="text-align:center" title="17h · 446 visitas · 5.2% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">17h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:80px;background:var(--naranja);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">446</div>
+        </div>
+        <div style="text-align:center" title="18h · 2 visitas · 0.0% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">18h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:2px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">2</div>
+        </div>
+        <div style="text-align:center" title="19h · 1 visitas · 0.0% conv.">
+          <div style="font-size:10px;color:var(--texto2);font-weight:600;margin-bottom:4px">19h</div>
+          <div style="height:80px;background:rgba(222,220,215,.3);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden">
+            <div style="width:100%;height:2px;background:var(--verde);border-radius:2px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--texto2);margin-top:3px">1</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+        
+        <div style="padding:12px 14px;background:var(--verde-lt);border-radius:10px;border:1px solid rgba(35,141,126,.2)">
+          <div style="font-size:11px;font-weight:700;color:var(--verde);margin-bottom:4px">Slot 17h</div>
+          <div style="font-size:13px;font-weight:700;color:var(--verde)">446 visitas</div>
+          <div style="font-size:11px;color:var(--texto2)">23 DONE · 5.2% conversión</div>
+        </div>
+        <div style="padding:12px 14px;background:var(--verde-lt);border-radius:10px;border:1px solid rgba(35,141,126,.2)">
+          <div style="font-size:11px;font-weight:700;color:var(--verde);margin-bottom:4px">Slot 16h</div>
+          <div style="font-size:13px;font-weight:700;color:var(--verde)">392 visitas</div>
+          <div style="font-size:11px;color:var(--texto2)">19 DONE · 4.8% conversión</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--naranja)"></span>
+      Motivos de Cancelación
+    </div>
+    <span class="badge badge-naranja">1.327 cancelaciones</span>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Motivo</th>
+          <th class="td-num">Casos</th>
+          <th class="td-num">% del total</th>
+          <th style="min-width:120px">Distribución</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td class="td-name">Inmueble no disponible</td>
+            <td class="td-num">424</td>
+            <td class="td-num">32.0%</td>
+            <td style="padding:4px 12px">
+              <div style="height:8px;background:rgba(222,220,215,.4);border-radius:4px;overflow:hidden">
+                <div style="height:100%;width:100%;background:var(--azul);border-radius:4px"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">Sin respuesta</td>
+            <td class="td-num">372</td>
+            <td class="td-num">28.0%</td>
+            <td style="padding:4px 12px">
+              <div style="height:8px;background:rgba(222,220,215,.4);border-radius:4px;overflow:hidden">
+                <div style="height:100%;width:88%;background:var(--azul);border-radius:4px"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">Canceló el lead</td>
+            <td class="td-num">262</td>
+            <td class="td-num">19.7%</td>
+            <td style="padding:4px 12px">
+              <div style="height:8px;background:rgba(222,220,215,.4);border-radius:4px;overflow:hidden">
+                <div style="height:100%;width:62%;background:var(--azul);border-radius:4px"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">No cumple requisitos</td>
+            <td class="td-num">117</td>
+            <td class="td-num">8.8%</td>
+            <td style="padding:4px 12px">
+              <div style="height:8px;background:rgba(222,220,215,.4);border-radius:4px;overflow:hidden">
+                <div style="height:100%;width:28%;background:var(--azul);border-radius:4px"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">Problema de acceso</td>
+            <td class="td-num">90</td>
+            <td class="td-num">6.8%</td>
+            <td style="padding:4px 12px">
+              <div style="height:8px;background:rgba(222,220,215,.4);border-radius:4px;overflow:hidden">
+                <div style="height:100%;width:21%;background:var(--azul);border-radius:4px"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">Booking no puede asistir</td>
+            <td class="td-num">62</td>
+            <td class="td-num">4.7%</td>
+            <td style="padding:4px 12px">
+              <div style="height:8px;background:rgba(222,220,215,.4);border-radius:4px;overflow:hidden">
+                <div style="height:100%;width:15%;background:var(--azul);border-radius:4px"></div>
+              </div>
+            </td>
+          </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="dot" style="background:var(--verde)"></span>
+      Fuente de Leads (UTM Source)
+    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Fuente</th>
+          <th class="td-num">Visitas</th>
+          <th class="td-num">DONE</th>
+          <th class="td-num">% Conv.</th>
+          <th style="min-width:100px">Volumen</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td class="td-name">Sin UTM</td>
+            <td class="td-num">1.593</td>
+            <td class="td-num" style="color:var(--verde)">108</td>
+            <td class="td-num"><span class="pill pill-neutral">6.8%</span></td>
+            <td style="padding:4px 12px">
+              <div style="height:8px;background:rgba(222,220,215,.4);border-radius:4px;overflow:hidden">
+                <div style="height:100%;width:100%;background:var(--verde);border-radius:4px"></div>
+              </div>
+            </td>
+          </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div style="border-top:2px solid var(--borde);margin:36px 0 28px;padding-top:28px">
+  <div style="font-size:20px;font-weight:700;color:var(--texto);margin-bottom:4px">Análisis de Vacancia de Inmuebles</div>
+  <div style="font-size:13px;color:var(--texto2)">170 propiedades con visitas permanecen disponibles · 24 propiedades con señal de ocupación (excluidas)</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+  <div class="kpi good" style="border-left:4px solid var(--verde)">
+    <div class="kpi-label">Disponibles con actividad</div>
+    <div class="kpi-value" style="color:var(--verde)">55</div>
+    <div class="kpi-sub">≥1 visita DONE</div>
+    <div class="kpi-accent"></div>
+  </div>
+  <div class="kpi warn" style="border-left:4px solid var(--naranja)">
+    <div class="kpi-label">Sin conversión</div>
+    <div class="kpi-value" style="color:var(--naranja)">115</div>
+    <div class="kpi-sub">0 DONE · necesitan diagnóstico</div>
+    <div class="kpi-accent"></div>
+  </div>
+  <div class="kpi neutral" style="border-left:4px solid var(--azul)">
+    <div class="kpi-label">Total disponibles</div>
+    <div class="kpi-value">170</div>
+    <div class="kpi-sub">De 194 con visitas</div>
+    <div class="kpi-accent"></div>
+  </div>
+</div>
+
+<div class="card" style="border-left:3px solid var(--verde)">
+  <div class="section-header">
+    <div class="section-title"><span class="dot" style="background:var(--verde)"></span>Disponibles con actividad</div>
+    <span class="badge badge-verde">55 propiedades · ≥1 DONE</span>
+  </div>
+  <div class="tbl-wrap">
+    <table style="font-size:12px">
+      <thead>
+        <tr>
+          <th>Realty ID</th><th>Dirección</th>
+          <th class="td-num">Visitas</th><th class="td-num">DONE</th>
+          <th class="td-num">% Conv.</th><th class="td-num">UNAVL</th><th class="td-num">N-Resp</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE000706</td>
+            <td style="font-size:11px;color:var(--texto2)">Padre Jose Cifuentes Grez 864 1104</td>
+            <td class="td-num">53</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">7</td>
+            <td class="td-num"><span class="pill pill-green">13.2%</span></td>
+            <td class="td-num">0</td>
+            <td class="td-num">21</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0001519</td>
+            <td style="font-size:11px;color:var(--texto2)">Abtao 24 1601</td>
+            <td class="td-num">33</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">2</td>
+            <td class="td-num"><span class="pill pill-neutral">6.1%</span></td>
+            <td class="td-num">0</td>
+            <td class="td-num">16</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0004652</td>
+            <td style="font-size:11px;color:var(--texto2)">Nicasio Retamales 115 609</td>
+            <td class="td-num">32</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">1</td>
+            <td class="td-num"><span class="pill pill-warn">3.1%</span></td>
+            <td class="td-num">0</td>
+            <td class="td-num">9</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0001953</td>
+            <td style="font-size:11px;color:var(--texto2)">San Nicolás 950 308</td>
+            <td class="td-num">32</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">3</td>
+            <td class="td-num"><span class="pill pill-neutral">9.4%</span></td>
+            <td class="td-num">0</td>
+            <td class="td-num">14</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0002070</td>
+            <td style="font-size:11px;color:var(--texto2)">Martinez de Rozas 3550 505</td>
+            <td class="td-num">27</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">1</td>
+            <td class="td-num"><span class="pill pill-warn">3.7%</span></td>
+            <td class="td-num" style="color:var(--rojo);font-weight:700">19</td>
+            <td class="td-num">0</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0002439</td>
+            <td style="font-size:11px;color:var(--texto2)">Compañía 4464 1707</td>
+            <td class="td-num">21</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">2</td>
+            <td class="td-num"><span class="pill pill-neutral">9.5%</span></td>
+            <td class="td-num">2</td>
+            <td class="td-num">10</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0004200</td>
+            <td style="font-size:11px;color:var(--texto2)">Manuel Antonio Tocornal 312 223</td>
+            <td class="td-num">21</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">1</td>
+            <td class="td-num"><span class="pill pill-warn">4.8%</span></td>
+            <td class="td-num">5</td>
+            <td class="td-num">9</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE000939</td>
+            <td style="font-size:11px;color:var(--texto2)">Curiñanca 715 108</td>
+            <td class="td-num">18</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">1</td>
+            <td class="td-num"><span class="pill pill-neutral">5.6%</span></td>
+            <td class="td-num">8</td>
+            <td class="td-num">4</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0001605</td>
+            <td style="font-size:11px;color:var(--texto2)">Salesianos 815 309</td>
+            <td class="td-num">18</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">2</td>
+            <td class="td-num"><span class="pill pill-green">11.1%</span></td>
+            <td class="td-num">3</td>
+            <td class="td-num">3</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0005172</td>
+            <td style="font-size:11px;color:var(--texto2)">Pintor Cicarelli 278 909</td>
+            <td class="td-num">17</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">4</td>
+            <td class="td-num"><span class="pill pill-green">23.5%</span></td>
+            <td class="td-num">0</td>
+            <td class="td-num">3</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0002978</td>
+            <td style="font-size:11px;color:var(--texto2)">Av Americo Vespucio 1456 301</td>
+            <td class="td-num">15</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">1</td>
+            <td class="td-num"><span class="pill pill-neutral">6.7%</span></td>
+            <td class="td-num">0</td>
+            <td class="td-num">5</td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE000354</td>
+            <td style="font-size:11px;color:var(--texto2)">Sargento Aldea 1156 1205</td>
+            <td class="td-num">14</td>
+            <td class="td-num" style="color:var(--verde);font-weight:700">1</td>
+            <td class="td-num"><span class="pill pill-neutral">7.1%</span></td>
+            <td class="td-num">6</td>
+            <td class="td-num">3</td>
+          </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card" style="border-left:3px solid var(--naranja)">
+  <div class="section-header">
+    <div class="section-title"><span class="dot" style="background:var(--naranja)"></span>Sin conversión — disponibles</div>
+    <span class="badge badge-naranja">115 propiedades · 0 DONE</span>
+  </div>
+  <div class="tbl-wrap">
+    <table style="font-size:12px">
+      <thead>
+        <tr>
+          <th>Realty ID</th><th>Dirección</th>
+          <th class="td-num">Visitas</th><th class="td-num">UNAVL</th>
+          <th class="td-num">N-Resp</th><th class="td-num">Acceso</th>
+          <th class="td-num">NMReq</th><th>Diagnóstico</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0001789</td>
+            <td style="font-size:11px;color:var(--texto2)">Abtao 24 215</td>
+            <td class="td-num">25</td>
+            <td class="td-num">9</td>
+            <td class="td-num" style="color:var(--naranja);font-weight:700">8</td>
+            <td class="td-num">0</td>
+            <td class="td-num">1</td>
+            <td><span style="color:var(--texto2);font-size:11px">Revisar</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0005194</td>
+            <td style="font-size:11px;color:var(--texto2)">Conde del Maule 4106 304</td>
+            <td class="td-num">25</td>
+            <td class="td-num">0</td>
+            <td class="td-num" style="color:var(--naranja);font-weight:700">7</td>
+            <td class="td-num" style="color:var(--rojo);font-weight:700">10</td>
+            <td class="td-num">0</td>
+            <td><span style="color:var(--rojo);font-size:11px">Problema acceso</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0002966</td>
+            <td style="font-size:11px;color:var(--texto2)">Nicasio Retamales 054 1103</td>
+            <td class="td-num">18</td>
+            <td class="td-num" style="color:var(--rojo);font-weight:700">14</td>
+            <td class="td-num">0</td>
+            <td class="td-num">0</td>
+            <td class="td-num">0</td>
+            <td><span style="color:var(--naranja);font-size:11px">UNAVAIL alto</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE000718</td>
+            <td style="font-size:11px;color:var(--texto2)">Calle Pezoa Véliz N° 0143 715</td>
+            <td class="td-num">17</td>
+            <td class="td-num">2</td>
+            <td class="td-num">1</td>
+            <td class="td-num" style="color:var(--rojo);font-weight:700">7</td>
+            <td class="td-num">0</td>
+            <td><span style="color:var(--rojo);font-size:11px">Problema acceso</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0002269</td>
+            <td style="font-size:11px;color:var(--texto2)">Marin 382 1504</td>
+            <td class="td-num">16</td>
+            <td class="td-num" style="color:var(--rojo);font-weight:700">14</td>
+            <td class="td-num">1</td>
+            <td class="td-num">0</td>
+            <td class="td-num">0</td>
+            <td><span style="color:var(--naranja);font-size:11px">UNAVAIL alto</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0004240</td>
+            <td style="font-size:11px;color:var(--texto2)">Domeyko 1954 204</td>
+            <td class="td-num">14</td>
+            <td class="td-num">0</td>
+            <td class="td-num">2</td>
+            <td class="td-num" style="color:var(--rojo);font-weight:700">4</td>
+            <td class="td-num">1</td>
+            <td><span style="color:var(--rojo);font-size:11px">Problema acceso</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0003333</td>
+            <td style="font-size:11px;color:var(--texto2)">Avenida Departamental  1475 2210</td>
+            <td class="td-num">14</td>
+            <td class="td-num">0</td>
+            <td class="td-num">4</td>
+            <td class="td-num">0</td>
+            <td class="td-num" style="color:var(--naranja);font-weight:700">8</td>
+            <td><span style="color:var(--naranja);font-size:11px">Requisitos altos</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0001306</td>
+            <td style="font-size:11px;color:var(--texto2)">madreselvas 3020 202</td>
+            <td class="td-num">14</td>
+            <td class="td-num">2</td>
+            <td class="td-num">0</td>
+            <td class="td-num">0</td>
+            <td class="td-num">2</td>
+            <td><span style="color:var(--texto2);font-size:11px">Revisar</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0001928</td>
+            <td style="font-size:11px;color:var(--texto2)">Martínez de Rozas 3550 1904</td>
+            <td class="td-num">13</td>
+            <td class="td-num">0</td>
+            <td class="td-num">4</td>
+            <td class="td-num" style="color:var(--rojo);font-weight:700">5</td>
+            <td class="td-num">0</td>
+            <td><span style="color:var(--rojo);font-size:11px">Problema acceso</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0003799</td>
+            <td style="font-size:11px;color:var(--texto2)">Domingo Santa María 2565 1109</td>
+            <td class="td-num">12</td>
+            <td class="td-num">0</td>
+            <td class="td-num">1</td>
+            <td class="td-num">0</td>
+            <td class="td-num">0</td>
+            <td><span style="color:var(--texto2);font-size:11px">Revisar</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0002999</td>
+            <td style="font-size:11px;color:var(--texto2)">Carlos Pezoa Véliz 143 705</td>
+            <td class="td-num">12</td>
+            <td class="td-num">0</td>
+            <td class="td-num">4</td>
+            <td class="td-num">1</td>
+            <td class="td-num">0</td>
+            <td><span style="color:var(--texto2);font-size:11px">Revisar</span></td>
+          </tr>
+          <tr>
+            <td class="td-name" style="font-family:monospace;font-size:11px">RE0003095</td>
+            <td style="font-size:11px;color:var(--texto2)">Avenida Américo Vespucio 4451 1017</td>
+            <td class="td-num">12</td>
+            <td class="td-num">3</td>
+            <td class="td-num">2</td>
+            <td class="td-num">0</td>
+            <td class="td-num">2</td>
+            <td><span style="color:var(--texto2);font-size:11px">Revisar</span></td>
+          </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card" style="background:var(--texto);border-color:var(--texto)">
+  <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px">
+    <span style="font-size:16px">💡</span> Insights Accionables
+  </div>
+  <div class="insights-grid">
+    <div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)"><div class="insight-icon">⚠</div><div class="insight-text" style="color:rgba(255,255,255,.85)"><strong style="color:#FC8181">UNAVAIL crítico: Alejandra</strong><br>212 cancelaciones UNAVAIL (52.2% de sus visitas). Revisar portafolio urgente.</div></div><div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)"><div class="insight-icon">⭐</div><div class="insight-text" style="color:rgba(255,255,255,.85)"><strong style="color:#9AE6B4">Mejor conversión: Yasna (100.0%)</strong><br>Referencia del equipo con 1 DONE de 1 visitas.</div></div><div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)"><div class="insight-icon">🏠</div><div class="insight-text" style="color:rgba(255,255,255,.85)"><strong style="color:#FBD38D">Propiedades sin conversión con alta demanda</strong><br>RE0001789, RE0005194, RE0002966 acumulan múltiples visitas sin DONE. Diagnóstico recomendado.</div></div><div class="insight-item" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)"><div class="insight-icon">📊</div><div class="insight-text" style="color:rgba(255,255,255,.85)"><strong style="color:#9AE6B4">Conversión general: 6.8%</strong><br>108 visitas DONE de 1.593 totales. UNAVAIL representa 26.6% del volumen.</div></div>
+  </div>
+</div>
+<div class="report-footer"><strong>HomieRent Chile</strong> · July 2026 · Generado 05 Aug 2026 11:48</div>
+</div>
+</body>
+</html>
