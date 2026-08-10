@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visitas &amp; Rentas México · Semana 03–09 Ago 2026</title>
+<style>
+  :root {
+    --verde:   #238D7E;
+    --verde-dk:#1C7165;
+    --azul:    #525EA2;
+    --naranja: #eb6834;
+    --amarillo:#F6B248;
+    --texto:   #161628;
+    --gris:    #736464;
+    --fondo:   #F4F7FE;
+    --surface: #FFFDF6;
+    --borde:   #DEDCD7;
+    --blanco:  #FFFFFF;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Helvetica Now Display',Helvetica,Arial,sans-serif;background:var(--fondo);color:var(--texto);font-size:16px;line-height:1.5}
+
+  .hero{background:var(--texto);color:var(--blanco);padding:56px 0 48px}
+  .hero .container{max-width:1100px;margin:0 auto;padding:0 32px}
+  .hero-tag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--verde);font-weight:600;margin-bottom:16px}
+  .hero-title{font-family:'Mabry Pro',Georgia,serif;font-size:clamp(36px,5vw,60px);font-weight:700;line-height:1.1;margin-bottom:8px}
+  .hero-title span{color:var(--verde)}
+  .hero-sub{color:rgba(255,255,255,.55);font-size:15px;margin-bottom:40px}
+  .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px}
+  .kpi{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:20px 24px}
+  .kpi-val{font-family:'Mabry Pro',Georgia,serif;font-size:40px;font-weight:700;line-height:1;color:var(--blanco)}
+  .kpi-val.accent{color:var(--verde)}
+  .kpi-lbl{font-size:12px;color:rgba(255,255,255,.5);margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+  .container{max-width:1100px;margin:0 auto;padding:0 32px}
+  .section{padding:56px 0}
+  .section+.section{border-top:1px solid var(--borde)}
+  .section-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--verde);font-weight:600;margin-bottom:8px}
+  .section-title{font-family:'Mabry Pro',Georgia,serif;font-size:26px;font-weight:700;margin-bottom:4px}
+  .section-sub{color:var(--gris);font-size:14px;margin-bottom:32px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+  @media(max-width:700px){.two-col{grid-template-columns:1fr}}
+
+  .card{background:var(--surface);border:1px solid var(--borde);border-radius:16px;padding:28px}
+  .chart-wrap{position:relative;overflow-x:auto}
+
+  .funnel{display:flex;flex-direction:column;gap:8px}
+  .funnel-row{display:flex;align-items:center;gap:12px}
+  .funnel-bar-bg{flex:1;height:36px;background:rgba(35,141,126,.08);border-radius:6px;overflow:hidden;position:relative}
+  .funnel-bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 12px;transition:width .4s}
+  .funnel-bar-fill span{font-size:12px;font-weight:600;color:var(--blanco);white-space:nowrap}
+  .funnel-label{width:200px;font-size:13px;color:var(--gris);text-align:right;flex-shrink:0}
+  .funnel-count{width:64px;font-size:13px;font-weight:600;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+  .funnel-pct{width:46px;font-size:12px;color:var(--gris);text-align:right;flex-shrink:0}
+
+  .donut-wrap{display:flex;align-items:center;gap:32px;flex-wrap:wrap}
+  .donut-svg{flex-shrink:0}
+  .legend{display:flex;flex-direction:column;gap:10px;flex:1;min-width:200px}
+  .legend-item{display:flex;align-items:center;gap:10px;font-size:14px}
+  .legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+  .legend-name{flex:1;color:var(--texto)}
+  .legend-val{font-weight:600;font-variant-numeric:tabular-nums}
+  .legend-pct{color:var(--gris);font-size:12px;min-width:40px;text-align:right}
+
+  .agent-table{width:100%;border-collapse:collapse;font-size:14px}
+  .agent-table th{text-align:left;padding:8px 12px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);border-bottom:2px solid var(--borde);font-weight:600}
+  .agent-table td{padding:12px 12px;border-bottom:1px solid var(--borde);font-variant-numeric:tabular-nums}
+  .agent-table tr:last-child td{border-bottom:none}
+  .agent-table tr:hover td{background:rgba(35,141,126,.04)}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:rgba(35,141,126,.12);color:var(--verde-dk)}
+  .badge-orange{background:rgba(235,104,52,.12);color:#c0541f}
+
+  .rate-bar-bg{height:6px;background:var(--borde);border-radius:3px;margin-top:4px;overflow:hidden}
+  .rate-bar-fill{height:100%;border-radius:3px;background:var(--verde)}
+
+  .hist-wrap{display:flex;flex-direction:column;gap:10px}
+  .hist-row{display:flex;align-items:center;gap:12px;font-size:13px}
+  .hist-label{width:56px;text-align:right;color:var(--gris);font-weight:600;flex-shrink:0}
+  .hist-bar-bg{flex:1;height:28px;background:var(--borde);border-radius:4px;overflow:hidden;position:relative}
+  .hist-bar-fill{height:100%;border-radius:4px;background:var(--verde);transition:width .3s}
+  .hist-count{width:56px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--texto)}
+  .hist-pct{width:46px;color:var(--gris);font-size:12px}
+  .efic-kpis{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:28px}
+  .efic-kpi{background:var(--surface);border:1px solid var(--borde);border-radius:12px;padding:16px 20px;flex:1;min-width:140px}
+  .efic-kpi-val{font-size:28px;font-weight:800;color:var(--verde);font-variant-numeric:tabular-nums}
+  .efic-kpi-label{font-size:12px;color:var(--gris);margin-top:4px}
+  .efic-grid{display:grid;grid-template-columns:340px 1fr;gap:32px;align-items:start}
+  @media(max-width:860px){.efic-grid{grid-template-columns:1fr}}
+
+  .kpi-row-s{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;margin-bottom:40px}
+  .kpi-card{background:var(--surface);border:1px solid var(--borde);border-radius:12px;padding:20px 24px;border-top:3px solid var(--verde)}
+  .kpi-val-s{font-family:'Mabry Pro',Georgia,serif;font-size:36px;font-weight:700;color:var(--verde)}
+  .kpi-label-s{font-size:13px;color:var(--gris);margin-top:4px}
+
+  .insight-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+  .insight-card{background:var(--surface);border:1px solid var(--borde);border-radius:12px;padding:20px 24px;border-left:4px solid var(--verde)}
+  .insight-card.warn{border-left-color:var(--naranja)}
+  .insight-card.info{border-left-color:var(--azul)}
+  .insight-title{font-family:'Mabry Pro',Georgia,serif;font-size:16px;font-weight:700;margin-bottom:6px}
+  .insight-body{font-size:14px;color:var(--gris);line-height:1.5}
+
+  .prop-table{width:100%;border-collapse:collapse;font-size:13px}
+  .prop-table th{text-align:left;padding:8px 12px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);border-bottom:2px solid var(--borde);font-weight:600;white-space:nowrap}
+  .prop-table td{padding:11px 12px;border-bottom:1px solid var(--borde);font-variant-numeric:tabular-nums;vertical-align:middle}
+  .prop-table tr:last-child td{border-bottom:none}
+  .prop-table tr:hover td{background:rgba(35,141,126,.04)}
+  .prop-id{font-family:'Courier New',monospace;font-size:11px;color:var(--gris);background:rgba(22,22,40,.06);padding:2px 6px;border-radius:4px;white-space:nowrap;user-select:all;cursor:text}
+  .show-bar-bg{height:5px;background:var(--borde);border-radius:3px;margin-top:3px;overflow:hidden;min-width:60px}
+  .show-bar-fill{height:100%;border-radius:3px;background:var(--verde)}
+
+  .footer{background:var(--texto);color:rgba(255,255,255,.35);text-align:center;padding:24px 32px;font-size:12px}
+  .footer strong{color:var(--verde)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-tag">Análisis de Visitas · México · Semana 03–09 Agosto 2026</div>
+    <h1 class="hero-title">Visitas &amp; Rentas <span>México</span></h1>
+    <p class="hero-sub">Pipeline HubSpot — Rentas · Visitas con fecha de cita 3 al 9 de agosto 2026</p>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-val accent">1,398</div>
+        <div class="kpi-lbl">Visitas programadas</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val">156</div>
+        <div class="kpi-lbl">Citas confirmadas</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val accent">11.2%</div>
+        <div class="kpi-lbl">Show rate</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val">0</div>
+        <div class="kpi-lbl">Rentas cerradas</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val">148</div>
+        <div class="kpi-lbl">Citas aún en proceso</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HOURLY DISTRIBUTION -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Distribución temporal</div>
+    <h2 class="section-title">Demanda horaria de visitas</h2>
+    <p class="section-sub">Visitas programadas por hora del día · semana del 3 al 9 de agosto 2026</p>
+    <div class="card">
+      <div style="font-size:13px;font-weight:600;color:var(--texto);margin-bottom:16px">Visitas por hora · Pico: 15h (310 visitas)</div>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 780 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:560px;display:block">
+<line x1="36" y1="240.0" x2="764" y2="240.0" stroke="#DEDCD7" stroke-width="1"/>
+<text x="32" y="244.0" text-anchor="end" font-size="10" fill="#736464">0</text>
+<line x1="36" y1="187.5" x2="764" y2="187.5" stroke="#DEDCD7" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="32" y="191.5" text-anchor="end" font-size="10" fill="#736464">77</text>
+<line x1="36" y1="135.0" x2="764" y2="135.0" stroke="#DEDCD7" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="32" y="139.0" text-anchor="end" font-size="10" fill="#736464">155</text>
+<line x1="36" y1="82.5" x2="764" y2="82.5" stroke="#DEDCD7" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="32" y="86.5" text-anchor="end" font-size="10" fill="#736464">232</text>
+<line x1="36" y1="30.0" x2="764" y2="30.0" stroke="#DEDCD7" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="32" y="34.0" text-anchor="end" font-size="10" fill="#736464">310</text>
+<rect x="49.2" y="229.8" width="39.7" height="10.2" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="69.1" y="224.8" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">15</text>
+<text x="69.1" y="256.0" text-anchor="middle" font-size="11" fill="#736464">9h</text>
+<rect x="115.4" y="147.2" width="39.7" height="92.8" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="135.3" y="142.2" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">137</text>
+<text x="135.3" y="256.0" text-anchor="middle" font-size="11" fill="#736464">10h</text>
+<rect x="181.6" y="161.4" width="39.7" height="78.6" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="201.5" y="156.4" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">116</text>
+<text x="201.5" y="256.0" text-anchor="middle" font-size="11" fill="#736464">11h</text>
+<rect x="247.8" y="166.8" width="39.7" height="73.2" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="267.6" y="161.8" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">108</text>
+<text x="267.6" y="256.0" text-anchor="middle" font-size="11" fill="#736464">12h</text>
+<rect x="314.0" y="157.4" width="39.7" height="82.6" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="333.8" y="152.4" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">122</text>
+<text x="333.8" y="256.0" text-anchor="middle" font-size="11" fill="#736464">13h</text>
+<rect x="380.1" y="155.3" width="39.7" height="84.7" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="400.0" y="150.3" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">125</text>
+<text x="400.0" y="256.0" text-anchor="middle" font-size="11" fill="#736464">14h</text>
+<rect x="446.3" y="30.0" width="39.7" height="210.0" rx="3" fill="#eb6834" opacity="1"/>
+<text x="466.2" y="25.0" text-anchor="middle" font-size="10" fill="#eb6834" font-weight="600">310</text>
+<text x="466.2" y="256.0" text-anchor="middle" font-size="11" fill="#736464">15h</text>
+<rect x="512.5" y="90.3" width="39.7" height="149.7" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="532.4" y="85.3" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">221</text>
+<text x="532.4" y="256.0" text-anchor="middle" font-size="11" fill="#736464">16h</text>
+<rect x="578.7" y="154.0" width="39.7" height="86.0" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="598.5" y="149.0" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">127</text>
+<text x="598.5" y="256.0" text-anchor="middle" font-size="11" fill="#736464">17h</text>
+<rect x="644.9" y="163.5" width="39.7" height="76.5" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="664.7" y="158.5" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">113</text>
+<text x="664.7" y="256.0" text-anchor="middle" font-size="11" fill="#736464">18h</text>
+<rect x="711.1" y="238.0" width="39.7" height="2.0" rx="3" fill="#238D7E" opacity="0.75"/>
+<text x="730.9" y="233.0" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">3</text>
+<text x="730.9" y="256.0" text-anchor="middle" font-size="11" fill="#736464">19h</text>
+</svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DAILY TREND -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Tendencia semanal</div>
+    <h2 class="section-title">Visitas por día de la semana</h2>
+    <p class="section-sub">Distribución diaria · Lunes 3 a Domingo 9 de agosto 2026</p>
+    <div class="card">
+      <div style="font-size:13px;font-weight:600;color:var(--texto);margin-bottom:16px">Pico: Sábado 8 de agosto (496 visitas · 35.5% del total semanal)</div>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block">
+<line x1="40" y1="200.0" x2="684" y2="200.0" stroke="#DEDCD7" stroke-width="1"/>
+<text x="36" y="204.0" text-anchor="end" font-size="10" fill="#736464">0</text>
+<line x1="40" y1="143.3" x2="684" y2="143.3" stroke="#DEDCD7" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="36" y="147.3" text-anchor="end" font-size="10" fill="#736464">165</text>
+<line x1="40" y1="86.7" x2="684" y2="86.7" stroke="#DEDCD7" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="36" y="90.7" text-anchor="end" font-size="10" fill="#736464">330</text>
+<line x1="40" y1="30.0" x2="684" y2="30.0" stroke="#DEDCD7" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="36" y="34.0" text-anchor="end" font-size="10" fill="#736464">496</text>
+<rect x="60.7" y="143.8" width="50.6" height="56.2" rx="3" fill="#238D7E" opacity="0.8"/>
+<text x="86.0" y="138.8" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">164</text>
+<text x="86.0" y="216.0" text-anchor="middle" font-size="11" fill="#736464">Lun 3</text>
+<rect x="152.7" y="159.2" width="50.6" height="40.8" rx="3" fill="#238D7E" opacity="0.8"/>
+<text x="178.0" y="154.2" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">119</text>
+<text x="178.0" y="216.0" text-anchor="middle" font-size="11" fill="#736464">Mar 4</text>
+<rect x="244.7" y="162.6" width="50.6" height="37.4" rx="3" fill="#238D7E" opacity="0.8"/>
+<text x="270.0" y="157.6" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">109</text>
+<text x="270.0" y="216.0" text-anchor="middle" font-size="11" fill="#736464">Mié 5</text>
+<rect x="336.7" y="134.9" width="50.6" height="65.1" rx="3" fill="#238D7E" opacity="0.8"/>
+<text x="362.0" y="129.9" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">190</text>
+<text x="362.0" y="216.0" text-anchor="middle" font-size="11" fill="#736464">Jue 6</text>
+<rect x="428.7" y="93.1" width="50.6" height="106.9" rx="3" fill="#238D7E" opacity="0.8"/>
+<text x="454.0" y="88.1" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">312</text>
+<text x="454.0" y="216.0" text-anchor="middle" font-size="11" fill="#736464">Vie 7</text>
+<rect x="520.7" y="30.0" width="50.6" height="170.0" rx="3" fill="#eb6834" opacity="0.8"/>
+<text x="546.0" y="25.0" text-anchor="middle" font-size="10" fill="#eb6834" font-weight="600">496</text>
+<text x="546.0" y="216.0" text-anchor="middle" font-size="11" fill="#736464">Sáb 8</text>
+<rect x="612.7" y="197.3" width="50.6" height="2.7" rx="3" fill="#238D7E" opacity="0.8"/>
+<text x="638.0" y="192.3" text-anchor="middle" font-size="10" fill="#238D7E" font-weight="600">8</text>
+<text x="638.0" y="216.0" text-anchor="middle" font-size="11" fill="#736464">Dom 9</text>
+</svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIRMATION STATE -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Estado de confirmación</div>
+    <h2 class="section-title">¿Qué pasó con cada cita?</h2>
+    <p class="section-sub">Distribución de <code>cita_confirmada_</code> · total 1,398 deals</p>
+    <div class="card">
+      <div class="donut-wrap">
+        <div class="donut-svg">
+          <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" style="width:180px;height:180px;flex-shrink:0">
+<path d="M 90.00 10.00 A 80 80 0 1 1 86.76 169.93 L 88.06 137.96 A 48 48 0 1 0 90.00 42.00 Z" fill="#eb6834"/>
+<path d="M 86.76 169.93 A 80 80 0 0 1 22.59 133.07 L 49.55 115.84 A 48 48 0 0 0 88.06 137.96 Z" fill="#736464"/>
+<path d="M 22.59 133.07 A 80 80 0 0 1 12.48 70.25 L 43.49 78.15 A 48 48 0 0 0 49.55 115.84 Z" fill="#525EA2"/>
+<path d="M 12.48 70.25 A 80 80 0 0 1 43.50 24.90 L 62.10 50.94 A 48 48 0 0 0 43.49 78.15 Z" fill="#238D7E"/>
+<path d="M 43.50 24.90 A 80 80 0 0 1 60.18 15.77 L 72.11 45.46 A 48 48 0 0 0 62.10 50.94 Z" fill="#A0A0B0"/>
+<path d="M 60.18 15.77 A 80 80 0 0 1 72.52 11.93 L 79.51 43.16 A 48 48 0 0 0 72.11 45.46 Z" fill="#F6B248"/>
+<path d="M 72.52 11.93 A 80 80 0 0 1 82.82 10.32 L 85.69 42.19 A 48 48 0 0 0 79.51 43.16 Z" fill="#BDBDBD"/>
+<path d="M 82.82 10.32 A 80 80 0 0 1 86.41 10.08 L 87.84 42.05 A 48 48 0 0 0 85.69 42.19 Z" fill="#8B8FA8"/>
+<path d="M 86.41 10.08 A 80 80 0 0 1 89.28 10.00 L 89.57 42.00 A 48 48 0 0 0 87.84 42.05 Z" fill="#C9B8B8"/>
+<path d="M 89.28 10.00 A 80 80 0 0 1 90.00 10.00 L 90.00 42.00 A 48 48 0 0 0 89.57 42.00 Z" fill="#D0D0D0"/>
+</svg>
+        </div>
+        <div class="legend">
+          
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#eb6834"></div>
+            <div class="legend-name">Cancelada · Apartado</div>
+            <div class="legend-val">708</div>
+            <div class="legend-pct">50.6%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#736464"></div>
+            <div class="legend-name">Sin respuesta</div>
+            <div class="legend-val">214</div>
+            <div class="legend-pct">15.3%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#525EA2"></div>
+            <div class="legend-name">Cancelada · Inquilino</div>
+            <div class="legend-val">182</div>
+            <div class="legend-pct">13.0%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#238D7E"></div>
+            <div class="legend-name">Confirmada</div>
+            <div class="legend-val">156</div>
+            <div class="legend-pct">11.2%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#A0A0B0"></div>
+            <div class="legend-name">Baja de inmueble</div>
+            <div class="legend-val">53</div>
+            <div class="legend-pct">3.8%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#F6B248"></div>
+            <div class="legend-name">Cambio de booking</div>
+            <div class="legend-val">36</div>
+            <div class="legend-pct">2.6%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#BDBDBD"></div>
+            <div class="legend-name">Sin dato</div>
+            <div class="legend-val">29</div>
+            <div class="legend-pct">2.1%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#8B8FA8"></div>
+            <div class="legend-name">Cancelada · Propietario</div>
+            <div class="legend-val">10</div>
+            <div class="legend-pct">0.7%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNNEL -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Embudo de conversión</div>
+    <h2 class="section-title">Estado del pipeline</h2>
+    <p class="section-sub">Etapas activas de deals con <code>fecha_de_cita</code> en la semana · pipeline Rentas MX (9819965)</p>
+    <div class="card">
+      <div class="funnel">
+        
+        <div class="funnel-row">
+          <div class="funnel-label">Pendiente de cita</div>
+          <div class="funnel-bar-bg">
+            <div class="funnel-bar-fill" style="width:6.1%;background:rgba(82,94,162,0.6)">
+              <span>85</span>
+            </div>
+          </div>
+          <div class="funnel-count">85</div>
+          <div class="funnel-pct">6.1%</div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Cita agendada</div>
+          <div class="funnel-bar-bg">
+            <div class="funnel-bar-fill" style="width:0.9%;background:rgba(82,94,162,0.6)">
+              <span>12</span>
+            </div>
+          </div>
+          <div class="funnel-count">12</div>
+          <div class="funnel-pct">0.9%</div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Seguimiento post-cita</div>
+          <div class="funnel-bar-bg">
+            <div class="funnel-bar-fill" style="width:9.7%;background:rgba(82,94,162,0.6)">
+              <span>136</span>
+            </div>
+          </div>
+          <div class="funnel-count">136</div>
+          <div class="funnel-pct">9.7%</div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Cita realizada</div>
+          <div class="funnel-bar-bg">
+            <div class="funnel-bar-fill" style="width:5.9%;background:rgba(35,141,126,0.7)">
+              <span>82</span>
+            </div>
+          </div>
+          <div class="funnel-count">82</div>
+          <div class="funnel-pct">5.9%</div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Aplicación iniciada</div>
+          <div class="funnel-bar-bg">
+            <div class="funnel-bar-fill" style="width:1.1%;background:rgba(35,141,126,0.7)">
+              <span>15</span>
+            </div>
+          </div>
+          <div class="funnel-count">15</div>
+          <div class="funnel-pct">1.1%</div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Apartado pendiente</div>
+          <div class="funnel-bar-bg">
+            <div class="funnel-bar-fill" style="width:0.2%;background:#238D7E">
+              <span>3</span>
+            </div>
+          </div>
+          <div class="funnel-count">3</div>
+          <div class="funnel-pct">0.2%</div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Primer cobro recibido</div>
+          <div class="funnel-bar-bg">
+            <div class="funnel-bar-fill" style="width:0.0%;background:#238D7E">
+              <span>0</span>
+            </div>
+          </div>
+          <div class="funnel-count">0</div>
+          <div class="funnel-pct">0.0%</div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Renta perdida</div>
+          <div class="funnel-bar-bg">
+            <div class="funnel-bar-fill" style="width:75.8%;background:rgba(160,160,176,0.6)">
+              <span>1,060</span>
+            </div>
+          </div>
+          <div class="funnel-count">1,060</div>
+          <div class="funnel-pct">75.8%</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--gris);margin-top:16px;padding-top:12px;border-top:1px solid var(--borde)">
+        Porcentaje calculado sobre el total de 1,398 deals con fecha de cita en la semana. "Renta perdida" incluye todos los motivos de cancelación.
+        Los deals en "Seguimiento post-cita" y "Aplicación iniciada" están en proceso activo de conversión.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Performance por asesor</div>
+    <h2 class="section-title">Tabla de asesores</h2>
+    <p class="section-sub">Deals con <code>fecha_de_cita</code> en la semana · agrupados por <code>hubspot_owner_id</code> · Show rate = confirmadas/total</p>
+    <div class="card" style="overflow-x:auto">
+      <table class="agent-table">
+        <thead>
+          <tr>
+            <th>Asesor</th>
+            <th style="text-align:right">Visitas</th>
+            <th style="text-align:right">Confirmadas</th>
+            <th>Show rate</th>
+            <th style="text-align:center">Cierres</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td><span style="font-weight:600">Mario Alberto Chávez Méndez</span><br><span style="font-size:11px;color:var(--gris)">mario.chavez@homie.mx</span></td>
+            <td style="text-align:right;font-weight:600">341</td>
+            <td style="text-align:right">23</td>
+            <td style="text-align:right">
+              <span style="font-weight:700;color:var(--gris)">6.7%</span>
+              <div class="rate-bar-bg"><div class="rate-bar-fill" style="width:6.7%"></div></div>
+            </td>
+            <td style="text-align:center">—</td>
+          </tr>
+          <tr>
+            <td><span style="font-weight:600">Luis Téllez Álvarez</span><br><span style="font-size:11px;color:var(--gris)">luis.tellez@homie.mx</span></td>
+            <td style="text-align:right;font-weight:600">250</td>
+            <td style="text-align:right">29</td>
+            <td style="text-align:right">
+              <span style="font-weight:700;color:var(--naranja)">11.6%</span>
+              <div class="rate-bar-bg"><div class="rate-bar-fill" style="width:11.6%"></div></div>
+            </td>
+            <td style="text-align:center">—</td>
+          </tr>
+          <tr>
+            <td><span style="font-weight:600">Javier Enrique Olivares Hernandez</span><br><span style="font-size:11px;color:var(--gris)">javier.olivares@homie.mx</span></td>
+            <td style="text-align:right;font-weight:600">134</td>
+            <td style="text-align:right">22</td>
+            <td style="text-align:right">
+              <span style="font-weight:700;color:var(--naranja)">16.4%</span>
+              <div class="rate-bar-bg"><div class="rate-bar-fill" style="width:16.4%"></div></div>
+            </td>
+            <td style="text-align:center">—</td>
+          </tr>
+          <tr>
+            <td><span style="font-weight:600">Diego Juárez Ramírez</span><br><span style="font-size:11px;color:var(--gris)">diego.juarez@homie.mx</span></td>
+            <td style="text-align:right;font-weight:600">110</td>
+            <td style="text-align:right">20</td>
+            <td style="text-align:right">
+              <span style="font-weight:700;color:var(--naranja)">18.2%</span>
+              <div class="rate-bar-bg"><div class="rate-bar-fill" style="width:18.2%"></div></div>
+            </td>
+            <td style="text-align:center">—</td>
+          </tr>
+          <tr>
+            <td><span style="font-weight:600">Valeria Galvan Mendoza</span><br><span style="font-size:11px;color:var(--gris)">valeria.galvan@homie.mx</span></td>
+            <td style="text-align:right;font-weight:600">90</td>
+            <td style="text-align:right">31</td>
+            <td style="text-align:right">
+              <span style="font-weight:700;color:var(--verde-dk)">34.4%</span>
+              <div class="rate-bar-bg"><div class="rate-bar-fill" style="width:34.4%"></div></div>
+            </td>
+            <td style="text-align:center">—</td>
+          </tr>
+          <tr>
+            <td><span style="font-weight:600">sofia perez</span><br><span style="font-size:11px;color:var(--gris)">sofia.mar@homie.mx</span></td>
+            <td style="text-align:right;font-weight:600">35</td>
+            <td style="text-align:right">12</td>
+            <td style="text-align:right">
+              <span style="font-weight:700;color:var(--verde-dk)">34.3%</span>
+              <div class="rate-bar-bg"><div class="rate-bar-fill" style="width:34.3%"></div></div>
+            </td>
+            <td style="text-align:center">—</td>
+          </tr>
+          <tr>
+            <td><span style="font-weight:600">Jorge Eduardo Rountree Hernández</span><br><span style="font-size:11px;color:var(--gris)">jorge.rountree@homie.mx</span></td>
+            <td style="text-align:right;font-weight:600">28</td>
+            <td style="text-align:right">12</td>
+            <td style="text-align:right">
+              <span style="font-weight:700;color:var(--verde-dk)">42.9%</span>
+              <div class="rate-bar-bg"><div class="rate-bar-fill" style="width:42.9%"></div></div>
+            </td>
+            <td style="text-align:center">—</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px;color:var(--gris);margin-top:16px;padding-top:12px;border-top:1px solid var(--borde)">
+        Nombres resueltos vía <code>hubspot_owner_id</code> → HubSpot Owners API.
+        "Cierres" = deals con <code>dealstage = 28271142</code> (Primer cobro recibido) en la semana del reporte.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PROPERTIES -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Análisis por propiedad</div>
+    <h2 class="section-title">Demanda por inmueble</h2>
+    <p class="section-sub">Deals con <code>fecha_de_cita</code> en la semana · agrupados por <code>id_inmueble_renta</code></p>
+
+    <div class="card" style="overflow-x:auto">
+      <table class="prop-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ID Inmueble</th>
+            <th>Visitas</th>
+            <th>Confirmadas</th>
+            <th>Show rate</th>
+            <th>Motivo principal</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td style="color:var(--gris);font-weight:600">1</td>
+            <td><span class="prop-id">628f8d3eb7cbdd004061348f</span></td>
+            <td style="font-weight:700">291</td>
+            <td><strong style="color:var(--verde)">2</strong></td>
+            <td>
+              <span style="font-weight:700;color:var(--gris)">0.7%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:0.7%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">apartado (281)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--gris);font-weight:600">2</td>
+            <td><span class="prop-id">69d52d9d3b392a003a9628e3</span></td>
+            <td style="font-weight:700">121</td>
+            <td>0</td>
+            <td>
+              <span style="font-weight:700;color:var(--gris)">0.0%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:0.0%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">apartado (111)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--gris);font-weight:600">3</td>
+            <td><span class="prop-id">66fadbf5fac257003aa93560</span></td>
+            <td style="font-weight:700">89</td>
+            <td><strong style="color:var(--verde)">1</strong></td>
+            <td>
+              <span style="font-weight:700;color:var(--gris)">1.1%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:1.1%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">Sin resp. inquilino (83)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--gris);font-weight:600">4</td>
+            <td><span class="prop-id">661d73f32a4530003b58c406</span></td>
+            <td style="font-weight:700">88</td>
+            <td><strong style="color:var(--verde)">1</strong></td>
+            <td>
+              <span style="font-weight:700;color:var(--gris)">1.1%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:1.1%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">apartado (77)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--gris);font-weight:600">5</td>
+            <td><span class="prop-id">64f3e423f73855005203b6f4</span></td>
+            <td style="font-weight:700">64</td>
+            <td>0</td>
+            <td>
+              <span style="font-weight:700;color:var(--gris)">0.0%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:0.0%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">cambio de booking (36)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--gris);font-weight:600">6</td>
+            <td><span class="prop-id">69ea63ab8e3e66003a791155</span></td>
+            <td style="font-weight:700">40</td>
+            <td><strong style="color:var(--verde)">1</strong></td>
+            <td>
+              <span style="font-weight:700;color:var(--gris)">2.5%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:2.5%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">apartado (34)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--gris);font-weight:600">7</td>
+            <td><span class="prop-id">69d7f857f54159003bfe2e7a</span></td>
+            <td style="font-weight:700">40</td>
+            <td><strong style="color:var(--verde)">15</strong></td>
+            <td>
+              <span style="font-weight:700;color:var(--verde)">37.5%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:37.5%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">Sin resp. inquilino (17)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--gris);font-weight:600">8</td>
+            <td><span class="prop-id">62956c5ad126db00448d05a3</span></td>
+            <td style="font-weight:700">37</td>
+            <td><strong style="color:var(--verde)">1</strong></td>
+            <td>
+              <span style="font-weight:700;color:var(--gris)">2.7%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:2.7%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">apartado (32)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--gris);font-weight:600">9</td>
+            <td><span class="prop-id">5ceee0a24d35bf3c6c0f9088</span></td>
+            <td style="font-weight:700">36</td>
+            <td>0</td>
+            <td>
+              <span style="font-weight:700;color:var(--gris)">0.0%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:0.0%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">apartado (33)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--gris);font-weight:600">10</td>
+            <td><span class="prop-id">682bdc3a579710003a6a9f96</span></td>
+            <td style="font-weight:700">33</td>
+            <td>0</td>
+            <td>
+              <span style="font-weight:700;color:var(--gris)">0.0%</span>
+              <div class="show-bar-bg"><div class="show-bar-fill" style="width:0.0%"></div></div>
+            </td>
+            <td style="font-size:12px;color:var(--gris)">apartado (32)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px;color:var(--gris);margin-top:14px;padding-top:12px;border-top:1px solid var(--borde)">
+        IDs de propiedad = MongoDB ObjectID de <code>id_inmueble_renta</code>. Show rate = confirmadas / total visitas del inmueble.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLOTS -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Eficiencia del recurso booking</div>
+    <h2 class="section-title">Análisis de slots de visita</h2>
+    <p class="section-sub">Un <strong>slot</strong> = una combinación única de (inmueble + fecha + hora). Fuente: <code>id_inmueble_renta</code> + <code>fecha_de_cita</code> + <code>hora_de_cita</code></p>
+
+    <div class="kpi-row-s" style="margin-bottom:40px">
+      <div class="kpi-card">
+        <div class="kpi-val-s">356</div>
+        <div class="kpi-label-s">Slots únicos usados<br><span style="font-size:11px">1,398 leads con slot asignado</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val-s">3.93</div>
+        <div class="kpi-label-s">Leads promedio por slot</div>
+      </div>
+      <div class="kpi-card" style="border-top-color:var(--naranja)">
+        <div class="kpi-val-s" style="color:var(--naranja)">53%</div>
+        <div class="kpi-label-s">Slots con 1 solo lead</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val-s">—</div>
+        <div class="kpi-label-s">Slots por cierre<br><span style="font-size:11px">sin cierres esta semana</span></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin-bottom:40px">
+      <div>
+        <div style="font-weight:700;font-size:15px;margin-bottom:4px">Distribución de leads por slot</div>
+        <div style="font-size:12px;color:var(--gris);margin-bottom:16px">¿Cuántos leads comparten el mismo (inmueble + fecha + hora)?</div>
+        <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;overflow:visible">
+<line x1="48" y1="30" x2="48" y2="180" stroke="#e5e5e5" stroke-width="1"/>
+<line x1="48" y1="180" x2="384" y2="180" stroke="#e5e5e5" stroke-width="1"/>
+<line x1="48" y1="180.0" x2="384" y2="180.0" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="44" y="184.0" text-anchor="end" font-size="10" fill="#8a8a8a">0</text>
+<line x1="48" y1="130.3" x2="384" y2="130.3" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="44" y="134.3" text-anchor="end" font-size="10" fill="#8a8a8a">62</text>
+<line x1="48" y1="80.5" x2="384" y2="80.5" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="44" y="84.5" text-anchor="end" font-size="10" fill="#8a8a8a">124</text>
+<line x1="48" y1="30.0" x2="384" y2="30.0" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="44" y="34.0" text-anchor="end" font-size="10" fill="#8a8a8a">187</text>
+<rect x="56.4" y="156.7" width="25.2" height="23.3" fill="#238D7E" rx="2" opacity="0.8"/>
+<text x="69.0" y="152.7" text-anchor="middle" font-size="9" fill="#238D7E" font-weight="600">29</text>
+<text x="69.0" y="196.0" text-anchor="middle" font-size="10" fill="#666">8+</text>
+<rect x="98.4" y="30.0" width="25.2" height="150.0" fill="#eb6834" rx="2" opacity="1"/>
+<text x="111.0" y="26.0" text-anchor="middle" font-size="9" fill="#eb6834" font-weight="600">187</text>
+<text x="111.0" y="196.0" text-anchor="middle" font-size="10" fill="#666">1</text>
+<rect x="140.4" y="131.9" width="25.2" height="48.1" fill="#238D7E" rx="2" opacity="0.8"/>
+<text x="153.0" y="127.9" text-anchor="middle" font-size="9" fill="#238D7E" font-weight="600">60</text>
+<text x="153.0" y="196.0" text-anchor="middle" font-size="10" fill="#666">2</text>
+<rect x="182.4" y="154.3" width="25.2" height="25.7" fill="#238D7E" rx="2" opacity="0.8"/>
+<text x="195.0" y="150.3" text-anchor="middle" font-size="9" fill="#238D7E" font-weight="600">32</text>
+<text x="195.0" y="196.0" text-anchor="middle" font-size="10" fill="#666">3</text>
+<rect x="224.4" y="165.6" width="25.2" height="14.4" fill="#238D7E" rx="2" opacity="0.8"/>
+<text x="237.0" y="161.6" text-anchor="middle" font-size="9" fill="#238D7E" font-weight="600">18</text>
+<text x="237.0" y="196.0" text-anchor="middle" font-size="10" fill="#666">4</text>
+<rect x="266.4" y="167.2" width="25.2" height="12.8" fill="#238D7E" rx="2" opacity="0.8"/>
+<text x="279.0" y="163.2" text-anchor="middle" font-size="9" fill="#238D7E" font-weight="600">16</text>
+<text x="279.0" y="196.0" text-anchor="middle" font-size="10" fill="#666">5</text>
+<rect x="308.4" y="173.6" width="25.2" height="6.4" fill="#238D7E" rx="2" opacity="0.8"/>
+<text x="321.0" y="169.6" text-anchor="middle" font-size="9" fill="#238D7E" font-weight="600">8</text>
+<text x="321.0" y="196.0" text-anchor="middle" font-size="10" fill="#666">6</text>
+<rect x="350.4" y="175.2" width="25.2" height="4.8" fill="#238D7E" rx="2" opacity="0.8"/>
+<text x="363.0" y="171.2" text-anchor="middle" font-size="9" fill="#238D7E" font-weight="600">6</text>
+<text x="363.0" y="196.0" text-anchor="middle" font-size="10" fill="#666">7</text>
+<text x="216" y="214" text-anchor="middle" font-size="10" fill="#999">Leads por slot</text>
+</svg>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:rgba(235,104,52,0.08);border-left:3px solid var(--naranja);padding:16px;border-radius:0 8px 8px 0">
+          <div style="font-weight:700;font-size:14px;margin-bottom:6px">53% de slots sub-utilizados</div>
+          <div style="font-size:13px;color:var(--gris);line-height:1.6">187 slots tuvieron 1 solo lead. El asesor abrió la propiedad, esperó, mostró — mismo costo que si hubieran venido 5. Cada slot con un solo lead es una oportunidad de consolidación perdida.</div>
+        </div>
+        <div style="background:rgba(35,141,126,0.08);border-left:3px solid var(--verde);padding:16px;border-radius:0 8px 8px 0">
+          <div style="font-weight:700;font-size:14px;margin-bottom:6px">Objetivo: aumentar leads/slot</div>
+          <div style="font-size:13px;color:var(--gris);line-height:1.6">Hoy: 3.93 leads/slot promedio. Si se llegara a 5 leads/slot, se necesitarían <strong>280</strong> slots en lugar de 356 — un 21% menos de carga sobre el equipo de booking.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-weight:700;font-size:15px;margin-bottom:4px">Top 10 propiedades por slots usados</div>
+    <div style="font-size:12px;color:var(--gris);margin-bottom:16px">Propiedades con mayor consumo de recurso booking y su eficiencia (leads por slot)</div>
+    <div style="overflow-x:auto">
+      <table class="prop-table" style="width:100%">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th style="text-align:right">Slots usados</th>
+            <th style="text-align:right">Leads totales</th>
+            <th style="text-align:center">Leads / slot</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td><span class="prop-id">69d52d9d3b392a003a9628e3</span></td>
+            <td style="text-align:right;font-weight:600">17</td>
+            <td style="text-align:right">121</td>
+            <td style="text-align:center"><span style="background:rgba(35,141,126,0.15);color:#1C7165;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">7.1</span></td>
+          </tr>
+          <tr>
+            <td><span class="prop-id">6999119dd35b8fe221bdd3d4</span></td>
+            <td style="text-align:right;font-weight:600">15</td>
+            <td style="text-align:right">17</td>
+            <td style="text-align:center"><span style="background:rgba(235,104,52,0.15);color:#c0431a;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">1.1</span></td>
+          </tr>
+          <tr>
+            <td><span class="prop-id">6a3420e371ce9f00393a6b9d</span></td>
+            <td style="text-align:right;font-weight:600">15</td>
+            <td style="text-align:right">20</td>
+            <td style="text-align:center"><span style="background:rgba(235,104,52,0.15);color:#c0431a;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">1.3</span></td>
+          </tr>
+          <tr>
+            <td><span class="prop-id">675c4b24d07738003b21fe79</span></td>
+            <td style="text-align:right;font-weight:600">11</td>
+            <td style="text-align:right">24</td>
+            <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">2.2</span></td>
+          </tr>
+          <tr>
+            <td><span class="prop-id">69d7f857f54159003bfe2e7a</span></td>
+            <td style="text-align:right;font-weight:600">11</td>
+            <td style="text-align:right">40</td>
+            <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">3.6</span></td>
+          </tr>
+          <tr>
+            <td><span class="prop-id">5da1f480fa6afe3fb471495d</span></td>
+            <td style="text-align:right;font-weight:600">11</td>
+            <td style="text-align:right">13</td>
+            <td style="text-align:center"><span style="background:rgba(235,104,52,0.15);color:#c0431a;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">1.2</span></td>
+          </tr>
+          <tr>
+            <td><span class="prop-id">6a5fbea7f00f4b00406806aa</span></td>
+            <td style="text-align:right;font-weight:600">10</td>
+            <td style="text-align:right">28</td>
+            <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">2.8</span></td>
+          </tr>
+          <tr>
+            <td><span class="prop-id">6a1e19c715888f003abbfb3f</span></td>
+            <td style="text-align:right;font-weight:600">9</td>
+            <td style="text-align:right">13</td>
+            <td style="text-align:center"><span style="background:rgba(235,104,52,0.15);color:#c0431a;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">1.4</span></td>
+          </tr>
+          <tr>
+            <td><span class="prop-id">637e75af09a55800531f5600</span></td>
+            <td style="text-align:right;font-weight:600">9</td>
+            <td style="text-align:right">32</td>
+            <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">3.6</span></td>
+          </tr>
+          <tr>
+            <td><span class="prop-id">652f1e88702da300509052b3</span></td>
+            <td style="text-align:right;font-weight:600">8</td>
+            <td style="text-align:right">24</td>
+            <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">3.0</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--gris);margin-top:8px">
+      Color leads/slot: <span style="color:#1C7165;font-weight:600">verde ≥4</span> eficiente · <span style="color:#a07810;font-weight:600">amarillo 2–3.9</span> promedio · <span style="color:#c0431a;font-weight:600">naranja &lt;2</span> sub-utilizado
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Hallazgos</div>
+    <h2 class="section-title">Insights clave</h2>
+    <p class="section-sub">Señales de la semana del 3 al 9 de agosto</p>
+    <div class="insight-grid">
+      <div class="insight-card warn">
+        <div class="insight-title">Sábado concentra 35.5% de la demanda</div>
+        <div class="insight-body">
+          El sábado 8 de agosto registró 496 visitas de un total semanal de 1,398 (35.5%).
+          La demanda de fin de semana supera ampliamente los días hábiles — la disponibilidad de asesores el sábado es crítica para no perder conversión.
+        </div>
+      </div>
+      <div class="insight-card warn">
+        <div class="insight-title">50.6% canceladas por apartado</div>
+        <div class="insight-body">
+          El motivo de cancelación dominante es que la propiedad ya fue rentada antes de que se completara la visita agendada.
+          Esto refleja alta demanda concentrada en pocas propiedades disponibles.
+        </div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">Pico de demanda a las 15h</div>
+        <div class="insight-body">
+          El horario preferido para visitas es las 15h (310 citas en la semana).
+          La disponibilidad de propiedades y asesores a esta hora es crítica para maximizar el show rate.
+        </div>
+      </div>
+      <div class="insight-card info">
+        <div class="insight-title">Jorge Eduardo Rountree Hernández lidera en show rate</div>
+        <div class="insight-body">
+          Con 28 visitas en la semana, Jorge confirmó 12 (42.9% show rate) — el mejor desempeño individual.
+          Su enfoque de calificación y seguimiento puede servir de referencia para el equipo.
+        </div>
+      </div>
+      <div class="insight-card warn">
+        <div class="insight-title">53% de slots con un solo lead</div>
+        <div class="insight-body">
+          187 slots únicos de 356 totales tuvieron solo 1 lead.
+          La oportunidad está en consolidar horarios: más leads por slot reduce la carga operativa del equipo de booking sin reducir la demanda.
+        </div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">136 deals en seguimiento post-cita</div>
+        <div class="insight-body">
+          Los deals en etapa "Seguimiento post-cita" representan la demanda activa que puede convertirse en renta esta semana.
+          Junto con los 15 en "Aplicación iniciada" y 3 en "Apartado pendiente", hay 154 deals en pipeline activo.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNICAL REFERENCE -->
+<section class="section" style="background:var(--texto);color:var(--blanco)">
+  <div class="container">
+    <div class="section-label" style="color:var(--verde)">Referencia técnica</div>
+    <h2 class="section-title" style="color:var(--blanco)">Campos HubSpot utilizados</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.45)">
+      Pipeline: <strong style="color:var(--verde)">Rentas</strong> · ID <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px">9819965</code> · Objeto: <strong style="color:var(--verde)">DEAL</strong>
+    </p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:14px">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.15)">
+            <th style="text-align:left;padding:10px 16px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:600">Campo HubSpot</th>
+            <th style="text-align:left;padding:10px 16px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:600">Internal name</th>
+            <th style="text-align:left;padding:10px 16px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:600">Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+            <td style="padding:12px 16px;color:var(--blanco);font-weight:600">Fecha de cita para renta</td>
+            <td style="padding:12px 16px"><code style="background:rgba(35,141,126,.2);color:var(--verde);padding:2px 8px;border-radius:4px;font-size:13px">fecha_de_cita</code></td>
+            <td style="padding:12px 16px;color:rgba(255,255,255,.55);font-size:13px">Filtro: <code style="font-size:12px;opacity:.8">2026-08-03 a 2026-08-09</code>. Formato date (YYYY-MM-DD). Es la fecha real de la cita, no de creación del deal.</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+            <td style="padding:12px 16px;color:var(--blanco);font-weight:600">Hora de cita para renta</td>
+            <td style="padding:12px 16px"><code style="background:rgba(35,141,126,.2);color:var(--verde);padding:2px 8px;border-radius:4px;font-size:13px">hora_de_cita</code></td>
+            <td style="padding:12px 16px;color:rgba(255,255,255,.55);font-size:13px">Hora programada. Formato select: <code style="font-size:12px;opacity:.8">"9 h"</code>, <code style="font-size:12px;opacity:.8">"15 h"</code>, etc. Combinada con fecha e inmueble define el slot único.</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+            <td style="padding:12px 16px;color:var(--blanco);font-weight:600">¿Cita confirmada para renta?</td>
+            <td style="padding:12px 16px"><code style="background:rgba(35,141,126,.2);color:var(--verde);padding:2px 8px;border-radius:4px;font-size:13px">cita_confirmada_</code></td>
+            <td style="padding:12px 16px;color:rgba(255,255,255,.55);font-size:13px">Estado final de la cita. Valores: <code style="font-size:12px;opacity:.8">Sí</code> · canceladas por apartado/inquilino/baja/propietario/mantenimiento · sin respuesta.</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+            <td style="padding:12px 16px;color:var(--blanco);font-weight:600">Etapa del negocio</td>
+            <td style="padding:12px 16px"><code style="background:rgba(35,141,126,.2);color:var(--verde);padding:2px 8px;border-radius:4px;font-size:13px">dealstage</code></td>
+            <td style="padding:12px 16px;color:rgba(255,255,255,.55);font-size:13px">Etapa actual del deal en el pipeline Rentas MX.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 16px;color:var(--blanco);font-weight:600">ID inmueble de renta</td>
+            <td style="padding:12px 16px"><code style="background:rgba(35,141,126,.2);color:var(--verde);padding:2px 8px;border-radius:4px;font-size:13px">id_inmueble_renta</code></td>
+            <td style="padding:12px 16px;color:rgba(255,255,255,.55);font-size:13px">MongoDB ObjectID de la propiedad. Base del análisis de slots y demanda por inmueble.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:28px;padding:16px 20px;background:rgba(35,141,126,.1);border:1px solid rgba(35,141,126,.25);border-radius:10px;font-size:13px;color:rgba(255,255,255,.65)">
+      <strong style="color:#238D7E">✓ Corte de fecha correcto:</strong> Este reporte usa <code style="opacity:.9">fecha_de_cita</code> como filtro (fecha programada de la visita, no fecha de creación del deal). Período: <strong style="color:rgba(255,255,255,.85)">lunes 3 a domingo 9 de agosto 2026</strong>.
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <strong>Homie</strong> · Reporte Semanal de Visitas México · 03–09 Agosto 2026 · Pipeline HubSpot Rentas (9819965) · Datos al 10 de agosto de 2026
+</footer>
+
+</body>
+</html>

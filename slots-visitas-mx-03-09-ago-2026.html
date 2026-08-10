@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eficiencia de Slots · Rentas MX · Semana 03–09 Ago 2026</title>
+<style>
+/* ── TOKENS ─────────────────────────────────── */
+:root {
+  --bg:      #F4F7FE;
+  --surface: #FFFDF6;
+  --verde:   #238D7E;
+  --verde-dk:#1C7165;
+  --naranja: #ED8735;
+  --texto:   #161628;
+  --gris:    #736464;
+  --borde:   #DEDCD7;
+  --white:   #FFFFFF;
+  --critical:#C0541F;
+  --shadow:  0 1px 4px rgba(22,22,40,.07);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:      #0F0F1C;
+    --surface: #171726;
+    --verde:   #2DB8A6;
+    --verde-dk:#238D7E;
+    --naranja: #F09A52;
+    --texto:   #E4E2EF;
+    --gris:    #8E86A0;
+    --borde:   #27273C;
+    --white:   #E4E2EF;
+    --critical:#E06830;
+    --shadow:  0 1px 4px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="light"] {
+  --bg:#F4F7FE;--surface:#FFFDF6;--verde:#238D7E;--verde-dk:#1C7165;
+  --naranja:#ED8735;--texto:#161628;--gris:#736464;--borde:#DEDCD7;
+  --white:#FFFFFF;--critical:#C0541F;--shadow:0 1px 4px rgba(22,22,40,.07);
+}
+:root[data-theme="dark"] {
+  --bg:#0F0F1C;--surface:#171726;--verde:#2DB8A6;--verde-dk:#238D7E;
+  --naranja:#F09A52;--texto:#E4E2EF;--gris:#8E86A0;--borde:#27273C;
+  --white:#E4E2EF;--critical:#E06830;--shadow:0 1px 4px rgba(0,0,0,.3);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+body {
+  background: var(--bg);
+  color: var(--texto);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ── HEADER ─────────────────────────────────── */
+.header {
+  background: var(--verde);
+  color: var(--white);
+  padding: 28px 0 24px;
+}
+.header-inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.logo {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  opacity: .95;
+}
+.logo span { opacity: .6; font-weight: 400; }
+.header-meta {
+  font-size: 12px;
+  opacity: .7;
+  text-align: right;
+}
+.header-title {
+  font-family: 'Mabry Pro', Georgia, serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-top: 20px;
+}
+.header-sub {
+  font-size: 14px;
+  opacity: .75;
+  margin-top: 6px;
+}
+
+/* ── KPIs ─────────────────────────────────── */
+.kpi-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  background: rgba(0,0,0,.15);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 28px;
+}
+.kpi-item {
+  flex: 1;
+  min-width: 140px;
+  padding: 16px 20px;
+  border-right: 1px solid rgba(255,255,255,.12);
+}
+.kpi-item:last-child { border-right: none; }
+.kpi-num {
+  font-family: 'Mabry Pro', Georgia, serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--white);
+}
+.kpi-lbl {
+  font-size: 11px;
+  opacity: .65;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+
+/* ── SECTIONS ────────────────────────────── */
+.section { padding: 48px 0; }
+.section + .section { border-top: 1px solid var(--borde); }
+.section-tag {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--verde);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.section-title {
+  font-family: 'Mabry Pro', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.section-sub { font-size: 13px; color: var(--gris); margin-bottom: 24px; }
+
+/* ── CARDS ───────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.card + .card { margin-top: 20px; }
+
+/* ── HISTOGRAM ───────────────────────────── */
+.hist-wrap { display: flex; flex-direction: column; gap: 10px; }
+.hist-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+.hist-label {
+  width: 40px;
+  text-align: right;
+  color: var(--gris);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.hist-bar-bg {
+  flex: 1;
+  height: 28px;
+  background: var(--borde);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.hist-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--verde);
+  transition: width .3s;
+}
+.hist-count {
+  width: 48px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--texto);
+  text-align: right;
+}
+.hist-pct {
+  width: 44px;
+  color: var(--gris);
+  font-size: 12px;
+  text-align: right;
+}
+
+/* ── TWO COL ─────────────────────────────── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .two-col { grid-template-columns: 1fr; }
+}
+
+/* ── TABLE ───────────────────────────────── */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.tbl th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 11px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--gris);
+  border-bottom: 2px solid var(--borde);
+  font-weight: 600;
+}
+.tbl td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--borde);
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: rgba(35,141,126,.04); }
+.prop-id {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--gris);
+  background: rgba(22,22,40,.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  user-select: all;
+  cursor: text;
+}
+
+/* ── INSIGHT CARDS ───────────────────────── */
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.insight-box {
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.insight-box.warn { background: rgba(237,135,53,.08); border-left: 4px solid var(--naranja); }
+.insight-box.ok   { background: rgba(35,141,126,.07); border-left: 4px solid var(--verde); }
+.insight-box.info { background: var(--surface); border: 1px solid var(--borde); }
+.insight-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+.insight-body { font-size: 13px; color: var(--gris); line-height: 1.6; }
+
+/* ── FOOTER ──────────────────────────────── */
+.footer {
+  background: var(--texto);
+  color: rgba(255,255,255,.35);
+  text-align: center;
+  padding: 20px 24px;
+  font-size: 12px;
+}
+.footer strong { color: var(--verde); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="wrap">
+    <div class="header-inner">
+      <div>
+        <div class="logo">Homie <span>Analytics</span></div>
+        <div class="header-meta" style="text-align:left;margin-top:6px;font-size:13px;opacity:.8">Eficiencia de Slots · Rentas MX</div>
+      </div>
+      <div class="header-meta">
+        <div>Semana: 03–09 Ago 2026</div>
+        <div>Pipeline: 9819965</div>
+        <div>Generado: 10 Ago 2026</div>
+      </div>
+    </div>
+    <h1 class="header-title">Análisis de Slots<br>Semana 03–09 Agosto 2026</h1>
+    <p class="header-sub">Un <strong>slot</strong> = combinación única de inmueble + fecha + hora · Pipeline HubSpot Rentas MX</p>
+    <div class="kpi-strip">
+      <div class="kpi-item">
+        <div class="kpi-num">356</div>
+        <div class="kpi-lbl">Slots únicos</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-num">1,398</div>
+        <div class="kpi-lbl">Total leads</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-num">3.93</div>
+        <div class="kpi-lbl">Leads / slot</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-num">53%</div>
+        <div class="kpi-lbl">Slots con 1 lead</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-num">—</div>
+        <div class="kpi-lbl">Slots por cierre</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- DISTRIBUCIÓN DE LEADS POR SLOT -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-tag">Distribución</div>
+    <h2 class="section-title">Leads por slot</h2>
+    <p class="section-sub">¿Cuántos leads comparten el mismo horario en la misma propiedad? · 356 slots únicos esta semana</p>
+
+    <div class="two-col">
+      <!-- Histogram -->
+      <div class="card">
+        <div style="font-size:13px;font-weight:700;margin-bottom:16px">Distribución de leads por slot</div>
+        <div class="hist-wrap">
+        <div class="hist-row">
+          <div class="hist-label">1</div>
+          <div class="hist-bar-bg"><div class="hist-bar-fill" style="width:100.0%;background:var(--naranja)"></div></div>
+          <div class="hist-count">187</div>
+          <div class="hist-pct">52.5%</div>
+        </div>
+        <div class="hist-row">
+          <div class="hist-label">2</div>
+          <div class="hist-bar-bg"><div class="hist-bar-fill" style="width:32.1%;"></div></div>
+          <div class="hist-count">60</div>
+          <div class="hist-pct">16.9%</div>
+        </div>
+        <div class="hist-row">
+          <div class="hist-label">3</div>
+          <div class="hist-bar-bg"><div class="hist-bar-fill" style="width:17.1%;"></div></div>
+          <div class="hist-count">32</div>
+          <div class="hist-pct">9.0%</div>
+        </div>
+        <div class="hist-row">
+          <div class="hist-label">4</div>
+          <div class="hist-bar-bg"><div class="hist-bar-fill" style="width:9.6%;"></div></div>
+          <div class="hist-count">18</div>
+          <div class="hist-pct">5.1%</div>
+        </div>
+        <div class="hist-row">
+          <div class="hist-label">5</div>
+          <div class="hist-bar-bg"><div class="hist-bar-fill" style="width:8.6%;"></div></div>
+          <div class="hist-count">16</div>
+          <div class="hist-pct">4.5%</div>
+        </div>
+        <div class="hist-row">
+          <div class="hist-label">6</div>
+          <div class="hist-bar-bg"><div class="hist-bar-fill" style="width:4.3%;"></div></div>
+          <div class="hist-count">8</div>
+          <div class="hist-pct">2.2%</div>
+        </div>
+        <div class="hist-row">
+          <div class="hist-label">7</div>
+          <div class="hist-bar-bg"><div class="hist-bar-fill" style="width:3.2%;"></div></div>
+          <div class="hist-count">6</div>
+          <div class="hist-pct">1.7%</div>
+        </div>
+        <div class="hist-row">
+          <div class="hist-label">8+</div>
+          <div class="hist-bar-bg"><div class="hist-bar-fill" style="width:15.5%;"></div></div>
+          <div class="hist-count">29</div>
+          <div class="hist-pct">8.1%</div>
+        </div>
+        </div>
+        <p style="font-size:12px;color:var(--gris);margin-top:14px;padding-top:12px;border-top:1px solid var(--borde)">
+          Total de slots: 356 · Total leads con slot asignado: 1,398
+        </p>
+      </div>
+
+      <!-- Donut + insights -->
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="card" style="display:flex;align-items:center;gap:24px">
+          <div style="flex-shrink:0">
+            <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" width="160" height="160">
+  <path d="M 80.00 8.00 A 72 72 0 1 1 68.61 151.09 L 73.04 123.45 A 44 44 0 1 0 80.00 36.00 Z" fill="#eb6834"/>
+  <path d="M 68.61 151.09 A 72 72 0 0 1 80.00 8.00 L 80.00 36.00 A 44 44 0 0 0 73.04 123.45 Z" fill="#238D7E"/>
+  <text x="80" y="76" text-anchor="middle" font-size="24" font-weight="700" fill="#161628">53%</text>
+  <text x="80" y="95" text-anchor="middle" font-size="11" fill="#736464">1 solo lead</text>
+</svg>
+          </div>
+          <div>
+            <div style="font-size:22px;font-weight:700;color:var(--naranja)">187 slots</div>
+            <div style="font-size:13px;color:var(--gris);margin-top:2px">con 1 solo lead (53%)</div>
+            <div style="font-size:22px;font-weight:700;color:var(--verde);margin-top:12px">169 slots</div>
+            <div style="font-size:13px;color:var(--gris);margin-top:2px">con 2+ leads (47%)</div>
+          </div>
+        </div>
+
+        <div class="insight-box warn">
+          <div class="insight-title">53% de slots sub-utilizados</div>
+          <div class="insight-body">187 slots tuvieron solo 1 lead. El asesor abrió, esperó y mostró — mismo costo operativo que con 5 leads. Cada slot con un solo lead es una oportunidad de consolidación perdida.</div>
+        </div>
+
+        <div class="insight-box ok">
+          <div class="insight-title">Objetivo: 5 leads/slot</div>
+          <div class="insight-body">Hoy: <strong>3.93</strong> leads/slot. Con 5 leads/slot se necesitarían solo <strong>280</strong> slots para la misma demanda — <strong>21% menos</strong> de carga para el equipo de booking.</div>
+        </div>
+
+        <div class="insight-box info">
+          <div class="insight-title">Costo operativo por cierre</div>
+          <div class="insight-body">
+            <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:6px">
+              <div><div style="font-size:20px;font-weight:700;font-family:Georgia,serif;color:var(--texto)">356</div><div style="font-size:11px;color:var(--gris)">slots semana</div></div>
+              <div><div style="font-size:20px;font-weight:700;font-family:Georgia,serif;color:var(--texto)">1,398</div><div style="font-size:11px;color:var(--gris)">leads con slot</div></div>
+              <div><div style="font-size:20px;font-weight:700;font-family:Georgia,serif;color:var(--verde)">0</div><div style="font-size:11px;color:var(--gris)">cierres semana</div></div>
+            </div>
+            <p style="font-size:12px;color:var(--gris);margin-top:10px">Los cierres generados por las visitas de esta semana ocurrirán en los próximos días/semanas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOP PROPIEDADES POR SLOTS -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-tag">Por propiedad</div>
+    <h2 class="section-title">Top 10 propiedades por slots usados</h2>
+    <p class="section-sub">Propiedades con mayor consumo de recurso booking y su eficiencia (leads por slot) · semana 03–09 agosto</p>
+
+    <div class="card" style="overflow-x:auto">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ID Inmueble</th>
+            <th style="text-align:right">Slots usados</th>
+            <th style="text-align:right">Leads totales</th>
+            <th style="text-align:center">Leads / slot</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td style="color:var(--gris);font-weight:600">1</td>
+              <td><span class="prop-id">69d52d9d3b392a003a9628e3</span></td>
+              <td style="text-align:right;font-weight:700">17</td>
+              <td style="text-align:right">121</td>
+              <td style="text-align:center"><span style="background:rgba(35,141,126,0.15);color:#1C7165;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">7.1</span></td>
+            </tr>            <tr>
+              <td style="color:var(--gris);font-weight:600">2</td>
+              <td><span class="prop-id">6999119dd35b8fe221bdd3d4</span></td>
+              <td style="text-align:right;font-weight:700">15</td>
+              <td style="text-align:right">17</td>
+              <td style="text-align:center"><span style="background:rgba(235,104,52,0.15);color:#c0431a;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">1.1</span></td>
+            </tr>            <tr>
+              <td style="color:var(--gris);font-weight:600">3</td>
+              <td><span class="prop-id">6a3420e371ce9f00393a6b9d</span></td>
+              <td style="text-align:right;font-weight:700">15</td>
+              <td style="text-align:right">20</td>
+              <td style="text-align:center"><span style="background:rgba(235,104,52,0.15);color:#c0431a;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">1.3</span></td>
+            </tr>            <tr>
+              <td style="color:var(--gris);font-weight:600">4</td>
+              <td><span class="prop-id">675c4b24d07738003b21fe79</span></td>
+              <td style="text-align:right;font-weight:700">11</td>
+              <td style="text-align:right">24</td>
+              <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">2.2</span></td>
+            </tr>            <tr>
+              <td style="color:var(--gris);font-weight:600">5</td>
+              <td><span class="prop-id">69d7f857f54159003bfe2e7a</span></td>
+              <td style="text-align:right;font-weight:700">11</td>
+              <td style="text-align:right">40</td>
+              <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">3.6</span></td>
+            </tr>            <tr>
+              <td style="color:var(--gris);font-weight:600">6</td>
+              <td><span class="prop-id">5da1f480fa6afe3fb471495d</span></td>
+              <td style="text-align:right;font-weight:700">11</td>
+              <td style="text-align:right">13</td>
+              <td style="text-align:center"><span style="background:rgba(235,104,52,0.15);color:#c0431a;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">1.2</span></td>
+            </tr>            <tr>
+              <td style="color:var(--gris);font-weight:600">7</td>
+              <td><span class="prop-id">6a5fbea7f00f4b00406806aa</span></td>
+              <td style="text-align:right;font-weight:700">10</td>
+              <td style="text-align:right">28</td>
+              <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">2.8</span></td>
+            </tr>            <tr>
+              <td style="color:var(--gris);font-weight:600">8</td>
+              <td><span class="prop-id">6a1e19c715888f003abbfb3f</span></td>
+              <td style="text-align:right;font-weight:700">9</td>
+              <td style="text-align:right">13</td>
+              <td style="text-align:center"><span style="background:rgba(235,104,52,0.15);color:#c0431a;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">1.4</span></td>
+            </tr>            <tr>
+              <td style="color:var(--gris);font-weight:600">9</td>
+              <td><span class="prop-id">637e75af09a55800531f5600</span></td>
+              <td style="text-align:right;font-weight:700">9</td>
+              <td style="text-align:right">32</td>
+              <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">3.6</span></td>
+            </tr>            <tr>
+              <td style="color:var(--gris);font-weight:600">10</td>
+              <td><span class="prop-id">652f1e88702da300509052b3</span></td>
+              <td style="text-align:right;font-weight:700">8</td>
+              <td style="text-align:right">24</td>
+              <td style="text-align:center"><span style="background:rgba(246,178,72,0.2);color:#a07810;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600">3.0</span></td>
+            </tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:var(--gris);margin-top:12px">
+        Color leads/slot: <span style="color:#1C7165;font-weight:600">verde ≥4</span> eficiente · <span style="color:#a07810;font-weight:600">amarillo 2–3.9</span> promedio · <span style="color:#c0431a;font-weight:600">naranja &lt;2</span> sub-utilizado
+      </p>
+    </div>
+
+    <!-- Signal insight -->
+    <div style="margin-top:24px;padding:20px 24px;background:rgba(237,135,53,.07);border:1px solid rgba(237,135,53,.2);border-radius:12px">
+      <div style="font-weight:700;font-size:15px;color:var(--naranja);margin-bottom:8px">Propiedad 69d52d9d con 17 slots y 121 leads (7.1 leads/slot)</div>
+      <p style="font-size:14px;color:var(--gris);line-height:1.6">
+        La propiedad más demandada esta semana tiene <strong style="color:var(--texto)">121 leads en solo 17 slots</strong> — un ratio de 7.1 leads/slot, muy por encima del promedio semanal de 3.93 leads/slot.
+        Sin embargo, 0 citas fueron confirmadas (<code>cita_confirmada_</code> = Sí), indicando que la propiedad ya fue rentada o cancelada por apartado antes de completar todas las visitas.
+        Contrasta con <code>6999119d</code> y <code>6a3420e3</code> (15 slots cada una) que solo lograron 1.1–1.3 leads/slot — slots dispersos sin consolidación.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-tag">Hallazgos</div>
+    <h2 class="section-title">Señales de eficiencia</h2>
+    <p class="section-sub">Oportunidades de mejora en la utilización de slots · semana 03–09 agosto</p>
+    <div class="insight-grid">
+      <div class="insight-box warn">
+        <div class="insight-title">Slots dispersos en propiedades de baja eficiencia</div>
+        <div class="insight-body">Las propiedades 6999119d y 6a3420e3 usaron 15 slots cada una para atraer solo 17–20 leads. Con una ratio de 1.1–1.3 leads/slot, cada visita movilizó al asesor para atender a un solo candidato.</div>
+      </div>
+      <div class="insight-box ok">
+        <div class="insight-title">3.93 leads/slot promedio esta semana</div>
+        <div class="insight-body">El promedio semanal de 3.93 leads/slot supera el benchmark de 2.64 de julio. Hay propiedades con ratio >7 que demuestran que la consolidación es posible cuando la demanda se concentra.</div>
+      </div>
+      <div class="insight-box info">
+        <div class="insight-title">53% de slots con 1 lead (igual que julio)</div>
+        <div class="insight-body">La proporción de slots sub-utilizados (53%) se mantiene similar al mes de julio (54%). La estrategia de consolidación de horarios debería apuntar a reducir este número semana a semana.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEFINICIÓN TÉCNICA -->
+<section class="section" style="background:var(--texto);color:var(--white)">
+  <div class="wrap">
+    <div class="section-tag" style="color:var(--verde)">Metodología</div>
+    <h2 class="section-title" style="color:var(--white)">¿Qué es un slot?</h2>
+    <div style="max-width:700px">
+      <p style="font-size:15px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:20px">
+        Un <strong style="color:var(--white)">slot de visita</strong> es la unidad mínima de recurso de booking: la combinación única de
+        <code style="background:rgba(35,141,126,.25);color:var(--verde);padding:2px 6px;border-radius:4px">id_inmueble_renta</code> +
+        <code style="background:rgba(35,141,126,.25);color:var(--verde);padding:2px 6px;border-radius:4px">fecha_de_cita</code> +
+        <code style="background:rgba(35,141,126,.25);color:var(--verde);padding:2px 6px;border-radius:4px">hora_de_cita</code>.
+      </p>
+      <p style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:16px">
+        Independientemente de cuántos leads lleguen juntos al mismo inmueble en el mismo horario, el asesor usa exactamente un slot de su tiempo.
+        La eficiencia del booking se mide por cuántos leads (demanda) se atienden por cada slot (recurso).
+      </p>
+      <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:16px 20px;font-size:13px;color:rgba(255,255,255,.55)">
+        <div style="font-weight:600;color:var(--verde);margin-bottom:8px">Período de análisis</div>
+        <div>Pipeline: Rentas MX (<code style="opacity:.8">9819965</code>) · Filtro: <code style="opacity:.8">fecha_de_cita</code> entre 2026-08-03 y 2026-08-09</div>
+        <div style="margin-top:6px">Total deals con fecha en la semana: <strong style="color:rgba(255,255,255,.8)">1,398</strong> · Slots únicos extraídos: <strong style="color:rgba(255,255,255,.8)">356</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <strong>Homie</strong> · Análisis de Slots · Rentas MX · Semana 03–09 Agosto 2026 · Pipeline HubSpot 9819965 · Datos al 10 de agosto de 2026
+</footer>
+
+</body>
+</html>
